@@ -1,0 +1,17 @@
+#config_version=6
+
+mode:
+  start_events: machine_reset_phase_3, game_ended, ball_will_end{device.ball_devices.trough.balls > 0}
+  stop_events: game_start_request
+  priority: 10
+
+events_when_started: start_attract_mode
+events_when_stopped: stop_attract_mode
+
+attract_display_loop:
+  - type: text
+    text: STERN TRIDENT
+    time: 3s
+  - type: text  
+    text: PRESS START
+    time: 2s

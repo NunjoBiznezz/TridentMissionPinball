@@ -1,0 +1,24 @@
+#config_version=6
+
+mode:
+  start_events: game_starting
+  stop_events: game_ending
+  priority: 200
+
+events_when_started: start_game_mode
+events_when_stopped: stop_game_mode
+
+ball_locks:
+  lock1:
+    balls_to_lock: 1
+    lock_devices: bd_lock
+    source_playfield: playfield
+    request_ball_events: lock_lit
+
+multiballs:
+  multiball1:
+    ball_count: 2
+    ball_count_type: total
+    shoot_again: 30s
+    start_events: multiball_start
+    ball_locks: lock1

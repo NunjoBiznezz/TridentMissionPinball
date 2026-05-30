@@ -1,0 +1,326 @@
+#config_version=6
+
+# Stern Trident Hardware Configuration for LISY Protocol
+# RPU v102 board configuration
+
+switches:
+  # Cabinet switches
+  s_coin_1:
+    number: 1
+    type: NO
+  s_coin_2:
+    number: 0
+    type: NO
+  s_coin_3:
+    number: 2
+    type: NO
+  s_start_button:
+    number: 5
+    type: NO
+    tags: start
+  s_tilt:
+    number: 6
+    type: NO
+    tags: tilt
+  s_slam:
+    number: 7
+    type: NO
+    tags: slam_tilt
+
+  # Ball management
+  s_outhole:
+    number: 32
+    type: NO
+    tags: home, trough
+
+  # Playfield switches
+  s_rollover:
+    number: 9
+    type: NO
+  s_ur_sling:
+    number: 10
+    type: NO
+  s_ul_sling:
+    number: 11
+    type: NO
+  s_lr_sling:
+    number: 12
+    type: NO
+  s_ll_sling:
+    number: 13
+    type: NO
+  s_top_bumper:
+    number: 14
+    type: NO
+  s_bottom_bumper:
+    number: 15
+    type: NO
+  s_right_outlane:
+    number: 16
+    type: NO
+  s_right_inlane:
+    number: 17
+    type: NO
+  s_left_inlane:
+    number: 18
+    type: NO
+  s_standup_purple:
+    number: 19
+    type: NO
+  s_standup_yellow:
+    number: 20
+    type: NO
+  s_standup_amber:
+    number: 21
+    type: NO
+  s_standup_green:
+    number: 22
+    type: NO
+  s_standup_white:
+    number: 23
+    type: NO
+  s_saucer:
+    number: 25
+    type: NO
+  s_10_pts:
+    number: 26
+    type: NO
+  s_drop_target_5:
+    number: 27
+    type: NO
+  s_drop_target_4:
+    number: 28
+    type: NO
+  s_drop_target_3:
+    number: 29
+    type: NO
+  s_drop_target_2:
+    number: 30
+    type: NO
+  s_drop_target_1:
+    number: 31
+    type: NO
+  s_left_spinner:
+    number: 4
+    type: NO
+  s_right_spinner:
+    number: 3
+    type: NO
+
+coils:
+  c_top_bumper:
+    number: 0
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_bottom_bumper:
+    number: 1
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_ul_sling:
+    number: 2
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_1:
+    number: 3
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_2:
+    number: 4
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_knocker:
+    number: 5
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_ll_sling:
+    number: 6
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_3:
+    number: 7
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_ur_sling:
+    number: 8
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_lr_sling:
+    number: 9
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_4:
+    number: 10
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_5:
+    number: 11
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_saucer:
+    number: 12
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+  c_drop_target_reset:
+    number: 13
+    default_pulse_ms: 50
+    default_pulse_power: 1.0
+  c_outhole:
+    number: 14
+    default_pulse_ms: 25
+    default_pulse_power: 1.0
+
+lights:
+  l_bonus_1:
+    number: 0
+  l_bonus_2:
+    number: 1
+  l_bonus_3:
+    number: 2
+  l_bonus_4:
+    number: 3
+  l_bonus_5:
+    number: 4
+  l_bonus_6:
+    number: 5
+  l_bonus_7:
+    number: 6
+  l_bonus_8:
+    number: 7
+  l_bonus_9:
+    number: 8
+  l_bonus_10:
+    number: 9
+  l_drop_target_5:
+    number: 10
+  l_standup_special:
+    number: 11
+  l_left_spinner_amber:
+    number: 12
+  l_left_spinner_white:
+    number: 13
+  l_standup_amber:
+    number: 14
+  l_standup_white:
+    number: 15
+  l_right_spinner_yellow:
+    number: 16
+  l_right_spinner_green:
+    number: 17
+  l_standup_yellow:
+    number: 18
+  l_standup_green:
+    number: 19
+  l_drop_target_4:
+    number: 20
+  l_drop_target_3:
+    number: 21
+  l_drop_target_2:
+    number: 22
+  l_drop_target_1:
+    number: 23
+  l_top_eject_30k:
+    number: 24
+  l_top_eject_20k:
+    number: 25
+  l_top_eject_10k:
+    number: 26
+  l_top_eject_5k:
+    number: 27
+  l_bonus_5x_feature:
+    number: 28
+  l_bonus_4x_feature:
+    number: 29
+  l_bonus_3x_feature:
+    number: 30
+  l_bonus_2x_feature:
+    number: 31
+  l_bonus_5x:
+    number: 32
+  l_bonus_4x:
+    number: 33
+  l_bonus_3x:
+    number: 34
+  l_bonus_2x:
+    number: 35
+  l_left_lane_8k:
+    number: 36
+  l_left_lane_6k:
+    number: 37
+  l_left_lane_4k:
+    number: 38
+  l_left_lane_2k:
+    number: 39
+  l_shoot_again:
+    number: 40
+  l_match:
+    number: 41
+  l_standup_purple:
+    number: 42
+  l_drop_target_special:
+    number: 43
+  l_right_spinner_purple:
+    number: 44
+  l_right_outlane_special:
+    number: 45
+  l_left_spinner_purple:
+    number: 46
+  l_extra_ball:
+    number: 47
+  l_ball_in_play:
+    number: 48
+  l_high_score_to_date:
+    number: 49
+  l_game_over:
+    number: 50
+  l_tilt:
+    number: 51
+  l_player_1:
+    number: 52
+  l_player_2:
+    number: 53
+  l_player_3:
+    number: 54
+  l_player_4:
+    number: 55
+  l_player_1_up:
+    number: 56
+  l_player_2_up:
+    number: 57
+  l_player_3_up:
+    number: 58
+  l_player_4_up:
+    number: 59
+
+ball_devices:
+  bd_trough:
+    ball_switches: s_outhole
+    eject_coil: c_outhole
+    tags: trough, home, drain
+    eject_timeouts: 3s
+    confirm_eject_type: playfield
+    max_eject_attempts: 3
+
+playfields:
+  playfield:
+    default_source_device: bd_trough
+    tags: default
+
+autofire_coils:
+  ac_ul_sling:
+    coil: c_ul_sling
+    switch: s_ul_sling
+  ac_ur_sling:
+    coil: c_ur_sling
+    switch: s_ur_sling
+  ac_ll_sling:
+    coil: c_ll_sling
+    switch: s_ll_sling
+  ac_lr_sling:
+    coil: c_lr_sling
+    switch: s_lr_sling
+  ac_top_bumper:
+    coil: c_top_bumper
+    switch: s_top_bumper
+  ac_bottom_bumper:
+    coil: c_bottom_bumper
+    switch: s_bottom_bumper

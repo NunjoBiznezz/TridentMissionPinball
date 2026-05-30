@@ -1,0 +1,48 @@
+#config_version=6
+
+# Raspberry Pi production configuration
+# For deployment on Pi with actual LISY hardware
+
+config:
+  - config.yaml
+  - machine_files/stern_trident.yaml
+  - display_config.yaml
+
+# LISY hardware configuration for Pi
+lisy:
+  connection: serial
+  port: /dev/ttyUSB0  # Adjust based on your USB connection
+  baud: 115200
+  flow_control: none
+  debug: false  # Disable debug for production
+  platform: stern
+  hw_rule_coil_delay: 50ms
+  
+  # Pi-specific network settings
+  network_interface: 192.168.1.100  # Pi IP address
+  network_port: 5963
+
+# GPIO settings for Pi (if using additional Pi GPIO)
+rpi:
+  gpio_mode: BCM
+  
+# Production logging
+logging:
+  console:
+    level: INFO
+  file:
+    level: INFO
+    filename: /var/log/mpf/stern_trident.log
+  syslog:
+    level: WARNING
+    address: localhost
+    port: 514
+
+# Performance settings for Pi
+mpf:
+  default_platform_hz: 1000  # Full speed for production
+  
+# Auto-start settings
+machine:
+  auto_create_window: false  # No GUI on Pi
+  exit_on_complete: false

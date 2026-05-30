@@ -1,0 +1,104 @@
+#config_version=6
+
+# Display configuration for LISY protocol
+# Supports both development and production displays
+
+displays:
+  # Development display (laptop/desktop)
+  window:
+    width: 800
+    height: 600
+    title: "Stern Trident - Development"
+    resizable: true
+    fullscreen: false
+    borderless: false
+    
+  # DMD via LISY protocol for production
+  dmd:
+    width: 128
+    height: 32
+    default: true
+    platform: lisy
+    
+  # Alphanumeric displays for older Stern games
+  alpha_display:
+    width: 16
+    height: 2
+    platform: lisy
+
+# Window settings for development
+window:
+  width: 1024
+  height: 768
+  title: "Mission Pinball Framework - Stern Trident"
+  resizable: true
+  fullscreen: false
+  borderless: false
+
+# Display effects and transitions
+display_effects:
+  flash:
+    - type: color_dmd
+      duration: 0.5s
+      color: ffffff
+  
+  fade:
+    - type: opacity
+      duration: 1s
+      start_opacity: 1.0
+      end_opacity: 0.0
+
+# Slides for different game states
+slides:
+  attract_slide:
+    - type: text
+      text: "STERN TRIDENT"
+      font_name: default
+      font_size: 30
+      color: red
+      y: 200
+    - type: text
+      text: "PRESS START"
+      font_name: default
+      font_size: 20
+      color: white
+      y: 100
+      
+  game_slide:
+    - type: text
+      text: "PLAYER: (player|number)"
+      font_name: default
+      font_size: 15
+      color: white
+      y: 280
+      x: 50
+    - type: text
+      text: "BALL: (ball)"
+      font_name: default
+      font_size: 15
+      color: white
+      y: 280
+      x: 200
+    - type: text
+      text: "SCORE: (score)"
+      font_name: default
+      font_size: 20
+      color: yellow
+      y: 200
+      x: center
+
+# LISY-specific display settings
+lisy_display:
+  # Protocol settings for communicating with RPU v102
+  protocol_version: 2
+  display_type: dmd
+  brightness: 15  # 0-15 scale
+  contrast: 8     # 0-15 scale
+  
+  # Communication settings
+  update_rate: 30  # Hz
+  buffer_size: 4096
+  
+  # Error handling
+  retry_count: 3
+  timeout: 1000  # milliseconds

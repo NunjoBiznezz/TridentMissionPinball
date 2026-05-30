@@ -1,0 +1,8 @@
+#config_version=6
+
+# Rule set 2: Trident 2020 rules
+
+mode:
+  start_events: ruleset_trident2020_selected
+  stop_events: game_ending
+  priority: 210

@@ -1,0 +1,8 @@
+#config_version=6
+
+# Rule set 1: Original Stern Trident (1979) rules
+
+mode:
+  start_events: ruleset_original_selected
+  stop_events: game_ending
+  priority: 210

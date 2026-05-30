@@ -107,6 +107,16 @@ switches:
     number: 3
     type: NO
 
+  # Flipper buttons - NOT part of the original Stern Trident hardware.
+  # Requires new switches physically wired into the machine.
+  # Numbers 33-34 are assigned in the Arduino RPU implementation.
+  s_left_flipper:
+    number: 33
+    type: NO
+  s_right_flipper:
+    number: 34
+    type: NO
+
 coils:
   c_top_bumper:
     number: 0

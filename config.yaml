@@ -54,10 +54,20 @@ modes:
   - base
   - attract
   - game
+  - ruleset_selector
+  - ruleset_original
+  - ruleset_trident2020
+  - ruleset_tournament
 
 game:
   balls_per_game: 3
   max_players: 4
+
+machine_vars:
+  current_ruleset:
+    initial_value: 1
+    value_type: int
+    persist: true
 
 player_vars:
   score:

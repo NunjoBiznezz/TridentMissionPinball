@@ -1,0 +1,8 @@
+#config_version=6
+
+# Rule set 3: Tournament rules
+
+mode:
+  start_events: ruleset_tournament_selected
+  stop_events: game_ending
+  priority: 210

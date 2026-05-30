@@ -1,0 +1,11 @@
+#config_version=6
+
+mode:
+  start_events: game_starting
+  stop_events: game_started
+  priority: 190
+
+event_player:
+  mode_ruleset_selector_started{machine.current_ruleset == 1}: ruleset_original_selected
+  mode_ruleset_selector_started{machine.current_ruleset == 2}: ruleset_trident2020_selected
+  mode_ruleset_selector_started{machine.current_ruleset == 3}: ruleset_tournament_selected

@@ -8,6 +8,19 @@ mode:
 events_when_started: start_attract_mode
 events_when_stopped: stop_attract_mode
 
+variable_player:
+  s_left_flipper_active{machine.current_ruleset < 3}:
+    current_ruleset:
+      int: machine.current_ruleset + 1
+      action: set
+      type: machine
+  s_left_flipper_active{machine.current_ruleset >= 3}:
+    current_ruleset:
+      int: 1
+      action: set
+      type: machine
+# TODO: add sound or display feedback tied to current_ruleset_machine_var_changed
+
 attract_display_loop:
   - type: text
     text: STERN TRIDENT

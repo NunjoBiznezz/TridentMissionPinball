@@ -63,6 +63,19 @@ game:
   balls_per_game: 3
   max_players: 4
 
+settings:
+  special_award:
+    label: Special Award
+    sort: 100
+    key: special_award
+    value_type: str
+    default: extra_ball
+    values:
+      extra_ball: Extra Ball
+      free_game: Free Game
+      points_100k: 100,000 Points
+      extra_ball_and_free_game: Extra Ball and Free Game
+
 machine_vars:
   current_ruleset:
     initial_value: 1
@@ -75,6 +88,18 @@ player_vars:
     value_type: int
   ball:
     initial_value: 1
+    value_type: int
+  drop_phase:
+    initial_value: 1
+    value_type: int
+  saucer_value:
+    initial_value: 5000
+    value_type: int
+  bonus_multiplier:
+    initial_value: 1
+    value_type: int
+  left_lane_value:
+    initial_value: 2000
     value_type: int
 
 logging:

@@ -22,9 +22,24 @@ drop_target_banks:
   phase_de:
     drop_targets: dt_1, dt_2, dt_3, dt_4, dt_5
 
+accruals:
+  standup_targets:
+    events:
+      - s_standup_white_active
+      - s_standup_green_active
+      - s_standup_amber_active
+      - s_standup_yellow_active
+      - s_standup_purple_active
+    events_when_complete: standup_all_hit
+    reset_on_complete: true
+    reset_events: ball_drain, mode_ruleset_original_started
+    start_enabled: true
+
 extra_balls:
   drop_target_special:
     award_events: special_award_extra_ball
+  standup_extra_ball:
+    award_events: collect_standup_extra_ball
 
 event_player:
   # Phase completions — only act when in the matching phase
@@ -42,10 +57,43 @@ event_player:
   dt_phase_e_complete{settings.special_award == "free_game" or settings.special_award == "extra_ball_and_free_game"}: special_award_free_game
   dt_phase_e_complete{settings.special_award == "points_100k"}: special_award_points
 
+  # All 5 standup targets hit
+  standup_all_hit{current_player.standup_completions == 0}: standup_first_complete
+  standup_all_hit{current_player.standup_completions == 1}: standup_second_complete
+
+  # Right inlane collects extra ball when lit
+  s_right_inlane_active{current_player.extra_ball_lit == 1}: collect_standup_extra_ball
+
+  # Right outlane collects right special when lit
+  s_right_outlane_active{current_player.right_special_lit == 1}: right_special_awarded
+
+  # Right special dispatches same award as drop target special
+  right_special_awarded{settings.special_award == "extra_ball" or settings.special_award == "extra_ball_and_free_game"}: special_award_extra_ball
+  right_special_awarded{settings.special_award == "free_game" or settings.special_award == "extra_ball_and_free_game"}: special_award_free_game
+  right_special_awarded{settings.special_award == "points_100k"}: special_award_points
+
+  # Right inlane bonus advance: dispatch to per-value event for clean lamp + var update
+  s_right_inlane_active{current_player.bonus_steps == 0}: bonus_0_to_3
+  s_right_inlane_active{current_player.bonus_steps == 1}: bonus_1_to_4
+  s_right_inlane_active{current_player.bonus_steps == 2}: bonus_2_to_5
+  s_right_inlane_active{current_player.bonus_steps == 3}: bonus_3_to_6
+  s_right_inlane_active{current_player.bonus_steps == 4}: bonus_4_to_7
+  s_right_inlane_active{current_player.bonus_steps == 5}: bonus_5_to_8
+  s_right_inlane_active{current_player.bonus_steps == 6}: bonus_6_to_9
+  s_right_inlane_active{current_player.bonus_steps == 7}: bonus_7_to_10
+  s_right_inlane_active{current_player.bonus_steps == 8}: bonus_8_to_10
+  s_right_inlane_active{current_player.bonus_steps == 9}: bonus_9_to_10
+
   # Upper left rollover: advance left lane award (caps at 8,000)
   s_rollover_active{current_player.left_lane_value == 2000}: advance_lane_to_4k
   s_rollover_active{current_player.left_lane_value == 4000}: advance_lane_to_6k
   s_rollover_active{current_player.left_lane_value == 6000}: advance_lane_to_8k
+
+  # Upper slings move purple bonus to opposite spinner
+  s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
+  s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
+  s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
+  s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
 
 variable_player:
   # Initialize on mode start
@@ -61,6 +109,45 @@ variable_player:
       action: set
     left_lane_value:
       int: 2000
+      action: set
+    left_spinner_value:
+      int: 200
+      action: set
+    right_spinner_value:
+      int: 200
+      action: set
+    purple_bonus:
+      int: 0
+      action: set
+    purple_on_left:
+      int: 1
+      action: set
+    white_applied:
+      int: 0
+      action: set
+    amber_applied:
+      int: 0
+      action: set
+    green_applied:
+      int: 0
+      action: set
+    yellow_applied:
+      int: 0
+      action: set
+    purple_applied:
+      int: 0
+      action: set
+    standup_completions:
+      int: 0
+      action: set
+    extra_ball_lit:
+      int: 0
+      action: set
+    right_special_lit:
+      int: 0
+      action: set
+    bonus_steps:
+      int: 0
       action: set
 
   # Phase A complete: earn 2X, saucer advances to 10,000
@@ -148,7 +235,156 @@ variable_player:
   s_left_inlane_active:
     score: current_player.left_lane_value
 
-  # Ball drain: reset saucer value, drop phase, and lane value to initial state
+  # Right return lane: 3000 points + bonus advance (handled via event_player dispatch)
+  s_right_inlane_active:
+    score: 3000
+
+  # Bonus counter step events: update bonus_steps and light only the new lamps
+  bonus_0_to_3:
+    bonus_steps:
+      int: 3
+      action: set
+  bonus_1_to_4:
+    bonus_steps:
+      int: 4
+      action: set
+  bonus_2_to_5:
+    bonus_steps:
+      int: 5
+      action: set
+  bonus_3_to_6:
+    bonus_steps:
+      int: 6
+      action: set
+  bonus_4_to_7:
+    bonus_steps:
+      int: 7
+      action: set
+  bonus_5_to_8:
+    bonus_steps:
+      int: 8
+      action: set
+  bonus_6_to_9:
+    bonus_steps:
+      int: 9
+      action: set
+  bonus_7_to_10:
+    bonus_steps:
+      int: 10
+      action: set
+  bonus_8_to_10:
+    bonus_steps:
+      int: 10
+      action: set
+  bonus_9_to_10:
+    bonus_steps:
+      int: 10
+      action: set
+
+  # End of ball: award accumulated bonus (× multiplier) and reset counter
+  ball_ending:
+    score: current_player.bonus_steps * 1000 * current_player.bonus_multiplier
+    bonus_steps:
+      int: 0
+      action: set
+
+  # Standup target completions
+  standup_first_complete:
+    standup_completions:
+      int: 1
+      action: set
+    extra_ball_lit:
+      int: 1
+      action: set
+  standup_second_complete:
+    standup_completions:
+      int: 2
+      action: set
+    right_special_lit:
+      int: 1
+      action: set
+  collect_standup_extra_ball:
+    extra_ball_lit:
+      int: 0
+      action: set
+  right_special_awarded:
+    right_special_lit:
+      int: 0
+      action: set
+
+  # Standup targets: 1000 points every hit; spinner increase only on first hit per ball
+  s_standup_white_active:
+    score: 1000
+  s_standup_white_active{current_player.white_applied == 0}:
+    left_spinner_value:
+      int: 400
+      action: add
+    white_applied:
+      int: 1
+      action: set
+  s_standup_amber_active:
+    score: 1000
+  s_standup_amber_active{current_player.amber_applied == 0}:
+    left_spinner_value:
+      int: 400
+      action: add
+    amber_applied:
+      int: 1
+      action: set
+  s_standup_green_active:
+    score: 1000
+  s_standup_green_active{current_player.green_applied == 0}:
+    right_spinner_value:
+      int: 400
+      action: add
+    green_applied:
+      int: 1
+      action: set
+  s_standup_yellow_active:
+    score: 1000
+  s_standup_yellow_active{current_player.yellow_applied == 0}:
+    right_spinner_value:
+      int: 400
+      action: add
+    yellow_applied:
+      int: 1
+      action: set
+  # Purple always moves bonus to left; value increase only on first hit
+  s_standup_purple_active:
+    score: 1000
+    purple_on_left:
+      int: 1
+      action: set
+  s_standup_purple_active{current_player.purple_applied == 0}:
+    purple_bonus:
+      int: 1000
+      action: add
+    purple_applied:
+      int: 1
+      action: set
+
+  # Spinner scoring: base value always fires; purple bonus fires conditionally
+  # Both entries execute when condition is true, giving the combined total
+  s_left_spinner_active:
+    score: current_player.left_spinner_value
+  s_left_spinner_active{current_player.purple_on_left == 1}:
+    score: current_player.purple_bonus
+  s_right_spinner_active:
+    score: current_player.right_spinner_value
+  s_right_spinner_active{current_player.purple_on_left == 0}:
+    score: current_player.purple_bonus
+
+  # Purple bonus side swaps
+  purple_to_right:
+    purple_on_left:
+      int: 0
+      action: set
+  purple_to_left:
+    purple_on_left:
+      int: 1
+      action: set
+
+  # Ball drain: reset all per-ball state to initial values
   ball_drain:
     drop_phase:
       int: 1
@@ -158,6 +394,42 @@ variable_player:
       action: set
     left_lane_value:
       int: 2000
+      action: set
+    left_spinner_value:
+      int: 200
+      action: set
+    right_spinner_value:
+      int: 200
+      action: set
+    purple_bonus:
+      int: 0
+      action: set
+    purple_on_left:
+      int: 1
+      action: set
+    white_applied:
+      int: 0
+      action: set
+    amber_applied:
+      int: 0
+      action: set
+    green_applied:
+      int: 0
+      action: set
+    yellow_applied:
+      int: 0
+      action: set
+    purple_applied:
+      int: 0
+      action: set
+    standup_completions:
+      int: 0
+      action: set
+    extra_ball_lit:
+      int: 0
+      action: set
+    right_special_lit:
+      int: 0
       action: set
 
 coil_player:
@@ -217,6 +489,14 @@ light_player:
     l_left_lane_4k: off
     l_left_lane_6k: off
     l_left_lane_8k: off
+    l_left_spinner_white: off
+    l_left_spinner_amber: off
+    l_left_spinner_purple: off
+    l_right_spinner_green: off
+    l_right_spinner_yellow: off
+    l_right_spinner_purple: off
+    l_extra_ball: off
+    l_right_outlane_special: off
 
   # Phase A complete: 2X earned, 3X feature lit, saucer 10K
   dt_phase_a_complete:
@@ -274,6 +554,97 @@ light_player:
     l_left_lane_4k: off
     l_left_lane_6k: off
     l_left_lane_8k: off
+    l_left_spinner_white: off
+    l_left_spinner_amber: off
+    l_left_spinner_purple: off
+    l_right_spinner_green: off
+    l_right_spinner_yellow: off
+    l_right_spinner_purple: off
+    l_extra_ball: off
+    l_right_outlane_special: off
+
+  # Bonus counter lamp transitions (only new lamps lit per advance)
+  bonus_0_to_3:
+    l_bonus_1: on
+    l_bonus_2: on
+    l_bonus_3: on
+  bonus_1_to_4:
+    l_bonus_2: on
+    l_bonus_3: on
+    l_bonus_4: on
+  bonus_2_to_5:
+    l_bonus_3: on
+    l_bonus_4: on
+    l_bonus_5: on
+  bonus_3_to_6:
+    l_bonus_4: on
+    l_bonus_5: on
+    l_bonus_6: on
+  bonus_4_to_7:
+    l_bonus_5: on
+    l_bonus_6: on
+    l_bonus_7: on
+  bonus_5_to_8:
+    l_bonus_6: on
+    l_bonus_7: on
+    l_bonus_8: on
+  bonus_6_to_9:
+    l_bonus_7: on
+    l_bonus_8: on
+    l_bonus_9: on
+  bonus_7_to_10:
+    l_bonus_8: on
+    l_bonus_9: on
+    l_bonus_10: on
+  bonus_8_to_10:
+    l_bonus_9: on
+    l_bonus_10: on
+  bonus_9_to_10:
+    l_bonus_10: on
+
+  # End of ball: reset all bonus counter lamps
+  ball_ending:
+    l_bonus_1: off
+    l_bonus_2: off
+    l_bonus_3: off
+    l_bonus_4: off
+    l_bonus_5: off
+    l_bonus_6: off
+    l_bonus_7: off
+    l_bonus_8: off
+    l_bonus_9: off
+    l_bonus_10: off
+
+  # Standup target completions
+  standup_first_complete:
+    l_extra_ball: on
+  standup_second_complete:
+    l_right_outlane_special: on
+  collect_standup_extra_ball:
+    l_extra_ball: off
+  right_special_awarded:
+    l_right_outlane_special: off
+
+  # Standup targets light their respective spinner lamp
+  s_standup_white_active:
+    l_left_spinner_white: on
+  s_standup_amber_active:
+    l_left_spinner_amber: on
+  s_standup_green_active:
+    l_right_spinner_green: on
+  s_standup_yellow_active:
+    l_right_spinner_yellow: on
+  s_standup_purple_active:
+    l_left_spinner_purple: on
+    l_right_spinner_purple: off
+
+  # Purple bonus lamp follows the side it's on
+  purple_to_right:
+    l_left_spinner_purple: off
+    l_right_spinner_purple: on
+  purple_to_left:
+    l_right_spinner_purple: off
+    l_left_spinner_purple: on
 
   # Phase E saucer reset: return to Phase A lamp state
   # Earned multiplier lamps (l_bonus_2x through l_bonus_5x) are intentionally

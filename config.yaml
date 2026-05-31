@@ -101,6 +101,45 @@ player_vars:
   left_lane_value:
     initial_value: 2000
     value_type: int
+  left_spinner_value:
+    initial_value: 200
+    value_type: int
+  right_spinner_value:
+    initial_value: 200
+    value_type: int
+  purple_bonus:
+    initial_value: 0
+    value_type: int
+  purple_on_left:
+    initial_value: 1
+    value_type: int
+  white_applied:
+    initial_value: 0
+    value_type: int
+  amber_applied:
+    initial_value: 0
+    value_type: int
+  green_applied:
+    initial_value: 0
+    value_type: int
+  yellow_applied:
+    initial_value: 0
+    value_type: int
+  purple_applied:
+    initial_value: 0
+    value_type: int
+  standup_completions:
+    initial_value: 0
+    value_type: int
+  extra_ball_lit:
+    initial_value: 0
+    value_type: int
+  right_special_lit:
+    initial_value: 0
+    value_type: int
+  bonus_steps:
+    initial_value: 0
+    value_type: int
 
 logging:
   console:

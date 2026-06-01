@@ -179,7 +179,7 @@ variable_player:
       int: 0
       action: set
     bonus_steps:
-      int: 0
+      int: 1
       action: set
 
   # Phase A complete: earn 2X, saucer advances to 10,000
@@ -359,13 +359,6 @@ variable_player:
       int: 9
       action: set
 
-  # End of ball: award accumulated bonus (× multiplier) and reset counter
-  ball_ending:
-    score: current_player.bonus_steps * 1000 * current_player.bonus_multiplier
-    bonus_steps:
-      int: 0
-      action: set
-
   # Standup target completions
   standup_first_complete:
     standup_completions:
@@ -462,8 +455,9 @@ variable_player:
       int: 1
       action: set
 
-  # Ball drain: reset all per-ball state to initial values
+  # Ball drain: award bonus then reset all per-ball state to initial values
   ball_drain:
+    score: current_player.bonus_steps * 1000 * current_player.bonus_multiplier
     drop_phase:
       int: 1
       action: set
@@ -508,6 +502,9 @@ variable_player:
       action: set
     right_special_lit:
       int: 0
+      action: set
+    bonus_steps:
+      int: 1
       action: set
 
 coil_player:
@@ -575,6 +572,16 @@ light_player:
     l_right_spinner_purple: off
     l_extra_ball: off
     l_right_outlane_special: off
+    l_bonus_1: on
+    l_bonus_2: off
+    l_bonus_3: off
+    l_bonus_4: off
+    l_bonus_5: off
+    l_bonus_6: off
+    l_bonus_7: off
+    l_bonus_8: off
+    l_bonus_9: off
+    l_bonus_10: off
 
   # Phase A complete: 2X earned, 3X feature lit, saucer 10K
   dt_phase_a_complete:
@@ -640,6 +647,16 @@ light_player:
     l_right_spinner_purple: off
     l_extra_ball: off
     l_right_outlane_special: off
+    l_bonus_1: on
+    l_bonus_2: off
+    l_bonus_3: off
+    l_bonus_4: off
+    l_bonus_5: off
+    l_bonus_6: off
+    l_bonus_7: off
+    l_bonus_8: off
+    l_bonus_9: off
+    l_bonus_10: off
 
   # Single-step bonus lamp advances (left inlane)
   bonus_step_to_1:
@@ -699,19 +716,6 @@ light_player:
     l_bonus_10: on
   bonus_9_to_10:
     l_bonus_10: on
-
-  # End of ball: reset all bonus counter lamps
-  ball_ending:
-    l_bonus_1: off
-    l_bonus_2: off
-    l_bonus_3: off
-    l_bonus_4: off
-    l_bonus_5: off
-    l_bonus_6: off
-    l_bonus_7: off
-    l_bonus_8: off
-    l_bonus_9: off
-    l_bonus_10: off
 
   # Standup target completions
   standup_first_complete:

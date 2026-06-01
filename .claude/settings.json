@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(mkdir -p /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config)"
+    ],
+    "additionalDirectories": [
+      "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test"
     ]
   }
 }

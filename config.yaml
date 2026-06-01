@@ -55,6 +55,7 @@ modes:
   - attract
   - game
   - service_menu
+  - self_test
   - ruleset_selector
   - ruleset_original
   - ruleset_trident2020
@@ -135,6 +136,21 @@ machine_vars:
     initial_value: 2
     value_type: int
     persist: true
+  self_test_number:
+    initial_value: 0
+    value_type: int
+  self_test_lamp:
+    initial_value: 0
+    value_type: int
+  self_test_coil:
+    initial_value: 0
+    value_type: int
+  self_test_display_pattern:
+    initial_value: 1
+    value_type: int
+  self_test_sound:
+    initial_value: 0
+    value_type: int
 
 player_vars:
   score:

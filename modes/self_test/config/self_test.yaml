@@ -1,0 +1,519 @@
+#config_version=6
+
+# Self-test mode
+#
+# Entry:      advance past the last service-menu setting (setting 13)
+# Cycle item: press s_service to step within the current test
+# Next test:  press s_start_button to advance to the next test
+# Exit:       pressing s_start_button past test 5 returns to attract
+#
+# Tests (in order):
+#   1 - Lamp test      ball_display=1  player1_score=lamp number (0-59)
+#   2 - Display test   all segment displays cycled through patterns
+#   3 - Solenoid test  ball_display=3  player1_score=coil number (0-14)
+#   4 - Switch test    ball_display=4  player1_score=switch number when closed
+#   5 - Sound test     ball_display=5  player1_score=sound number (placeholder)
+
+mode:
+  start_events: enter_self_test
+  stop_events: self_test_exit
+  priority: 60
+  game_mode: false
+
+event_player:
+  mode_self_test_started: self_test_start_lamp_test
+
+  # Navigation: s_start_button advances through tests; past test 5 exits
+  s_start_button_active{machine.self_test_number == 1}: self_test_start_display_test
+  s_start_button_active{machine.self_test_number == 2}: self_test_start_solenoid_test
+  s_start_button_active{machine.self_test_number == 3}: self_test_start_switch_test
+  s_start_button_active{machine.self_test_number == 4}: self_test_start_sound_test
+  s_start_button_active{machine.self_test_number == 5}: self_test_cleanup
+
+  # self_test_cleanup resets number to 0 before the mode stops
+  self_test_cleanup: self_test_exit
+
+  # --- Test 1: Lamp ---
+  # Entry clears all lamps then lights lamp 0.
+  # Each s_service press steps the lamp index and refreshes.
+  self_test_start_lamp_test: self_test_lamp_clear
+  self_test_lamp_clear{machine.self_test_number == 1}: self_test_lamp_on
+  s_service_active{machine.self_test_number == 1}: self_test_lamp_step
+  self_test_lamp_step: self_test_lamp_wrap_check
+  self_test_lamp_wrap_check: self_test_lamp_clear
+
+  # --- Test 2: Display ---
+  self_test_start_display_test:
+    - self_test_lamp_clear
+    - self_test_display_refresh
+  s_service_active{machine.self_test_number == 2 and machine.self_test_display_pattern == 1}: self_test_display_set_2
+  s_service_active{machine.self_test_number == 2 and machine.self_test_display_pattern == 2}: self_test_display_set_3
+  s_service_active{machine.self_test_number == 2 and machine.self_test_display_pattern == 3}: self_test_display_set_1
+  self_test_display_set_1: self_test_display_refresh
+  self_test_display_set_2: self_test_display_refresh
+  self_test_display_set_3: self_test_display_refresh
+
+  # --- Test 3: Solenoid ---
+  self_test_start_solenoid_test:
+    - self_test_lamp_clear
+    - self_test_coil_refresh
+  s_service_active{machine.self_test_number == 3}: self_test_coil_pulse
+  self_test_coil_pulse: self_test_coil_step
+  self_test_coil_step: self_test_coil_wrap_check
+  self_test_coil_wrap_check: self_test_coil_refresh
+
+  # --- Test 4: Switch ---
+  self_test_start_switch_test:
+    - self_test_lamp_clear
+    - self_test_show_switch_test
+
+  # --- Test 5: Sound ---
+  self_test_start_sound_test:
+    - self_test_lamp_clear
+    - self_test_sound_refresh
+  s_service_active{machine.self_test_number == 5}: self_test_sound_step
+  self_test_sound_step: self_test_sound_wrap_check
+  self_test_sound_wrap_check: self_test_sound_refresh
+
+variable_player:
+  # --- Test 1: Lamp ---
+  self_test_start_lamp_test:
+    self_test_number:
+      int: 1
+      action: set
+      type: machine
+    self_test_lamp:
+      int: 0
+      action: set
+      type: machine
+  self_test_lamp_step:
+    self_test_lamp:
+      int: 1
+      action: add
+      type: machine
+  self_test_lamp_wrap_check{machine.self_test_lamp >= 60}:
+    self_test_lamp:
+      int: 0
+      action: set
+      type: machine
+
+  # --- Test 2: Display ---
+  self_test_start_display_test:
+    self_test_number:
+      int: 2
+      action: set
+      type: machine
+    self_test_display_pattern:
+      int: 1
+      action: set
+      type: machine
+  self_test_display_set_1:
+    self_test_display_pattern:
+      int: 1
+      action: set
+      type: machine
+  self_test_display_set_2:
+    self_test_display_pattern:
+      int: 2
+      action: set
+      type: machine
+  self_test_display_set_3:
+    self_test_display_pattern:
+      int: 3
+      action: set
+      type: machine
+
+  # --- Test 3: Solenoid ---
+  self_test_start_solenoid_test:
+    self_test_number:
+      int: 3
+      action: set
+      type: machine
+    self_test_coil:
+      int: 0
+      action: set
+      type: machine
+  self_test_coil_step:
+    self_test_coil:
+      int: 1
+      action: add
+      type: machine
+  self_test_coil_wrap_check{machine.self_test_coil >= 15}:
+    self_test_coil:
+      int: 0
+      action: set
+      type: machine
+
+  # --- Test 4: Switch ---
+  self_test_start_switch_test:
+    self_test_number:
+      int: 4
+      action: set
+      type: machine
+
+  # --- Test 5: Sound ---
+  self_test_start_sound_test:
+    self_test_number:
+      int: 5
+      action: set
+      type: machine
+    self_test_sound:
+      int: 0
+      action: set
+      type: machine
+  self_test_sound_step:
+    self_test_sound:
+      int: 1
+      action: add
+      type: machine
+  self_test_sound_wrap_check{machine.self_test_sound >= 1}:
+    self_test_sound:
+      int: 0
+      action: set
+      type: machine
+
+  # Reset on exit so service_menu can start again
+  self_test_cleanup:
+    self_test_number:
+      int: 0
+      action: set
+      type: machine
+
+coil_player:
+  self_test_coil_pulse{machine.self_test_coil == 0}:
+    c_top_bumper: pulse
+  self_test_coil_pulse{machine.self_test_coil == 1}:
+    c_bottom_bumper: pulse
+  self_test_coil_pulse{machine.self_test_coil == 2}:
+    c_ul_sling: pulse
+  self_test_coil_pulse{machine.self_test_coil == 3}:
+    c_drop_target_1: pulse
+  self_test_coil_pulse{machine.self_test_coil == 4}:
+    c_drop_target_2: pulse
+  self_test_coil_pulse{machine.self_test_coil == 5}:
+    c_knocker: pulse
+  self_test_coil_pulse{machine.self_test_coil == 6}:
+    c_ll_sling: pulse
+  self_test_coil_pulse{machine.self_test_coil == 7}:
+    c_drop_target_3: pulse
+  self_test_coil_pulse{machine.self_test_coil == 8}:
+    c_ur_sling: pulse
+  self_test_coil_pulse{machine.self_test_coil == 9}:
+    c_lr_sling: pulse
+  self_test_coil_pulse{machine.self_test_coil == 10}:
+    c_drop_target_4: pulse
+  self_test_coil_pulse{machine.self_test_coil == 11}:
+    c_drop_target_5: pulse
+  self_test_coil_pulse{machine.self_test_coil == 12}:
+    c_saucer: pulse
+  self_test_coil_pulse{machine.self_test_coil == 13}:
+    c_drop_target_reset: pulse
+  self_test_coil_pulse{machine.self_test_coil == 14}:
+    c_outhole: pulse
+
+light_player:
+  # All lights off — used both during lamp cycling and when entering other tests
+  self_test_lamp_clear:
+    l_bonus_1: {color: "000000"}
+    l_bonus_2: {color: "000000"}
+    l_bonus_3: {color: "000000"}
+    l_bonus_4: {color: "000000"}
+    l_bonus_5: {color: "000000"}
+    l_bonus_6: {color: "000000"}
+    l_bonus_7: {color: "000000"}
+    l_bonus_8: {color: "000000"}
+    l_bonus_9: {color: "000000"}
+    l_bonus_10: {color: "000000"}
+    l_drop_target_5: {color: "000000"}
+    l_standup_special: {color: "000000"}
+    l_left_spinner_amber: {color: "000000"}
+    l_left_spinner_white: {color: "000000"}
+    l_standup_amber: {color: "000000"}
+    l_standup_white: {color: "000000"}
+    l_right_spinner_yellow: {color: "000000"}
+    l_right_spinner_green: {color: "000000"}
+    l_standup_yellow: {color: "000000"}
+    l_standup_green: {color: "000000"}
+    l_drop_target_4: {color: "000000"}
+    l_drop_target_3: {color: "000000"}
+    l_drop_target_2: {color: "000000"}
+    l_drop_target_1: {color: "000000"}
+    l_top_eject_30k: {color: "000000"}
+    l_top_eject_20k: {color: "000000"}
+    l_top_eject_10k: {color: "000000"}
+    l_top_eject_5k: {color: "000000"}
+    l_bonus_5x_feature: {color: "000000"}
+    l_bonus_4x_feature: {color: "000000"}
+    l_bonus_3x_feature: {color: "000000"}
+    l_bonus_2x_feature: {color: "000000"}
+    l_bonus_5x: {color: "000000"}
+    l_bonus_4x: {color: "000000"}
+    l_bonus_3x: {color: "000000"}
+    l_bonus_2x: {color: "000000"}
+    l_left_lane_8k: {color: "000000"}
+    l_left_lane_6k: {color: "000000"}
+    l_left_lane_4k: {color: "000000"}
+    l_left_lane_2k: {color: "000000"}
+    l_shoot_again: {color: "000000"}
+    l_match: {color: "000000"}
+    l_standup_purple: {color: "000000"}
+    l_drop_target_special: {color: "000000"}
+    l_right_spinner_purple: {color: "000000"}
+    l_right_outlane_special: {color: "000000"}
+    l_left_spinner_purple: {color: "000000"}
+    l_extra_ball: {color: "000000"}
+    l_ball_in_play: {color: "000000"}
+    l_high_score_to_date: {color: "000000"}
+    l_game_over: {color: "000000"}
+    l_tilt: {color: "000000"}
+    l_player_1: {color: "000000"}
+    l_player_2: {color: "000000"}
+    l_player_3: {color: "000000"}
+    l_player_4: {color: "000000"}
+    l_player_1_up: {color: "000000"}
+    l_player_2_up: {color: "000000"}
+    l_player_3_up: {color: "000000"}
+    l_player_4_up: {color: "000000"}
+
+  # Light one lamp at a time (lamp index matches hardware number in machine_files)
+  self_test_lamp_on{machine.self_test_lamp == 0}:
+    l_bonus_1: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 1}:
+    l_bonus_2: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 2}:
+    l_bonus_3: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 3}:
+    l_bonus_4: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 4}:
+    l_bonus_5: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 5}:
+    l_bonus_6: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 6}:
+    l_bonus_7: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 7}:
+    l_bonus_8: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 8}:
+    l_bonus_9: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 9}:
+    l_bonus_10: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 10}:
+    l_drop_target_5: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 11}:
+    l_standup_special: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 12}:
+    l_left_spinner_amber: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 13}:
+    l_left_spinner_white: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 14}:
+    l_standup_amber: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 15}:
+    l_standup_white: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 16}:
+    l_right_spinner_yellow: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 17}:
+    l_right_spinner_green: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 18}:
+    l_standup_yellow: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 19}:
+    l_standup_green: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 20}:
+    l_drop_target_4: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 21}:
+    l_drop_target_3: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 22}:
+    l_drop_target_2: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 23}:
+    l_drop_target_1: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 24}:
+    l_top_eject_30k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 25}:
+    l_top_eject_20k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 26}:
+    l_top_eject_10k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 27}:
+    l_top_eject_5k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 28}:
+    l_bonus_5x_feature: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 29}:
+    l_bonus_4x_feature: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 30}:
+    l_bonus_3x_feature: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 31}:
+    l_bonus_2x_feature: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 32}:
+    l_bonus_5x: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 33}:
+    l_bonus_4x: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 34}:
+    l_bonus_3x: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 35}:
+    l_bonus_2x: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 36}:
+    l_left_lane_8k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 37}:
+    l_left_lane_6k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 38}:
+    l_left_lane_4k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 39}:
+    l_left_lane_2k: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 40}:
+    l_shoot_again: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 41}:
+    l_match: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 42}:
+    l_standup_purple: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 43}:
+    l_drop_target_special: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 44}:
+    l_right_spinner_purple: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 45}:
+    l_right_outlane_special: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 46}:
+    l_left_spinner_purple: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 47}:
+    l_extra_ball: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 48}:
+    l_ball_in_play: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 49}:
+    l_high_score_to_date: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 50}:
+    l_game_over: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 51}:
+    l_tilt: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 52}:
+    l_player_1: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 53}:
+    l_player_2: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 54}:
+    l_player_3: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 55}:
+    l_player_4: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 56}:
+    l_player_1_up: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 57}:
+    l_player_2_up: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 58}:
+    l_player_3_up: {color: white}
+  self_test_lamp_on{machine.self_test_lamp == 59}:
+    l_player_4_up: {color: white}
+
+segment_display_player:
+  # --- Test 1: Lamp ---
+  # Display updates after self_test_lamp_on so {machine.self_test_lamp} is already updated
+  self_test_lamp_on:
+    ball_display:
+      text: "1"
+    player1_score:
+      text: "{machine.self_test_lamp}"
+
+  # --- Test 2: Display --- (all displays exercised per pattern)
+  self_test_display_refresh{machine.self_test_display_pattern == 1}:
+    player1_score: {text: "888888"}
+    player2_score: {text: "888888"}
+    player3_score: {text: "888888"}
+    player4_score: {text: "888888"}
+    credits_display: {text: "888888"}
+    ball_display: {text: "88"}
+  self_test_display_refresh{machine.self_test_display_pattern == 2}:
+    player1_score: {text: "------"}
+    player2_score: {text: "------"}
+    player3_score: {text: "------"}
+    player4_score: {text: "------"}
+    credits_display: {text: "------"}
+    ball_display: {text: "--"}
+  self_test_display_refresh{machine.self_test_display_pattern == 3}:
+    player1_score: {text: "      "}
+    player2_score: {text: "      "}
+    player3_score: {text: "      "}
+    player4_score: {text: "      "}
+    credits_display: {text: "      "}
+    ball_display: {text: "  "}
+
+  # --- Test 3: Solenoid ---
+  self_test_coil_refresh:
+    ball_display:
+      text: "3"
+    player1_score:
+      text: "{machine.self_test_coil}"
+
+  # --- Test 4: Switch ---
+  self_test_show_switch_test:
+    ball_display:
+      text: "4"
+    player1_score:
+      text: "   "
+  s_coin_2_active{machine.self_test_number == 4}:
+    player1_score: {text: "0"}
+  s_coin_1_active{machine.self_test_number == 4}:
+    player1_score: {text: "1"}
+  s_coin_3_active{machine.self_test_number == 4}:
+    player1_score: {text: "2"}
+  s_right_spinner_active{machine.self_test_number == 4}:
+    player1_score: {text: "3"}
+  s_left_spinner_active{machine.self_test_number == 4}:
+    player1_score: {text: "4"}
+  s_start_button_active{machine.self_test_number == 4}:
+    player1_score: {text: "5"}
+  s_tilt_active{machine.self_test_number == 4}:
+    player1_score: {text: "6"}
+  s_slam_active{machine.self_test_number == 4}:
+    player1_score: {text: "7"}
+  s_rollover_active{machine.self_test_number == 4}:
+    player1_score: {text: "9"}
+  s_ur_sling_active{machine.self_test_number == 4}:
+    player1_score: {text: "10"}
+  s_ul_sling_active{machine.self_test_number == 4}:
+    player1_score: {text: "11"}
+  s_lr_sling_active{machine.self_test_number == 4}:
+    player1_score: {text: "12"}
+  s_ll_sling_active{machine.self_test_number == 4}:
+    player1_score: {text: "13"}
+  s_top_bumper_active{machine.self_test_number == 4}:
+    player1_score: {text: "14"}
+  s_bottom_bumper_active{machine.self_test_number == 4}:
+    player1_score: {text: "15"}
+  s_right_outlane_active{machine.self_test_number == 4}:
+    player1_score: {text: "16"}
+  s_right_inlane_active{machine.self_test_number == 4}:
+    player1_score: {text: "17"}
+  s_left_inlane_active{machine.self_test_number == 4}:
+    player1_score: {text: "18"}
+  s_standup_purple_active{machine.self_test_number == 4}:
+    player1_score: {text: "19"}
+  s_standup_yellow_active{machine.self_test_number == 4}:
+    player1_score: {text: "20"}
+  s_standup_amber_active{machine.self_test_number == 4}:
+    player1_score: {text: "21"}
+  s_standup_green_active{machine.self_test_number == 4}:
+    player1_score: {text: "22"}
+  s_standup_white_active{machine.self_test_number == 4}:
+    player1_score: {text: "23"}
+  s_saucer_active{machine.self_test_number == 4}:
+    player1_score: {text: "25"}
+  s_10_pts_active{machine.self_test_number == 4}:
+    player1_score: {text: "26"}
+  s_drop_target_5_active{machine.self_test_number == 4}:
+    player1_score: {text: "27"}
+  s_drop_target_4_active{machine.self_test_number == 4}:
+    player1_score: {text: "28"}
+  s_drop_target_3_active{machine.self_test_number == 4}:
+    player1_score: {text: "29"}
+  s_drop_target_2_active{machine.self_test_number == 4}:
+    player1_score: {text: "30"}
+  s_drop_target_1_active{machine.self_test_number == 4}:
+    player1_score: {text: "31"}
+  s_outhole_active{machine.self_test_number == 4}:
+    player1_score: {text: "32"}
+  s_left_flipper_active{machine.self_test_number == 4}:
+    player1_score: {text: "33"}
+  s_right_flipper_active{machine.self_test_number == 4}:
+    player1_score: {text: "34"}
+  s_service_active{machine.self_test_number == 4}:
+    player1_score: {text: "127"}
+
+  # --- Test 5: Sound (placeholder — no sounds defined yet) ---
+  self_test_sound_refresh:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "{machine.self_test_sound}"

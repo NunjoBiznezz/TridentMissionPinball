@@ -116,10 +116,10 @@ switches:
   # Requires new switches physically wired into the machine.
   # Numbers 33-34 are assigned in the Arduino RPU implementation.
   s_left_flipper:
-    number: 33
+    number: 34
     type: NO
   s_right_flipper:
-    number: 34
+    number: 35
     type: NO
 
 coils:

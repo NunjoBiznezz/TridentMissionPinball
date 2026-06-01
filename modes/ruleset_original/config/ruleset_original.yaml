@@ -72,6 +72,18 @@ event_player:
   right_special_awarded{settings.special_award == "free_game" or settings.special_award == "extra_ball_and_free_game"}: special_award_free_game
   right_special_awarded{settings.special_award == "points_100k"}: special_award_points
 
+  # Left inlane bonus advance: 1 step (reuses bonus_9_to_10 for the cap case)
+  s_left_inlane_active{current_player.bonus_steps == 0}: bonus_step_to_1
+  s_left_inlane_active{current_player.bonus_steps == 1}: bonus_step_to_2
+  s_left_inlane_active{current_player.bonus_steps == 2}: bonus_step_to_3
+  s_left_inlane_active{current_player.bonus_steps == 3}: bonus_step_to_4
+  s_left_inlane_active{current_player.bonus_steps == 4}: bonus_step_to_5
+  s_left_inlane_active{current_player.bonus_steps == 5}: bonus_step_to_6
+  s_left_inlane_active{current_player.bonus_steps == 6}: bonus_step_to_7
+  s_left_inlane_active{current_player.bonus_steps == 7}: bonus_step_to_8
+  s_left_inlane_active{current_player.bonus_steps == 8}: bonus_step_to_9
+  s_left_inlane_active{current_player.bonus_steps == 9}: bonus_9_to_10
+
   # Right inlane bonus advance: dispatch to per-value event for clean lamp + var update
   s_right_inlane_active{current_player.bonus_steps == 0}: bonus_0_to_3
   s_right_inlane_active{current_player.bonus_steps == 1}: bonus_1_to_4
@@ -89,11 +101,31 @@ event_player:
   s_rollover_active{current_player.left_lane_value == 4000}: advance_lane_to_6k
   s_rollover_active{current_player.left_lane_value == 6000}: advance_lane_to_8k
 
+  # Upper slings: score + bonus advance via common event
+  s_ul_sling_active: upper_sling_hit
+  s_ur_sling_active: upper_sling_hit
+
+  # Lower slings: score only
+  s_ll_sling_active: lower_sling_hit
+  s_lr_sling_active: lower_sling_hit
+
   # Upper slings move purple bonus to opposite spinner
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
   s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
+
+  # Upper sling bonus advance dispatch (1 step, reuses existing step events)
+  upper_sling_hit{current_player.bonus_steps == 0}: bonus_step_to_1
+  upper_sling_hit{current_player.bonus_steps == 1}: bonus_step_to_2
+  upper_sling_hit{current_player.bonus_steps == 2}: bonus_step_to_3
+  upper_sling_hit{current_player.bonus_steps == 3}: bonus_step_to_4
+  upper_sling_hit{current_player.bonus_steps == 4}: bonus_step_to_5
+  upper_sling_hit{current_player.bonus_steps == 5}: bonus_step_to_6
+  upper_sling_hit{current_player.bonus_steps == 6}: bonus_step_to_7
+  upper_sling_hit{current_player.bonus_steps == 7}: bonus_step_to_8
+  upper_sling_hit{current_player.bonus_steps == 8}: bonus_step_to_9
+  upper_sling_hit{current_player.bonus_steps == 9}: bonus_9_to_10
 
 variable_player:
   # Initialize on mode start
@@ -213,6 +245,14 @@ variable_player:
       int: 5000
       action: set
 
+  # Upper slingshots: 1,000 points
+  upper_sling_hit:
+    score: 1000
+
+  # Lower slingshots: 10 points
+  lower_sling_hit:
+    score: 10
+
   # Upper left rollover: 100 points
   s_rollover_active:
     score: 100
@@ -279,6 +319,44 @@ variable_player:
   bonus_9_to_10:
     bonus_steps:
       int: 10
+      action: set
+
+  # Single-step bonus advances (left inlane)
+  bonus_step_to_1:
+    bonus_steps:
+      int: 1
+      action: set
+  bonus_step_to_2:
+    bonus_steps:
+      int: 2
+      action: set
+  bonus_step_to_3:
+    bonus_steps:
+      int: 3
+      action: set
+  bonus_step_to_4:
+    bonus_steps:
+      int: 4
+      action: set
+  bonus_step_to_5:
+    bonus_steps:
+      int: 5
+      action: set
+  bonus_step_to_6:
+    bonus_steps:
+      int: 6
+      action: set
+  bonus_step_to_7:
+    bonus_steps:
+      int: 7
+      action: set
+  bonus_step_to_8:
+    bonus_steps:
+      int: 8
+      action: set
+  bonus_step_to_9:
+    bonus_steps:
+      int: 9
       action: set
 
   # End of ball: award accumulated bonus (× multiplier) and reset counter
@@ -562,6 +640,26 @@ light_player:
     l_right_spinner_purple: off
     l_extra_ball: off
     l_right_outlane_special: off
+
+  # Single-step bonus lamp advances (left inlane)
+  bonus_step_to_1:
+    l_bonus_1: on
+  bonus_step_to_2:
+    l_bonus_2: on
+  bonus_step_to_3:
+    l_bonus_3: on
+  bonus_step_to_4:
+    l_bonus_4: on
+  bonus_step_to_5:
+    l_bonus_5: on
+  bonus_step_to_6:
+    l_bonus_6: on
+  bonus_step_to_7:
+    l_bonus_7: on
+  bonus_step_to_8:
+    l_bonus_8: on
+  bonus_step_to_9:
+    l_bonus_9: on
 
   # Bonus counter lamp transitions (only new lamps lit per advance)
   bonus_0_to_3:

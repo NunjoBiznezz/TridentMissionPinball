@@ -54,31 +54,85 @@ modes:
   - base
   - attract
   - game
+  - service_menu
   - ruleset_selector
   - ruleset_original
   - ruleset_trident2020
   - ruleset_tournament
 
 game:
-  balls_per_game: 3
+  balls_per_game: (machine.balls_per_game_setting)
   max_players: 4
 
-settings:
-  special_award:
-    label: Special Award
-    sort: 100
-    key: special_award
-    value_type: str
-    default: extra_ball
-    values:
-      extra_ball: Extra Ball
-      free_game: Free Game
-      points_100k: 100,000 Points
-      extra_ball_and_free_game: Extra Ball and Free Game
+segment_displays:
+  player1_score:
+    number: 0
+  player2_score:
+    number: 1
+  player3_score:
+    number: 2
+  player4_score:
+    number: 3
+  credits_display:
+    number: 4
+  ball_display:
+    number: 5
 
 machine_vars:
   current_ruleset:
     initial_value: 1
+    value_type: int
+    persist: true
+  high_score_feature:
+    initial_value: 1
+    value_type: int
+    persist: true
+  extra_ball_enabled:
+    initial_value: 1
+    value_type: int
+    persist: true
+  outlane_special_setting:
+    initial_value: 1
+    value_type: int
+    persist: true
+  balls_per_game_setting:
+    initial_value: 3
+    value_type: int
+    persist: true
+  melody_option:
+    initial_value: 1
+    value_type: int
+    persist: true
+  high_game_to_date:
+    initial_value: 1
+    value_type: int
+    persist: true
+  max_credits:
+    initial_value: 10
+    value_type: int
+    persist: true
+  display_credits_attract:
+    initial_value: 1
+    value_type: int
+    persist: true
+  match_feature:
+    initial_value: 1
+    value_type: int
+    persist: true
+  target_special_limit:
+    initial_value: 0
+    value_type: int
+    persist: true
+  outlane_special_limit:
+    initial_value: 0
+    value_type: int
+    persist: true
+  extra_ball_alternation:
+    initial_value: 0
+    value_type: int
+    persist: true
+  special_award_setting:
+    initial_value: 2
     value_type: int
     persist: true
 

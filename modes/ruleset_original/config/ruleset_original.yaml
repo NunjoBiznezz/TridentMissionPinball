@@ -52,10 +52,14 @@ event_player:
   # Saucer hit during Phase E resets progression to Phase A (5X bonus stays earned)
   s_saucer_active{current_player.drop_phase == 5}: phase_e_saucer_reset
 
-  # Special award dispatch based on machine setting
-  dt_phase_e_complete{settings.special_award == "extra_ball" or settings.special_award == "extra_ball_and_free_game"}: special_award_extra_ball
-  dt_phase_e_complete{settings.special_award == "free_game" or settings.special_award == "extra_ball_and_free_game"}: special_award_free_game
-  dt_phase_e_complete{settings.special_award == "points_100k"}: special_award_points
+  # Outlane special: lit after 2nd target reset (setting=1) or 3rd target reset (setting=0)
+  dt_phase_b_complete{machine.outlane_special_setting == 1}: outlane_special_earned
+  dt_phase_c_complete{machine.outlane_special_setting == 0}: outlane_special_earned
+
+  # Special award dispatch  1=100K pts  2=Free ball  3=Free game  4=Free ball+game
+  dt_phase_e_complete{machine.special_award_setting == 1}: special_award_points
+  dt_phase_e_complete{machine.special_award_setting == 2 or machine.special_award_setting == 4}: special_award_extra_ball
+  dt_phase_e_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # All 5 standup targets hit
   standup_all_hit{current_player.standup_completions == 0}: standup_first_complete
@@ -68,9 +72,9 @@ event_player:
   s_right_outlane_active{current_player.right_special_lit == 1}: right_special_awarded
 
   # Right special dispatches same award as drop target special
-  right_special_awarded{settings.special_award == "extra_ball" or settings.special_award == "extra_ball_and_free_game"}: special_award_extra_ball
-  right_special_awarded{settings.special_award == "free_game" or settings.special_award == "extra_ball_and_free_game"}: special_award_free_game
-  right_special_awarded{settings.special_award == "points_100k"}: special_award_points
+  right_special_awarded{machine.special_award_setting == 1}: special_award_points
+  right_special_awarded{machine.special_award_setting == 2 or machine.special_award_setting == 4}: special_award_extra_ball
+  right_special_awarded{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # Left inlane bonus advance: 1 step (reuses bonus_9_to_10 for the cap case)
   s_left_inlane_active{current_player.bonus_steps == 0}: bonus_step_to_1
@@ -371,6 +375,10 @@ variable_player:
     standup_completions:
       int: 2
       action: set
+    right_special_lit:
+      int: 1
+      action: set
+  outlane_special_earned:
     right_special_lit:
       int: 1
       action: set
@@ -716,6 +724,10 @@ light_player:
     l_bonus_10: on
   bonus_9_to_10:
     l_bonus_10: on
+
+  # Outlane special lit by drop target phase
+  outlane_special_earned:
+    l_right_outlane_special: on
 
   # Standup target completions
   standup_first_complete:

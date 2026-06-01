@@ -15,7 +15,7 @@ switches:
     number: 2
     type: NO
   s_start_button:
-    number: 5
+    number: 5 
     type: NO
     tags: start
   s_tilt:
@@ -105,6 +105,11 @@ switches:
     type: NO
   s_right_spinner:
     number: 3
+    type: NO
+
+  # Service switch inside coin door
+  s_service:
+    number: 127
     type: NO
 
   # Flipper buttons - NOT part of the original Stern Trident hardware.

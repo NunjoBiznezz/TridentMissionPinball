@@ -1,0 +1,655 @@
+#config_version=6
+
+# Service menu mode
+#
+# Entry:      press s_service (coin door switch, number 127) during attract
+# Cycle value: press s_service to step the current setting forward
+# Next setting: press s_start_button to advance to the next setting
+# Exit:       pressing s_start_button past the last setting returns to attract
+#
+# ball_display      shows the current setting number (1, 2, 3 …)
+# player1_score     shows the current setting value
+#
+# Settings (ordered by DIP switch number):
+#   1 - High Score Feature   1=Extra Ball  2=Replay            (DIP 6)
+#   2 - Balls Per Game       3 or 5                            (DIP 7)
+#   3 - Melody Option        1=Full Melodies  2=2 Tones        (DIP 8)
+#   4 - High Game to Date    1=Novelty  2=1FG  3=2FG  4=3FG   (DIP 15+16)
+#   5 - Max Credits          5/10/15/20/25/30/35/40            (DIP 17+18+19)
+#   6 - Credits in Attract   1=On  0=Off                       (DIP 20)
+#   7 - Match Feature        1=On  0=Off                       (DIP 21)
+#   8 - Extra Ball           1=On  0=Off                       (DIP 23)
+#   9 - Outlane Special      1=On (2nd reset)  0=Off (3rd)     (DIP 24)
+#  10 - Target Special       1=Limit 1/ball  0=No limit        (DIP 25)
+#  11 - Outlane Special Limit 1=Limit 1/ball  0=No limit       (DIP 26)
+#  12 - Extra Ball Alternation 1=Alternate  0=Constantly on    (DIP 27)
+#  13 - Special Award         1=100K pts  2=Free ball  3=Free game  4=Free ball+game  (DIP 31+32)
+
+mode:
+  start_events: s_service_active
+  stop_events: service_menu_exit
+  priority: 50
+  game_mode: false
+
+event_player:
+  # On entry, show setting 1 without changing its value.
+  # service_menu_ready stays 0 until mode_service_menu_started fires,
+  # preventing the entry press from also cycling the value.
+  mode_service_menu_started: service_menu_show_setting_1
+
+  # Setting 1: High Score Feature  (DIP 6)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 1 and machine.high_score_feature == 1}: high_score_feature_set_replay
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 1 and machine.high_score_feature == 2}: high_score_feature_set_extra_ball
+  high_score_feature_set_extra_ball: service_menu_show_setting_1
+  high_score_feature_set_replay: service_menu_show_setting_1
+
+  # Setting 2: Balls Per Game  (DIP 7)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 2 and machine.balls_per_game_setting == 3}: balls_per_game_set_5
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 2 and machine.balls_per_game_setting == 5}: balls_per_game_set_3
+  balls_per_game_set_3: service_menu_show_setting_2
+  balls_per_game_set_5: service_menu_show_setting_2
+
+  # Setting 3: Melody Option  (DIP 8)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 3 and machine.melody_option == 1}: melody_option_set_2
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 3 and machine.melody_option == 2}: melody_option_set_1
+  melody_option_set_1: service_menu_show_setting_3
+  melody_option_set_2: service_menu_show_setting_3
+
+  # Setting 4: High Game to Date  (DIP 15+16)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 4 and machine.high_game_to_date == 1}: high_game_set_2
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 4 and machine.high_game_to_date == 2}: high_game_set_3
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 4 and machine.high_game_to_date == 3}: high_game_set_4
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 4 and machine.high_game_to_date == 4}: high_game_set_1
+  high_game_set_1: service_menu_show_setting_4
+  high_game_set_2: service_menu_show_setting_4
+  high_game_set_3: service_menu_show_setting_4
+  high_game_set_4: service_menu_show_setting_4
+
+  # Setting 5: Max Credits  (DIP 17+18+19)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 5}: max_credits_set_10
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 10}: max_credits_set_15
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 15}: max_credits_set_20
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 20}: max_credits_set_25
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 25}: max_credits_set_30
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 30}: max_credits_set_35
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 35}: max_credits_set_40
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 5 and machine.max_credits == 40}: max_credits_set_5
+  max_credits_set_5: service_menu_show_setting_5
+  max_credits_set_10: service_menu_show_setting_5
+  max_credits_set_15: service_menu_show_setting_5
+  max_credits_set_20: service_menu_show_setting_5
+  max_credits_set_25: service_menu_show_setting_5
+  max_credits_set_30: service_menu_show_setting_5
+  max_credits_set_35: service_menu_show_setting_5
+  max_credits_set_40: service_menu_show_setting_5
+
+  # Setting 6: Credits in Attract  (DIP 20)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 6 and machine.display_credits_attract == 1}: credits_attract_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 6 and machine.display_credits_attract == 0}: credits_attract_set_on
+  credits_attract_set_on: service_menu_show_setting_6
+  credits_attract_set_off: service_menu_show_setting_6
+
+  # Setting 7: Match Feature  (DIP 21)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 7 and machine.match_feature == 1}: match_feature_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 7 and machine.match_feature == 0}: match_feature_set_on
+  match_feature_set_on: service_menu_show_setting_7
+  match_feature_set_off: service_menu_show_setting_7
+
+  # Setting 8: Extra Ball  (DIP 23)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 8 and machine.extra_ball_enabled == 1}: extra_ball_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 8 and machine.extra_ball_enabled == 0}: extra_ball_set_on
+  extra_ball_set_on: service_menu_show_setting_8
+  extra_ball_set_off: service_menu_show_setting_8
+
+  # Setting 9: Outlane Special  (DIP 24)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 9 and machine.outlane_special_setting == 1}: outlane_special_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 9 and machine.outlane_special_setting == 0}: outlane_special_set_on
+  outlane_special_set_on: service_menu_show_setting_9
+  outlane_special_set_off: service_menu_show_setting_9
+
+  # Setting 10: Target Special  (DIP 25)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 10 and machine.target_special_limit == 1}: target_special_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 10 and machine.target_special_limit == 0}: target_special_set_on
+  target_special_set_on: service_menu_show_setting_10
+  target_special_set_off: service_menu_show_setting_10
+
+  # Setting 11: Outlane Special Limit  (DIP 26)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 11 and machine.outlane_special_limit == 1}: outlane_special_limit_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 11 and machine.outlane_special_limit == 0}: outlane_special_limit_set_on
+  outlane_special_limit_set_on: service_menu_show_setting_11
+  outlane_special_limit_set_off: service_menu_show_setting_11
+
+  # Setting 12: Extra Ball Alternation  (DIP 27)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 12 and machine.extra_ball_alternation == 1}: extra_ball_alt_set_off
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 12 and machine.extra_ball_alternation == 0}: extra_ball_alt_set_on
+  extra_ball_alt_set_on: service_menu_show_setting_12
+  extra_ball_alt_set_off: service_menu_show_setting_12
+
+  # Setting 13: Special Award  (DIP 31+32)
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 13 and machine.special_award_setting == 1}: special_award_set_2
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 13 and machine.special_award_setting == 2}: special_award_set_3
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 13 and machine.special_award_setting == 3}: special_award_set_4
+  s_service_active{machine.service_menu_ready == 1 and machine.service_setting == 13 and machine.special_award_setting == 4}: special_award_set_1
+  special_award_set_1: service_menu_show_setting_13
+  special_award_set_2: service_menu_show_setting_13
+  special_award_set_3: service_menu_show_setting_13
+  special_award_set_4: service_menu_show_setting_13
+
+  # s_start_button advances through settings; exit after the last one
+  s_start_button_active{machine.service_setting == 1}: service_menu_advance_to_2
+  service_menu_advance_to_2: service_menu_show_setting_2
+  s_start_button_active{machine.service_setting == 2}: service_menu_advance_to_3
+  service_menu_advance_to_3: service_menu_show_setting_3
+  s_start_button_active{machine.service_setting == 3}: service_menu_advance_to_4
+  service_menu_advance_to_4: service_menu_show_setting_4
+  s_start_button_active{machine.service_setting == 4}: service_menu_advance_to_5
+  service_menu_advance_to_5: service_menu_show_setting_5
+  s_start_button_active{machine.service_setting == 5}: service_menu_advance_to_6
+  service_menu_advance_to_6: service_menu_show_setting_6
+  s_start_button_active{machine.service_setting == 6}: service_menu_advance_to_7
+  service_menu_advance_to_7: service_menu_show_setting_7
+  s_start_button_active{machine.service_setting == 7}: service_menu_advance_to_8
+  service_menu_advance_to_8: service_menu_show_setting_8
+  s_start_button_active{machine.service_setting == 8}: service_menu_advance_to_9
+  service_menu_advance_to_9: service_menu_show_setting_9
+  s_start_button_active{machine.service_setting == 9}: service_menu_advance_to_10
+  service_menu_advance_to_10: service_menu_show_setting_10
+  s_start_button_active{machine.service_setting == 10}: service_menu_advance_to_11
+  service_menu_advance_to_11: service_menu_show_setting_11
+  s_start_button_active{machine.service_setting == 11}: service_menu_advance_to_12
+  service_menu_advance_to_12: service_menu_show_setting_12
+  s_start_button_active{machine.service_setting == 12}: service_menu_advance_to_13
+  service_menu_advance_to_13: service_menu_show_setting_13
+  s_start_button_active{machine.service_setting == 13}: service_menu_exit
+
+variable_player:
+  mode_service_menu_started:
+    service_setting:
+      int: 1
+      action: set
+      type: machine
+    service_menu_ready:
+      int: 1
+      action: set
+      type: machine
+
+  service_menu_advance_to_2:
+    service_setting:
+      int: 2
+      action: set
+      type: machine
+  service_menu_advance_to_3:
+    service_setting:
+      int: 3
+      action: set
+      type: machine
+  service_menu_advance_to_4:
+    service_setting:
+      int: 4
+      action: set
+      type: machine
+  service_menu_advance_to_5:
+    service_setting:
+      int: 5
+      action: set
+      type: machine
+  service_menu_advance_to_6:
+    service_setting:
+      int: 6
+      action: set
+      type: machine
+  service_menu_advance_to_7:
+    service_setting:
+      int: 7
+      action: set
+      type: machine
+  service_menu_advance_to_8:
+    service_setting:
+      int: 8
+      action: set
+      type: machine
+  service_menu_advance_to_9:
+    service_setting:
+      int: 9
+      action: set
+      type: machine
+  service_menu_advance_to_10:
+    service_setting:
+      int: 10
+      action: set
+      type: machine
+  service_menu_advance_to_11:
+    service_setting:
+      int: 11
+      action: set
+      type: machine
+  service_menu_advance_to_12:
+    service_setting:
+      int: 12
+      action: set
+      type: machine
+  service_menu_advance_to_13:
+    service_setting:
+      int: 13
+      action: set
+      type: machine
+
+  # High Score Feature values
+  high_score_feature_set_extra_ball:
+    high_score_feature:
+      int: 1
+      action: set
+      type: machine
+  high_score_feature_set_replay:
+    high_score_feature:
+      int: 2
+      action: set
+      type: machine
+
+  # Balls Per Game values
+  balls_per_game_set_3:
+    balls_per_game_setting:
+      int: 3
+      action: set
+      type: machine
+  balls_per_game_set_5:
+    balls_per_game_setting:
+      int: 5
+      action: set
+      type: machine
+
+  # Melody Option values
+  melody_option_set_1:
+    melody_option:
+      int: 1
+      action: set
+      type: machine
+  melody_option_set_2:
+    melody_option:
+      int: 2
+      action: set
+      type: machine
+
+  # High Game to Date values
+  high_game_set_1:
+    high_game_to_date:
+      int: 1
+      action: set
+      type: machine
+  high_game_set_2:
+    high_game_to_date:
+      int: 2
+      action: set
+      type: machine
+  high_game_set_3:
+    high_game_to_date:
+      int: 3
+      action: set
+      type: machine
+  high_game_set_4:
+    high_game_to_date:
+      int: 4
+      action: set
+      type: machine
+
+  # Max Credits values
+  max_credits_set_5:
+    max_credits:
+      int: 5
+      action: set
+      type: machine
+  max_credits_set_10:
+    max_credits:
+      int: 10
+      action: set
+      type: machine
+  max_credits_set_15:
+    max_credits:
+      int: 15
+      action: set
+      type: machine
+  max_credits_set_20:
+    max_credits:
+      int: 20
+      action: set
+      type: machine
+  max_credits_set_25:
+    max_credits:
+      int: 25
+      action: set
+      type: machine
+  max_credits_set_30:
+    max_credits:
+      int: 30
+      action: set
+      type: machine
+  max_credits_set_35:
+    max_credits:
+      int: 35
+      action: set
+      type: machine
+  max_credits_set_40:
+    max_credits:
+      int: 40
+      action: set
+      type: machine
+
+  # Credits in Attract values
+  credits_attract_set_on:
+    display_credits_attract:
+      int: 1
+      action: set
+      type: machine
+  credits_attract_set_off:
+    display_credits_attract:
+      int: 0
+      action: set
+      type: machine
+
+  # Match Feature values
+  match_feature_set_on:
+    match_feature:
+      int: 1
+      action: set
+      type: machine
+  match_feature_set_off:
+    match_feature:
+      int: 0
+      action: set
+      type: machine
+
+  # Extra Ball values
+  extra_ball_set_on:
+    extra_ball_enabled:
+      int: 1
+      action: set
+      type: machine
+  extra_ball_set_off:
+    extra_ball_enabled:
+      int: 0
+      action: set
+      type: machine
+
+  # Special Award values
+  special_award_set_1:
+    special_award_setting:
+      int: 1
+      action: set
+      type: machine
+  special_award_set_2:
+    special_award_setting:
+      int: 2
+      action: set
+      type: machine
+  special_award_set_3:
+    special_award_setting:
+      int: 3
+      action: set
+      type: machine
+  special_award_set_4:
+    special_award_setting:
+      int: 4
+      action: set
+      type: machine
+
+  # Extra Ball Alternation values
+  extra_ball_alt_set_on:
+    extra_ball_alternation:
+      int: 1
+      action: set
+      type: machine
+  extra_ball_alt_set_off:
+    extra_ball_alternation:
+      int: 0
+      action: set
+      type: machine
+
+  # Outlane Special Limit values
+  outlane_special_limit_set_on:
+    outlane_special_limit:
+      int: 1
+      action: set
+      type: machine
+  outlane_special_limit_set_off:
+    outlane_special_limit:
+      int: 0
+      action: set
+      type: machine
+
+  # Target Special values
+  target_special_set_on:
+    target_special_limit:
+      int: 1
+      action: set
+      type: machine
+  target_special_set_off:
+    target_special_limit:
+      int: 0
+      action: set
+      type: machine
+
+  # Outlane Special values
+  outlane_special_set_on:
+    outlane_special_setting:
+      int: 1
+      action: set
+      type: machine
+  outlane_special_set_off:
+    outlane_special_setting:
+      int: 0
+      action: set
+      type: machine
+
+  # Reset transient state on exit
+  service_menu_exit:
+    service_menu_ready:
+      int: 0
+      action: set
+      type: machine
+
+segment_display_player:
+  # Setting 1: High Score Feature
+  service_menu_show_setting_1{machine.high_score_feature == 1}:
+    ball_display:
+      text: "1"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_1{machine.high_score_feature == 2}:
+    ball_display:
+      text: "1"
+    player1_score:
+      text: "2"
+
+  # Setting 2: Balls Per Game
+  service_menu_show_setting_2{machine.balls_per_game_setting == 3}:
+    ball_display:
+      text: "2"
+    player1_score:
+      text: "3"
+  service_menu_show_setting_2{machine.balls_per_game_setting == 5}:
+    ball_display:
+      text: "2"
+    player1_score:
+      text: "5"
+
+  # Setting 3: Melody Option
+  service_menu_show_setting_3{machine.melody_option == 1}:
+    ball_display:
+      text: "3"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_3{machine.melody_option == 2}:
+    ball_display:
+      text: "3"
+    player1_score:
+      text: "2"
+
+  # Setting 4: High Game to Date
+  service_menu_show_setting_4{machine.high_game_to_date == 1}:
+    ball_display:
+      text: "4"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_4{machine.high_game_to_date == 2}:
+    ball_display:
+      text: "4"
+    player1_score:
+      text: "2"
+  service_menu_show_setting_4{machine.high_game_to_date == 3}:
+    ball_display:
+      text: "4"
+    player1_score:
+      text: "3"
+  service_menu_show_setting_4{machine.high_game_to_date == 4}:
+    ball_display:
+      text: "4"
+    player1_score:
+      text: "4"
+
+  # Setting 5: Max Credits
+  service_menu_show_setting_5{machine.max_credits == 5}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "5"
+  service_menu_show_setting_5{machine.max_credits == 10}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "10"
+  service_menu_show_setting_5{machine.max_credits == 15}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "15"
+  service_menu_show_setting_5{machine.max_credits == 20}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "20"
+  service_menu_show_setting_5{machine.max_credits == 25}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "25"
+  service_menu_show_setting_5{machine.max_credits == 30}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "30"
+  service_menu_show_setting_5{machine.max_credits == 35}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "35"
+  service_menu_show_setting_5{machine.max_credits == 40}:
+    ball_display:
+      text: "5"
+    player1_score:
+      text: "40"
+
+  # Setting 6: Credits in Attract
+  service_menu_show_setting_6{machine.display_credits_attract == 1}:
+    ball_display:
+      text: "6"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_6{machine.display_credits_attract == 0}:
+    ball_display:
+      text: "6"
+    player1_score:
+      text: "0"
+
+  # Setting 7: Match Feature
+  service_menu_show_setting_7{machine.match_feature == 1}:
+    ball_display:
+      text: "7"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_7{machine.match_feature == 0}:
+    ball_display:
+      text: "7"
+    player1_score:
+      text: "0"
+
+  # Setting 8: Extra Ball
+  service_menu_show_setting_8{machine.extra_ball_enabled == 1}:
+    ball_display:
+      text: "8"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_8{machine.extra_ball_enabled == 0}:
+    ball_display:
+      text: "8"
+    player1_score:
+      text: "0"
+
+  # Setting 9: Outlane Special
+  service_menu_show_setting_9{machine.outlane_special_setting == 1}:
+    ball_display:
+      text: "9"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_9{machine.outlane_special_setting == 0}:
+    ball_display:
+      text: "9"
+    player1_score:
+      text: "0"
+
+  # Setting 10: Target Special  1=Limit 1/ball  0=No limit
+  service_menu_show_setting_10{machine.target_special_limit == 1}:
+    ball_display:
+      text: "10"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_10{machine.target_special_limit == 0}:
+    ball_display:
+      text: "10"
+    player1_score:
+      text: "0"
+
+  # Setting 11: Outlane Special Limit  1=Limit 1/ball  0=No limit
+  service_menu_show_setting_11{machine.outlane_special_limit == 1}:
+    ball_display:
+      text: "11"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_11{machine.outlane_special_limit == 0}:
+    ball_display:
+      text: "11"
+    player1_score:
+      text: "0"
+
+  # Setting 12: Extra Ball Alternation  1=Alternate  0=Constantly on
+  service_menu_show_setting_12{machine.extra_ball_alternation == 1}:
+    ball_display:
+      text: "12"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_12{machine.extra_ball_alternation == 0}:
+    ball_display:
+      text: "12"
+    player1_score:
+      text: "0"
+
+  # Setting 13: Special Award  1=100K pts  2=Free ball  3=Free game  4=Free ball+game
+  service_menu_show_setting_13{machine.special_award_setting == 1}:
+    ball_display:
+      text: "13"
+    player1_score:
+      text: "1"
+  service_menu_show_setting_13{machine.special_award_setting == 2}:
+    ball_display:
+      text: "13"
+    player1_score:
+      text: "2"
+  service_menu_show_setting_13{machine.special_award_setting == 3}:
+    ball_display:
+      text: "13"
+    player1_score:
+      text: "3"
+  service_menu_show_setting_13{machine.special_award_setting == 4}:
+    ball_display:
+      text: "13"
+    player1_score:
+      text: "4"

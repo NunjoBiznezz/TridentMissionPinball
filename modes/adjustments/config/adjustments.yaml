@@ -137,6 +137,78 @@ event_player:
   adj_ball_save_on: adjustments_show_setting_17
   adj_ball_save_off: adjustments_show_setting_17
 
+  # --- Adjustment 18: Sound Effects ---
+  s_service_active{machine.adj_setting == 18 and machine.adj_sound_effects == 0}: adj_sound_effects_on
+  s_service_active{machine.adj_setting == 18 and machine.adj_sound_effects == 1}: adj_sound_effects_off
+  adj_sound_effects_on: adjustments_show_setting_18
+  adj_sound_effects_off: adjustments_show_setting_18
+
+  # --- Adjustment 19: Music Volume ---
+  s_service_active{machine.adj_setting == 19 and machine.adj_music_volume == 0}: adj_music_volume_on
+  s_service_active{machine.adj_setting == 19 and machine.adj_music_volume == 1}: adj_music_volume_off
+  adj_music_volume_on: adjustments_show_setting_19
+  adj_music_volume_off: adjustments_show_setting_19
+
+  # --- Adjustment 20: Sound Effect Volume ---
+  s_service_active{machine.adj_setting == 20 and machine.adj_sfx_volume == 0}: adj_sfx_volume_on
+  s_service_active{machine.adj_setting == 20 and machine.adj_sfx_volume == 1}: adj_sfx_volume_off
+  adj_sfx_volume_on: adjustments_show_setting_20
+  adj_sfx_volume_off: adjustments_show_setting_20
+
+  # --- Adjustment 21: Callout Volume ---
+  s_service_active{machine.adj_setting == 21 and machine.adj_callout_volume == 0}: adj_callout_volume_on
+  s_service_active{machine.adj_setting == 21 and machine.adj_callout_volume == 1}: adj_callout_volume_off
+  adj_callout_volume_on: adjustments_show_setting_21
+  adj_callout_volume_off: adjustments_show_setting_21
+
+  # --- Adjustment 22: Tournament Scoring ---
+  s_service_active{machine.adj_setting == 22 and machine.adj_tournament_scoring == 0}: adj_tournament_scoring_on
+  s_service_active{machine.adj_setting == 22 and machine.adj_tournament_scoring == 1}: adj_tournament_scoring_off
+  adj_tournament_scoring_on: adjustments_show_setting_22
+  adj_tournament_scoring_off: adjustments_show_setting_22
+
+  # --- Adjustment 23: Tilt Warnings ---
+  s_service_active{machine.adj_setting == 23 and machine.adj_tilt_warnings == 0}: adj_tilt_warnings_on
+  s_service_active{machine.adj_setting == 23 and machine.adj_tilt_warnings == 1}: adj_tilt_warnings_off
+  adj_tilt_warnings_on: adjustments_show_setting_23
+  adj_tilt_warnings_off: adjustments_show_setting_23
+
+  # --- Adjustment 24: Award Scores ---
+  s_service_active{machine.adj_setting == 24 and machine.adj_award_scores == 0}: adj_award_scores_on
+  s_service_active{machine.adj_setting == 24 and machine.adj_award_scores == 1}: adj_award_scores_off
+  adj_award_scores_on: adjustments_show_setting_24
+  adj_award_scores_off: adjustments_show_setting_24
+
+  # --- Adjustment 25: Number of Balls ---
+  s_service_active{machine.adj_setting == 25 and machine.adj_num_balls == 0}: adj_num_balls_on
+  s_service_active{machine.adj_setting == 25 and machine.adj_num_balls == 1}: adj_num_balls_off
+  adj_num_balls_on: adjustments_show_setting_25
+  adj_num_balls_off: adjustments_show_setting_25
+
+  # --- Adjustment 26: Scrolling Scores ---
+  s_service_active{machine.adj_setting == 26 and machine.adj_scrolling_scores == 0}: adj_scrolling_scores_on
+  s_service_active{machine.adj_setting == 26 and machine.adj_scrolling_scores == 1}: adj_scrolling_scores_off
+  adj_scrolling_scores_on: adjustments_show_setting_26
+  adj_scrolling_scores_off: adjustments_show_setting_26
+
+  # --- Adjustment 27: Extra Ball Award ---
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 0}: adj_extra_ball_award_on
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 1}: adj_extra_ball_award_off
+  adj_extra_ball_award_on: adjustments_show_setting_27
+  adj_extra_ball_award_off: adjustments_show_setting_27
+
+  # --- Adjustment 28: Special Award ---
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 0}: adj_special_award_on
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 1}: adj_special_award_off
+  adj_special_award_on: adjustments_show_setting_28
+  adj_special_award_off: adjustments_show_setting_28
+
+  # --- Adjustment 29: Dim Level ---
+  s_service_active{machine.adj_setting == 29 and machine.adj_dim_level == 0}: adj_dim_level_on
+  s_service_active{machine.adj_setting == 29 and machine.adj_dim_level == 1}: adj_dim_level_off
+  adj_dim_level_on: adjustments_show_setting_29
+  adj_dim_level_off: adjustments_show_setting_29
+
   # --- Navigation: s_start_button advances through adjustments ---
   s_start_button_active{machine.adj_setting == 1}: adjustments_advance_to_2
   adjustments_advance_to_2: adjustments_show_setting_2
@@ -170,7 +242,31 @@ event_player:
   adjustments_advance_to_16: adjustments_show_setting_16
   s_start_button_active{machine.adj_setting == 16}: adjustments_advance_to_17
   adjustments_advance_to_17: adjustments_show_setting_17
-  s_start_button_active{machine.adj_setting == 17}: enter_service_menu
+  s_start_button_active{machine.adj_setting == 17}: adjustments_advance_to_18
+  adjustments_advance_to_18: adjustments_show_setting_18
+  s_start_button_active{machine.adj_setting == 18}: adjustments_advance_to_19
+  adjustments_advance_to_19: adjustments_show_setting_19
+  s_start_button_active{machine.adj_setting == 19}: adjustments_advance_to_20
+  adjustments_advance_to_20: adjustments_show_setting_20
+  s_start_button_active{machine.adj_setting == 20}: adjustments_advance_to_21
+  adjustments_advance_to_21: adjustments_show_setting_21
+  s_start_button_active{machine.adj_setting == 21}: adjustments_advance_to_22
+  adjustments_advance_to_22: adjustments_show_setting_22
+  s_start_button_active{machine.adj_setting == 22}: adjustments_advance_to_23
+  adjustments_advance_to_23: adjustments_show_setting_23
+  s_start_button_active{machine.adj_setting == 23}: adjustments_advance_to_24
+  adjustments_advance_to_24: adjustments_show_setting_24
+  s_start_button_active{machine.adj_setting == 24}: adjustments_advance_to_25
+  adjustments_advance_to_25: adjustments_show_setting_25
+  s_start_button_active{machine.adj_setting == 25}: adjustments_advance_to_26
+  adjustments_advance_to_26: adjustments_show_setting_26
+  s_start_button_active{machine.adj_setting == 26}: adjustments_advance_to_27
+  adjustments_advance_to_27: adjustments_show_setting_27
+  s_start_button_active{machine.adj_setting == 27}: adjustments_advance_to_28
+  adjustments_advance_to_28: adjustments_show_setting_28
+  s_start_button_active{machine.adj_setting == 28}: adjustments_advance_to_29
+  adjustments_advance_to_29: adjustments_show_setting_29
+  s_start_button_active{machine.adj_setting == 29}: enter_service_menu
 
 variable_player:
   mode_adjustments_started:
@@ -265,6 +361,66 @@ variable_player:
   adj_ball_save_off:
     adj_ball_save: {int: 0, action: set, type: machine}
 
+  adj_sound_effects_on:
+    adj_sound_effects: {int: 1, action: set, type: machine}
+  adj_sound_effects_off:
+    adj_sound_effects: {int: 0, action: set, type: machine}
+
+  adj_music_volume_on:
+    adj_music_volume: {int: 1, action: set, type: machine}
+  adj_music_volume_off:
+    adj_music_volume: {int: 0, action: set, type: machine}
+
+  adj_sfx_volume_on:
+    adj_sfx_volume: {int: 1, action: set, type: machine}
+  adj_sfx_volume_off:
+    adj_sfx_volume: {int: 0, action: set, type: machine}
+
+  adj_callout_volume_on:
+    adj_callout_volume: {int: 1, action: set, type: machine}
+  adj_callout_volume_off:
+    adj_callout_volume: {int: 0, action: set, type: machine}
+
+  adj_tournament_scoring_on:
+    adj_tournament_scoring: {int: 1, action: set, type: machine}
+  adj_tournament_scoring_off:
+    adj_tournament_scoring: {int: 0, action: set, type: machine}
+
+  adj_tilt_warnings_on:
+    adj_tilt_warnings: {int: 1, action: set, type: machine}
+  adj_tilt_warnings_off:
+    adj_tilt_warnings: {int: 0, action: set, type: machine}
+
+  adj_award_scores_on:
+    adj_award_scores: {int: 1, action: set, type: machine}
+  adj_award_scores_off:
+    adj_award_scores: {int: 0, action: set, type: machine}
+
+  adj_num_balls_on:
+    adj_num_balls: {int: 1, action: set, type: machine}
+  adj_num_balls_off:
+    adj_num_balls: {int: 0, action: set, type: machine}
+
+  adj_scrolling_scores_on:
+    adj_scrolling_scores: {int: 1, action: set, type: machine}
+  adj_scrolling_scores_off:
+    adj_scrolling_scores: {int: 0, action: set, type: machine}
+
+  adj_extra_ball_award_on:
+    adj_extra_ball_award: {int: 1, action: set, type: machine}
+  adj_extra_ball_award_off:
+    adj_extra_ball_award: {int: 0, action: set, type: machine}
+
+  adj_special_award_on:
+    adj_special_award: {int: 1, action: set, type: machine}
+  adj_special_award_off:
+    adj_special_award: {int: 0, action: set, type: machine}
+
+  adj_dim_level_on:
+    adj_dim_level: {int: 1, action: set, type: machine}
+  adj_dim_level_off:
+    adj_dim_level: {int: 0, action: set, type: machine}
+
   # --- Navigation ---
   adjustments_advance_to_2:
     adj_setting: {int: 2, action: set, type: machine}
@@ -298,6 +454,30 @@ variable_player:
     adj_setting: {int: 16, action: set, type: machine}
   adjustments_advance_to_17:
     adj_setting: {int: 17, action: set, type: machine}
+  adjustments_advance_to_18:
+    adj_setting: {int: 18, action: set, type: machine}
+  adjustments_advance_to_19:
+    adj_setting: {int: 19, action: set, type: machine}
+  adjustments_advance_to_20:
+    adj_setting: {int: 20, action: set, type: machine}
+  adjustments_advance_to_21:
+    adj_setting: {int: 21, action: set, type: machine}
+  adjustments_advance_to_22:
+    adj_setting: {int: 22, action: set, type: machine}
+  adjustments_advance_to_23:
+    adj_setting: {int: 23, action: set, type: machine}
+  adjustments_advance_to_24:
+    adj_setting: {int: 24, action: set, type: machine}
+  adjustments_advance_to_25:
+    adj_setting: {int: 25, action: set, type: machine}
+  adjustments_advance_to_26:
+    adj_setting: {int: 26, action: set, type: machine}
+  adjustments_advance_to_27:
+    adj_setting: {int: 27, action: set, type: machine}
+  adjustments_advance_to_28:
+    adj_setting: {int: 28, action: set, type: machine}
+  adjustments_advance_to_29:
+    adj_setting: {int: 29, action: set, type: machine}
 
 segment_display_player:
   adjustments_show_setting_1{machine.adj_award_score_1 == 0}:
@@ -417,4 +597,88 @@ segment_display_player:
     player1_score: {text: "0"}
   adjustments_show_setting_17{machine.adj_ball_save == 1}:
     ball_display: {text: "17"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_18{machine.adj_sound_effects == 0}:
+    ball_display: {text: "18"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_18{machine.adj_sound_effects == 1}:
+    ball_display: {text: "18"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_19{machine.adj_music_volume == 0}:
+    ball_display: {text: "19"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_19{machine.adj_music_volume == 1}:
+    ball_display: {text: "19"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_20{machine.adj_sfx_volume == 0}:
+    ball_display: {text: "20"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_20{machine.adj_sfx_volume == 1}:
+    ball_display: {text: "20"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_21{machine.adj_callout_volume == 0}:
+    ball_display: {text: "21"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_21{machine.adj_callout_volume == 1}:
+    ball_display: {text: "21"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_22{machine.adj_tournament_scoring == 0}:
+    ball_display: {text: "22"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_22{machine.adj_tournament_scoring == 1}:
+    ball_display: {text: "22"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_23{machine.adj_tilt_warnings == 0}:
+    ball_display: {text: "23"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_23{machine.adj_tilt_warnings == 1}:
+    ball_display: {text: "23"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_24{machine.adj_award_scores == 0}:
+    ball_display: {text: "24"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_24{machine.adj_award_scores == 1}:
+    ball_display: {text: "24"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_25{machine.adj_num_balls == 0}:
+    ball_display: {text: "25"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_25{machine.adj_num_balls == 1}:
+    ball_display: {text: "25"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_26{machine.adj_scrolling_scores == 0}:
+    ball_display: {text: "26"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_26{machine.adj_scrolling_scores == 1}:
+    ball_display: {text: "26"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 0}:
+    ball_display: {text: "27"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 1}:
+    ball_display: {text: "27"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_28{machine.adj_special_award == 0}:
+    ball_display: {text: "28"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_28{machine.adj_special_award == 1}:
+    ball_display: {text: "28"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_29{machine.adj_dim_level == 0}:
+    ball_display: {text: "29"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_29{machine.adj_dim_level == 1}:
+    ball_display: {text: "29"}
     player1_score: {text: "1"}

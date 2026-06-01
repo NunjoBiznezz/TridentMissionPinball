@@ -226,6 +226,54 @@ machine_vars:
     initial_value: 0
     value_type: int
     persist: true
+  adj_sound_effects:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_music_volume:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_sfx_volume:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_callout_volume:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_tournament_scoring:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_tilt_warnings:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_award_scores:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_num_balls:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_scrolling_scores:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_extra_ball_award:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_special_award:
+    initial_value: 1
+    value_type: int
+    persist: true
+  adj_dim_level:
+    initial_value: 0
+    value_type: int
+    persist: true
 
 player_vars:
   score:

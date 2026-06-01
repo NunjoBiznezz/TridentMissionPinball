@@ -26,8 +26,8 @@
 #  13 - Special Award         1=100K pts  2=Free ball  3=Free game  4=Free ball+game  (DIP 31+32)
 
 mode:
-  start_events: s_service_active{machine.self_test_number == 0}
-  stop_events: service_menu_exit, enter_self_test
+  start_events: enter_service_menu
+  stop_events: service_menu_exit
   priority: 50
   game_mode: false
 
@@ -160,7 +160,7 @@ event_player:
   service_menu_advance_to_12: service_menu_show_setting_12
   s_start_button_active{machine.service_setting == 12}: service_menu_advance_to_13
   service_menu_advance_to_13: service_menu_show_setting_13
-  s_start_button_active{machine.service_setting == 13}: enter_self_test
+  s_start_button_active{machine.service_setting == 13}: service_menu_exit
 
 variable_player:
   mode_service_menu_started:
@@ -446,8 +446,7 @@ variable_player:
       int: 0
       action: set
       type: machine
-  enter_self_test:
-    service_menu_ready:
+    operator_mode_active:
       int: 0
       action: set
       type: machine

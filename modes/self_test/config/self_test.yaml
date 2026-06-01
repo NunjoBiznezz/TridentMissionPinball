@@ -15,8 +15,8 @@
 #   5 - Sound test     ball_display=5  player1_score=sound number (placeholder)
 
 mode:
-  start_events: enter_self_test
-  stop_events: self_test_exit
+  start_events: s_service_active{machine.operator_mode_active == 0}
+  stop_events: self_test_exit, enter_adjustments
   priority: 60
   game_mode: false
 
@@ -30,8 +30,8 @@ event_player:
   s_start_button_active{machine.self_test_number == 4}: self_test_start_sound_test
   s_start_button_active{machine.self_test_number == 5}: self_test_cleanup
 
-  # self_test_cleanup resets number to 0 before the mode stops
-  self_test_cleanup: self_test_exit
+  # self_test_cleanup resets number to 0, then transitions to adjustments
+  self_test_cleanup: enter_adjustments
 
   # --- Test 1: Lamp ---
   # Entry clears all lamps then lights lamp 0.
@@ -172,7 +172,13 @@ variable_player:
       action: set
       type: machine
 
-  # Reset on exit so service_menu can start again
+  mode_self_test_started:
+    operator_mode_active:
+      int: 1
+      action: set
+      type: machine
+
+  # Reset on cleanup before handing off to adjustments
   self_test_cleanup:
     self_test_number:
       int: 0

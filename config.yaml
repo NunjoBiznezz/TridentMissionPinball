@@ -56,6 +56,7 @@ modes:
   - game
   - service_menu
   - self_test
+  - adjustments
   - ruleset_selector
   - ruleset_original
   - ruleset_trident2020
@@ -136,6 +137,9 @@ machine_vars:
     initial_value: 2
     value_type: int
     persist: true
+  operator_mode_active:
+    initial_value: 0
+    value_type: int
   self_test_number:
     initial_value: 0
     value_type: int
@@ -151,6 +155,77 @@ machine_vars:
   self_test_sound:
     initial_value: 0
     value_type: int
+  adj_setting:
+    initial_value: 0
+    value_type: int
+  adj_award_score_1:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_award_score_2:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_award_score_3:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_high_score:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_total_credits:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_total_plays:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_total_replays:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_high_score_beaten:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_2_coins:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_1_coins:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_3_coins:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_reboot_credit_reset:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_1_per_credit:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_2_per_credit:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_chute_3_per_credit:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_free_play:
+    initial_value: 0
+    value_type: int
+    persist: true
+  adj_ball_save:
+    initial_value: 0
+    value_type: int
+    persist: true
 
 player_vars:
   score:

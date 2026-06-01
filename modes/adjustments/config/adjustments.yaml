@@ -1,0 +1,420 @@
+#config_version=6
+
+# Adjustments mode
+#
+# Entry:      advance past the last self-test (test 5)
+# Toggle:     press s_service to flip current adjustment on (1) or off (0)
+# Next:       press s_start_button to advance to the next adjustment
+# Exit:       pressing s_start_button past the last adjustment returns to attract
+#
+# Adjustments:
+#   1  - Award Score 1
+#   2  - Award Score 2
+#   3  - Award Score 3
+#   4  - High Score
+#   5  - Total Credits
+#   6  - Total Plays
+#   7  - Total Replays
+#   8  - High Score Beaten
+#   9  - Chute 2 Coins
+#  10  - Chute 1 Coins
+#  11  - Chute 3 Coins
+#  12  - Reboot with Credit/Reset Button
+#  13  - Chute 1 Coins Per Credit
+#  14  - Chute 2 Coins Per Credit
+#  15  - Chute 3 Coins Per Credit
+#  16  - Free Play
+#  17  - Ball Save
+
+mode:
+  start_events: enter_adjustments
+  stop_events: adjustments_exit, enter_service_menu
+  priority: 70
+  game_mode: false
+
+event_player:
+  mode_adjustments_started: adjustments_show_setting_1
+
+  # --- Adjustment 1: Award Score 1 ---
+  s_service_active{machine.adj_setting == 1 and machine.adj_award_score_1 == 0}: adj_award_score_1_on
+  s_service_active{machine.adj_setting == 1 and machine.adj_award_score_1 == 1}: adj_award_score_1_off
+  adj_award_score_1_on: adjustments_show_setting_1
+  adj_award_score_1_off: adjustments_show_setting_1
+
+  # --- Adjustment 2: Award Score 2 ---
+  s_service_active{machine.adj_setting == 2 and machine.adj_award_score_2 == 0}: adj_award_score_2_on
+  s_service_active{machine.adj_setting == 2 and machine.adj_award_score_2 == 1}: adj_award_score_2_off
+  adj_award_score_2_on: adjustments_show_setting_2
+  adj_award_score_2_off: adjustments_show_setting_2
+
+  # --- Adjustment 3: Award Score 3 ---
+  s_service_active{machine.adj_setting == 3 and machine.adj_award_score_3 == 0}: adj_award_score_3_on
+  s_service_active{machine.adj_setting == 3 and machine.adj_award_score_3 == 1}: adj_award_score_3_off
+  adj_award_score_3_on: adjustments_show_setting_3
+  adj_award_score_3_off: adjustments_show_setting_3
+
+  # --- Adjustment 4: High Score ---
+  s_service_active{machine.adj_setting == 4 and machine.adj_high_score == 0}: adj_high_score_on
+  s_service_active{machine.adj_setting == 4 and machine.adj_high_score == 1}: adj_high_score_off
+  adj_high_score_on: adjustments_show_setting_4
+  adj_high_score_off: adjustments_show_setting_4
+
+  # --- Adjustment 5: Total Credits ---
+  s_service_active{machine.adj_setting == 5 and machine.adj_total_credits == 0}: adj_total_credits_on
+  s_service_active{machine.adj_setting == 5 and machine.adj_total_credits == 1}: adj_total_credits_off
+  adj_total_credits_on: adjustments_show_setting_5
+  adj_total_credits_off: adjustments_show_setting_5
+
+  # --- Adjustment 6: Total Plays ---
+  s_service_active{machine.adj_setting == 6 and machine.adj_total_plays == 0}: adj_total_plays_on
+  s_service_active{machine.adj_setting == 6 and machine.adj_total_plays == 1}: adj_total_plays_off
+  adj_total_plays_on: adjustments_show_setting_6
+  adj_total_plays_off: adjustments_show_setting_6
+
+  # --- Adjustment 7: Total Replays ---
+  s_service_active{machine.adj_setting == 7 and machine.adj_total_replays == 0}: adj_total_replays_on
+  s_service_active{machine.adj_setting == 7 and machine.adj_total_replays == 1}: adj_total_replays_off
+  adj_total_replays_on: adjustments_show_setting_7
+  adj_total_replays_off: adjustments_show_setting_7
+
+  # --- Adjustment 8: High Score Beaten ---
+  s_service_active{machine.adj_setting == 8 and machine.adj_high_score_beaten == 0}: adj_high_score_beaten_on
+  s_service_active{machine.adj_setting == 8 and machine.adj_high_score_beaten == 1}: adj_high_score_beaten_off
+  adj_high_score_beaten_on: adjustments_show_setting_8
+  adj_high_score_beaten_off: adjustments_show_setting_8
+
+  # --- Adjustment 9: Chute 2 Coins ---
+  s_service_active{machine.adj_setting == 9 and machine.adj_chute_2_coins == 0}: adj_chute_2_coins_on
+  s_service_active{machine.adj_setting == 9 and machine.adj_chute_2_coins == 1}: adj_chute_2_coins_off
+  adj_chute_2_coins_on: adjustments_show_setting_9
+  adj_chute_2_coins_off: adjustments_show_setting_9
+
+  # --- Adjustment 10: Chute 1 Coins ---
+  s_service_active{machine.adj_setting == 10 and machine.adj_chute_1_coins == 0}: adj_chute_1_coins_on
+  s_service_active{machine.adj_setting == 10 and machine.adj_chute_1_coins == 1}: adj_chute_1_coins_off
+  adj_chute_1_coins_on: adjustments_show_setting_10
+  adj_chute_1_coins_off: adjustments_show_setting_10
+
+  # --- Adjustment 11: Chute 3 Coins ---
+  s_service_active{machine.adj_setting == 11 and machine.adj_chute_3_coins == 0}: adj_chute_3_coins_on
+  s_service_active{machine.adj_setting == 11 and machine.adj_chute_3_coins == 1}: adj_chute_3_coins_off
+  adj_chute_3_coins_on: adjustments_show_setting_11
+  adj_chute_3_coins_off: adjustments_show_setting_11
+
+  # --- Adjustment 12: Reboot with Credit/Reset Button ---
+  s_service_active{machine.adj_setting == 12 and machine.adj_reboot_credit_reset == 0}: adj_reboot_credit_reset_on
+  s_service_active{machine.adj_setting == 12 and machine.adj_reboot_credit_reset == 1}: adj_reboot_credit_reset_off
+  adj_reboot_credit_reset_on: adjustments_show_setting_12
+  adj_reboot_credit_reset_off: adjustments_show_setting_12
+
+  # --- Adjustment 13: Chute 1 Coins Per Credit ---
+  s_service_active{machine.adj_setting == 13 and machine.adj_chute_1_per_credit == 0}: adj_chute_1_per_credit_on
+  s_service_active{machine.adj_setting == 13 and machine.adj_chute_1_per_credit == 1}: adj_chute_1_per_credit_off
+  adj_chute_1_per_credit_on: adjustments_show_setting_13
+  adj_chute_1_per_credit_off: adjustments_show_setting_13
+
+  # --- Adjustment 14: Chute 2 Coins Per Credit ---
+  s_service_active{machine.adj_setting == 14 and machine.adj_chute_2_per_credit == 0}: adj_chute_2_per_credit_on
+  s_service_active{machine.adj_setting == 14 and machine.adj_chute_2_per_credit == 1}: adj_chute_2_per_credit_off
+  adj_chute_2_per_credit_on: adjustments_show_setting_14
+  adj_chute_2_per_credit_off: adjustments_show_setting_14
+
+  # --- Adjustment 15: Chute 3 Coins Per Credit ---
+  s_service_active{machine.adj_setting == 15 and machine.adj_chute_3_per_credit == 0}: adj_chute_3_per_credit_on
+  s_service_active{machine.adj_setting == 15 and machine.adj_chute_3_per_credit == 1}: adj_chute_3_per_credit_off
+  adj_chute_3_per_credit_on: adjustments_show_setting_15
+  adj_chute_3_per_credit_off: adjustments_show_setting_15
+
+  # --- Adjustment 16: Free Play ---
+  s_service_active{machine.adj_setting == 16 and machine.adj_free_play == 0}: adj_free_play_on
+  s_service_active{machine.adj_setting == 16 and machine.adj_free_play == 1}: adj_free_play_off
+  adj_free_play_on: adjustments_show_setting_16
+  adj_free_play_off: adjustments_show_setting_16
+
+  # --- Adjustment 17: Ball Save ---
+  s_service_active{machine.adj_setting == 17 and machine.adj_ball_save == 0}: adj_ball_save_on
+  s_service_active{machine.adj_setting == 17 and machine.adj_ball_save == 1}: adj_ball_save_off
+  adj_ball_save_on: adjustments_show_setting_17
+  adj_ball_save_off: adjustments_show_setting_17
+
+  # --- Navigation: s_start_button advances through adjustments ---
+  s_start_button_active{machine.adj_setting == 1}: adjustments_advance_to_2
+  adjustments_advance_to_2: adjustments_show_setting_2
+  s_start_button_active{machine.adj_setting == 2}: adjustments_advance_to_3
+  adjustments_advance_to_3: adjustments_show_setting_3
+  s_start_button_active{machine.adj_setting == 3}: adjustments_advance_to_4
+  adjustments_advance_to_4: adjustments_show_setting_4
+  s_start_button_active{machine.adj_setting == 4}: adjustments_advance_to_5
+  adjustments_advance_to_5: adjustments_show_setting_5
+  s_start_button_active{machine.adj_setting == 5}: adjustments_advance_to_6
+  adjustments_advance_to_6: adjustments_show_setting_6
+  s_start_button_active{machine.adj_setting == 6}: adjustments_advance_to_7
+  adjustments_advance_to_7: adjustments_show_setting_7
+  s_start_button_active{machine.adj_setting == 7}: adjustments_advance_to_8
+  adjustments_advance_to_8: adjustments_show_setting_8
+  s_start_button_active{machine.adj_setting == 8}: adjustments_advance_to_9
+  adjustments_advance_to_9: adjustments_show_setting_9
+  s_start_button_active{machine.adj_setting == 9}: adjustments_advance_to_10
+  adjustments_advance_to_10: adjustments_show_setting_10
+  s_start_button_active{machine.adj_setting == 10}: adjustments_advance_to_11
+  adjustments_advance_to_11: adjustments_show_setting_11
+  s_start_button_active{machine.adj_setting == 11}: adjustments_advance_to_12
+  adjustments_advance_to_12: adjustments_show_setting_12
+  s_start_button_active{machine.adj_setting == 12}: adjustments_advance_to_13
+  adjustments_advance_to_13: adjustments_show_setting_13
+  s_start_button_active{machine.adj_setting == 13}: adjustments_advance_to_14
+  adjustments_advance_to_14: adjustments_show_setting_14
+  s_start_button_active{machine.adj_setting == 14}: adjustments_advance_to_15
+  adjustments_advance_to_15: adjustments_show_setting_15
+  s_start_button_active{machine.adj_setting == 15}: adjustments_advance_to_16
+  adjustments_advance_to_16: adjustments_show_setting_16
+  s_start_button_active{machine.adj_setting == 16}: adjustments_advance_to_17
+  adjustments_advance_to_17: adjustments_show_setting_17
+  s_start_button_active{machine.adj_setting == 17}: enter_service_menu
+
+variable_player:
+  mode_adjustments_started:
+    adj_setting:
+      int: 1
+      action: set
+      type: machine
+
+  # --- Adjustment values ---
+  adj_award_score_1_on:
+    adj_award_score_1: {int: 1, action: set, type: machine}
+  adj_award_score_1_off:
+    adj_award_score_1: {int: 0, action: set, type: machine}
+
+  adj_award_score_2_on:
+    adj_award_score_2: {int: 1, action: set, type: machine}
+  adj_award_score_2_off:
+    adj_award_score_2: {int: 0, action: set, type: machine}
+
+  adj_award_score_3_on:
+    adj_award_score_3: {int: 1, action: set, type: machine}
+  adj_award_score_3_off:
+    adj_award_score_3: {int: 0, action: set, type: machine}
+
+  adj_high_score_on:
+    adj_high_score: {int: 1, action: set, type: machine}
+  adj_high_score_off:
+    adj_high_score: {int: 0, action: set, type: machine}
+
+  adj_total_credits_on:
+    adj_total_credits: {int: 1, action: set, type: machine}
+  adj_total_credits_off:
+    adj_total_credits: {int: 0, action: set, type: machine}
+
+  adj_total_plays_on:
+    adj_total_plays: {int: 1, action: set, type: machine}
+  adj_total_plays_off:
+    adj_total_plays: {int: 0, action: set, type: machine}
+
+  adj_total_replays_on:
+    adj_total_replays: {int: 1, action: set, type: machine}
+  adj_total_replays_off:
+    adj_total_replays: {int: 0, action: set, type: machine}
+
+  adj_high_score_beaten_on:
+    adj_high_score_beaten: {int: 1, action: set, type: machine}
+  adj_high_score_beaten_off:
+    adj_high_score_beaten: {int: 0, action: set, type: machine}
+
+  adj_chute_2_coins_on:
+    adj_chute_2_coins: {int: 1, action: set, type: machine}
+  adj_chute_2_coins_off:
+    adj_chute_2_coins: {int: 0, action: set, type: machine}
+
+  adj_chute_1_coins_on:
+    adj_chute_1_coins: {int: 1, action: set, type: machine}
+  adj_chute_1_coins_off:
+    adj_chute_1_coins: {int: 0, action: set, type: machine}
+
+  adj_chute_3_coins_on:
+    adj_chute_3_coins: {int: 1, action: set, type: machine}
+  adj_chute_3_coins_off:
+    adj_chute_3_coins: {int: 0, action: set, type: machine}
+
+  adj_reboot_credit_reset_on:
+    adj_reboot_credit_reset: {int: 1, action: set, type: machine}
+  adj_reboot_credit_reset_off:
+    adj_reboot_credit_reset: {int: 0, action: set, type: machine}
+
+  adj_chute_1_per_credit_on:
+    adj_chute_1_per_credit: {int: 1, action: set, type: machine}
+  adj_chute_1_per_credit_off:
+    adj_chute_1_per_credit: {int: 0, action: set, type: machine}
+
+  adj_chute_2_per_credit_on:
+    adj_chute_2_per_credit: {int: 1, action: set, type: machine}
+  adj_chute_2_per_credit_off:
+    adj_chute_2_per_credit: {int: 0, action: set, type: machine}
+
+  adj_chute_3_per_credit_on:
+    adj_chute_3_per_credit: {int: 1, action: set, type: machine}
+  adj_chute_3_per_credit_off:
+    adj_chute_3_per_credit: {int: 0, action: set, type: machine}
+
+  adj_free_play_on:
+    adj_free_play: {int: 1, action: set, type: machine}
+  adj_free_play_off:
+    adj_free_play: {int: 0, action: set, type: machine}
+
+  adj_ball_save_on:
+    adj_ball_save: {int: 1, action: set, type: machine}
+  adj_ball_save_off:
+    adj_ball_save: {int: 0, action: set, type: machine}
+
+  # --- Navigation ---
+  adjustments_advance_to_2:
+    adj_setting: {int: 2, action: set, type: machine}
+  adjustments_advance_to_3:
+    adj_setting: {int: 3, action: set, type: machine}
+  adjustments_advance_to_4:
+    adj_setting: {int: 4, action: set, type: machine}
+  adjustments_advance_to_5:
+    adj_setting: {int: 5, action: set, type: machine}
+  adjustments_advance_to_6:
+    adj_setting: {int: 6, action: set, type: machine}
+  adjustments_advance_to_7:
+    adj_setting: {int: 7, action: set, type: machine}
+  adjustments_advance_to_8:
+    adj_setting: {int: 8, action: set, type: machine}
+  adjustments_advance_to_9:
+    adj_setting: {int: 9, action: set, type: machine}
+  adjustments_advance_to_10:
+    adj_setting: {int: 10, action: set, type: machine}
+  adjustments_advance_to_11:
+    adj_setting: {int: 11, action: set, type: machine}
+  adjustments_advance_to_12:
+    adj_setting: {int: 12, action: set, type: machine}
+  adjustments_advance_to_13:
+    adj_setting: {int: 13, action: set, type: machine}
+  adjustments_advance_to_14:
+    adj_setting: {int: 14, action: set, type: machine}
+  adjustments_advance_to_15:
+    adj_setting: {int: 15, action: set, type: machine}
+  adjustments_advance_to_16:
+    adj_setting: {int: 16, action: set, type: machine}
+  adjustments_advance_to_17:
+    adj_setting: {int: 17, action: set, type: machine}
+
+segment_display_player:
+  adjustments_show_setting_1{machine.adj_award_score_1 == 0}:
+    ball_display: {text: "1"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_1{machine.adj_award_score_1 == 1}:
+    ball_display: {text: "1"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_2{machine.adj_award_score_2 == 0}:
+    ball_display: {text: "2"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_2{machine.adj_award_score_2 == 1}:
+    ball_display: {text: "2"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_3{machine.adj_award_score_3 == 0}:
+    ball_display: {text: "3"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_3{machine.adj_award_score_3 == 1}:
+    ball_display: {text: "3"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_4{machine.adj_high_score == 0}:
+    ball_display: {text: "4"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_4{machine.adj_high_score == 1}:
+    ball_display: {text: "4"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_5{machine.adj_total_credits == 0}:
+    ball_display: {text: "5"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_5{machine.adj_total_credits == 1}:
+    ball_display: {text: "5"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_6{machine.adj_total_plays == 0}:
+    ball_display: {text: "6"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_6{machine.adj_total_plays == 1}:
+    ball_display: {text: "6"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_7{machine.adj_total_replays == 0}:
+    ball_display: {text: "7"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_7{machine.adj_total_replays == 1}:
+    ball_display: {text: "7"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_8{machine.adj_high_score_beaten == 0}:
+    ball_display: {text: "8"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_8{machine.adj_high_score_beaten == 1}:
+    ball_display: {text: "8"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_9{machine.adj_chute_2_coins == 0}:
+    ball_display: {text: "9"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_9{machine.adj_chute_2_coins == 1}:
+    ball_display: {text: "9"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_10{machine.adj_chute_1_coins == 0}:
+    ball_display: {text: "10"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_10{machine.adj_chute_1_coins == 1}:
+    ball_display: {text: "10"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_11{machine.adj_chute_3_coins == 0}:
+    ball_display: {text: "11"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_11{machine.adj_chute_3_coins == 1}:
+    ball_display: {text: "11"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_12{machine.adj_reboot_credit_reset == 0}:
+    ball_display: {text: "12"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_12{machine.adj_reboot_credit_reset == 1}:
+    ball_display: {text: "12"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_13{machine.adj_chute_1_per_credit == 0}:
+    ball_display: {text: "13"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_13{machine.adj_chute_1_per_credit == 1}:
+    ball_display: {text: "13"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_14{machine.adj_chute_2_per_credit == 0}:
+    ball_display: {text: "14"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_14{machine.adj_chute_2_per_credit == 1}:
+    ball_display: {text: "14"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_15{machine.adj_chute_3_per_credit == 0}:
+    ball_display: {text: "15"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_15{machine.adj_chute_3_per_credit == 1}:
+    ball_display: {text: "15"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_16{machine.adj_free_play == 0}:
+    ball_display: {text: "16"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_16{machine.adj_free_play == 1}:
+    ball_display: {text: "16"}
+    player1_score: {text: "1"}
+
+  adjustments_show_setting_17{machine.adj_ball_save == 0}:
+    ball_display: {text: "17"}
+    player1_score: {text: "0"}
+  adjustments_show_setting_17{machine.adj_ball_save == 1}:
+    ball_display: {text: "17"}
+    player1_score: {text: "1"}

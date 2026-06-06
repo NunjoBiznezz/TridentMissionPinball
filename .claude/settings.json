@@ -2,7 +2,24 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(mkdir -p /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config)"
+      "Bash(mkdir -p /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config)",
+      "Bash(pip show *)",
+      "Bash(python3 -m mpf --version)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml)",
+      "Read(//Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/platforms/lisy/**)",
+      "Bash(grep -n \"^lisy:\" /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml 2>/dev/null | head -5; grep -A 30 \"^lisy:\" /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml 2>/dev/null | head -30)",
+      "Read(//Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/**)",
+      "Bash(find /Users/douglasbercot/mpf/venv -name \"device_str.yaml\" -o -name \"lisy.yaml\" 2>/dev/null | head -5; grep -rn \"flow_control\\\\|hw_rule_coil\" /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/platforms/lisy/ 2>/dev/null | head -10)",
+      "Read(//Users/douglasbercot/mpf/venv/**)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -X virtual)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -x)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -x --no-load-cache)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -x -a)",
+      "Bash(grep -n \"action: set$\" /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/adjustments/config/adjustments.yaml)",
+      "Bash(grep -n \"action: set$\\\\|action: add$\" /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/adjustments/config/adjustments.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/service_menu/config/service_menu.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config/self_test.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/attract/config/attract.yaml)",
+      "Bash(python3 -c ' *)",
+      "Bash(gtimeout 8 /Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -x)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test"

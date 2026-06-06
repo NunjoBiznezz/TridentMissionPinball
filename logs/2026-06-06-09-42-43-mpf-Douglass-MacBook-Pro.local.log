@@ -1,0 +1,186 @@
+2026-06-06 09:42:43,590 : INFO : root : Loading config.
+2026-06-06 09:42:43,591 : INFO : YamlMultifileConfigLoader : Machine config file #1: config_dev.yaml
+2026-06-06 09:42:43,591 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/8a8bd3c1db2a39eff3d2d79d50219fdb.mpf_cache
+2026-06-06 09:42:43,610 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/a8ebd7f0c5c69f4b777acc7c439548c8.mpf_cache
+2026-06-06 09:42:43,610 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7a316ebb72ef3f603dbb10f7ae417b19.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/5e534601006e87907ea3e5931c7b83f8.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/a8ebd7f0c5c69f4b777acc7c439548c8.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7a316ebb72ef3f603dbb10f7ae417b19.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/2d965ecb1cefd0d7bdc4e8d2203b20c8.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/21296d225677e3223e89e91171ba0f44.mpf_cache
+2026-06-06 09:42:43,611 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/bacb4b03ba8f661591fe3b96623b23f0.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/866cb3e3025383ef4a88e9540622ddef.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7e8e0a257ab7add2d052f1d01d1cac58.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/1652e478a9f04aa5d6ad8334dffba9eb.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/e4054ad87e21c4e7d82bed919e66f3a1.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/6e0d2940ba78a2c07a8464a6a19250dd.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/353193eacb44c8bc953daae66c3fb2ca.mpf_cache
+2026-06-06 09:42:43,612 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/fca1a9de538d6bbf564f302fa8732e73.mpf_cache
+2026-06-06 09:42:43,613 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/3714f2cabe4724e32f109a085773cef0.mpf_cache
+2026-06-06 09:42:43,613 : WARNING : ConfigProcessor : Config file in cache changed: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/deep_blue_sea/config/deep_blue_sea.yaml
+2026-06-06 09:42:43,613 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/deep_blue_sea/config/deep_blue_sea.yaml.
+2026-06-06 09:42:43,615 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/deep_blue_sea/config/deep_blue_sea.yaml
+2026-06-06 09:42:43,615 : INFO : ConfigProcessor : Config file cache created: /tmp/claude-501/b9e9a65d387d50e12ca539d8b2880a0d.mpf_cache
+2026-06-06 09:42:43,615 : INFO : Machine : Mission Pinball Framework Core Engine v0.80.0
+2026-06-06 09:42:43,615 : INFO : Machine : Command line arguments: {'no_load_cache': False, 'create_config_cache': True, 'bcp': True, 'configfile': ['config_dev.yaml'], 'force_assets_load': False, 'platform_integration_test': False, 'jsonlogging': False, 'logfile': 'logs/2026-06-06-09-42-43-mpf-Douglass-MacBook-Pro.local.log', 'pause': False, 'production': False, 'text_ui': False, 'loglevel': 15, 'consoleloglevel': 20, 'force_platform': 'virtual', 'syslog_address': None, 'full_logfile_path': '/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./logs/2026-06-06-09-42-43-mpf-Douglass-MacBook-Pro.local.log'}
+2026-06-06 09:42:43,615 : INFO : Machine : MPF path: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf
+2026-06-06 09:42:43,615 : INFO : Machine : Machine path: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/.
+2026-06-06 09:42:43,615 : INFO : Machine : Platform: darwin
+2026-06-06 09:42:43,615 : INFO : Machine : Python executable location: /Users/douglasbercot/mpf/venv/bin/python3.11
+2026-06-06 09:42:43,615 : INFO : Machine : Python version: 3.11.15 (64-bit)
+2026-06-06 09:42:43,616 : INFO : Machine : Initializing MPF...
+2026-06-06 09:42:43,640 : INFO : EventManager : Event: ======'machine_var_credits_string'====== Args={'value': 'FREE PLAY', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_master_volume'====== Args={'value': 0.5, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_current_ruleset'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_high_score_feature'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_extra_ball_enabled'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_outlane_special_setting'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_balls_per_game_setting'====== Args={'value': 3, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_melody_option'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_high_game_to_date'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_max_credits'====== Args={'value': 10, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_display_credits_attract'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_match_feature'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_target_special_limit'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_outlane_special_limit'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,644 : INFO : EventManager : Event: ======'machine_var_extra_ball_alternation'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_special_award_setting'====== Args={'value': 2, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_operator_mode_active'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_self_test_number'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_self_test_lamp'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_self_test_coil'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_self_test_display_pattern'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_self_test_sound'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_setting'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_award_score_1'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_award_score_2'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_award_score_3'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_high_score'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_total_credits'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_total_plays'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_total_replays'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_high_score_beaten'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_2_coins'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_1_coins'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_3_coins'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_reboot_credit_reset'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_1_per_credit'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_2_per_credit'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_chute_3_per_credit'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_free_play'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_ball_save'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_sound_effects'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_music_volume'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_sfx_volume'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_callout_volume'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_tournament_scoring'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_tilt_warnings'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_award_scores'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_num_balls'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_scrolling_scores'====== Args={'value': 1, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_extra_ball_award'====== Args={'value': 25000, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_special_award'====== Args={'value': 50000, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_adj_dim_level'====== Args={'value': 0, 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_mpf_version'====== Args={'value': 'Mission Pinball Framework v0.80.0', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_mpf_extended_version'====== Args={'value': 'Mission Pinball Framework v0.80.0, Config version:6, Show version: 6, BCP version:1.1', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,645 : INFO : EventManager : Event: ======'machine_var_python_version'====== Args={'value': '3.11.15', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,654 : INFO : EventManager : Event: ======'machine_var_platform'====== Args={'value': 'macOS-26.5.1-arm64-arm-64bit', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'machine_var_platform_system'====== Args={'value': 'Darwin', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'machine_var_platform_release'====== Args={'value': '25.5.0', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'machine_var_platform_version'====== Args={'value': 'Darwin Kernel Version 25.5.0: Mon Apr 27 20:41:06 PDT 2026; root:xnu-12377.121.6~2/RELEASE_ARM64_T6030', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'machine_var_platform_machine'====== Args={'value': 'arm64', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'machine_var_log_file_path'====== Args={'value': '/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./logs/2026-06-06-09-42-43-mpf-Douglass-MacBook-Pro.local.log', 'prev_value': None, 'change': True}
+2026-06-06 09:42:43,655 : INFO : EventManager : Event: ======'init_phase_1'====== Args={}
+2026-06-06 09:42:43,664 : WARNING : segment_display.player1_score : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,664 : WARNING : segment_display.player2_score : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,664 : WARNING : segment_display.player3_score : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,664 : WARNING : segment_display.player4_score : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,664 : WARNING : segment_display.credits_display : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,664 : WARNING : segment_display.ball_display : Segment display update_method will default to 'replace' in a future MPF release. You have no config value specified and are currently getting 'stack' for backwards compatibility. To avoid a breaking change, please set 'update_method: "stack"' in your segment display config.
+2026-06-06 09:42:43,676 : INFO : EventManager : Event: ======'init_phase_2'====== Args={}
+2026-06-06 09:42:43,676 : INFO : SwitchController : Found active switch: ('32', <Platform.Virtual>) <switch.s_outhole>
+2026-06-06 09:42:43,681 : ERROR : ConfigValidator : Your config contains a value for the setting "light_player:loops", but this is not a valid setting name.
+2026-06-06 09:42:43,681 : ERROR : asyncio : Exception in callback EventManager._queue_task_done(<Task finishe...tting name.')>)
+handle: <Handle EventManager._queue_task_done(<Task finishe...tting name.')>)>
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/asyncio/events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/events.py", line 795, in _queue_task_done
+    future.result()
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/events.py", line 708, in _run_handlers_sequential
+    handler.callback(queue=queue, **merged_kwargs)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/mode_controller.py", line 97, in initialize_modes
+    item.method(config=mode.config[item.config_section],
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 150, in process_mode_config
+    config = self.validate_config(config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 113, in validate_config
+    validated_config[event] = self.validate_config_entry(settings, event)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 56, in validate_config_entry
+    raise e
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 52, in validate_config_entry
+    self._validate_config_item(device, device_settings))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 78, in _validate_config_item
+    device_settings = self._parse_config(device_settings, device)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 144, in _parse_config
+    return self.get_full_config(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 216, in get_full_config
+    return self.machine.config_validator.validate_config(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 164, in validate_config
+    return self._validate_config(config_spec, source, base_spec=base_spec, add_missing_keys=add_missing_keys,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 177, in _validate_config
+    self.check_for_invalid_sections(this_spec, source, validation_failure_info)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 345, in check_for_invalid_sections
+    raise ConfigFileError('Your config contains a value for the '
+mpf.exceptions.config_file_error.ConfigFileError: Config File Error in ConfigValidator: Failed to load config player mode_qualify_saucer:lights with settings {'l_top_eject_5k': {'color': 'white', 'loops': -1, 'speed': 4}} >> Your config contains a value for the setting "light_player:loops", but this is not a valid setting name. Error Code: CFE-ConfigValidator-2 (https://missionpinball.org/latest/logs)
+2026-06-06 09:42:43,682 : INFO : Machine : Starting the main run loop with active modes: []
+2026-06-06 09:42:43,682 : WARNING : Machine : Attract mode is not active, game will not be playable. Please check your attract mode configuration.
+2026-06-06 09:42:43,683 : INFO : Machine : Shutting down...
+2026-06-06 09:42:43,683 : INFO : EventManager : Event: ======'shutdown'====== Args={}
+2026-06-06 09:42:44,685 : ERROR : Machine : Runtime Exception
+Traceback (most recent call last):
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 810, in _run_loop
+    raise self._exception['exception']
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/asyncio/events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/events.py", line 795, in _queue_task_done
+    future.result()
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/events.py", line 708, in _run_handlers_sequential
+    handler.callback(queue=queue, **merged_kwargs)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/mode_controller.py", line 97, in initialize_modes
+    item.method(config=mode.config[item.config_section],
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 150, in process_mode_config
+    config = self.validate_config(config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 113, in validate_config
+    validated_config[event] = self.validate_config_entry(settings, event)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 56, in validate_config_entry
+    raise e
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 52, in validate_config_entry
+    self._validate_config_item(device, device_settings))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/device_config_player.py", line 78, in _validate_config_item
+    device_settings = self._parse_config(device_settings, device)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 144, in _parse_config
+    return self.get_full_config(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_player.py", line 216, in get_full_config
+    return self.machine.config_validator.validate_config(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 164, in validate_config
+    return self._validate_config(config_spec, source, base_spec=base_spec, add_missing_keys=add_missing_keys,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 177, in _validate_config
+    self.check_for_invalid_sections(this_spec, source, validation_failure_info)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/config_validator.py", line 345, in check_for_invalid_sections
+    raise ConfigFileError('Your config contains a value for the '
+mpf.exceptions.config_file_error.ConfigFileError: Config File Error in ConfigValidator: Failed to load config player mode_qualify_saucer:lights with settings {'l_top_eject_5k': {'color': 'white', 'loops': -1, 'speed': 4}} >> Your config contains a value for the setting "light_player:loops", but this is not a valid setting name. Error Code: CFE-ConfigValidator-2 (https://missionpinball.org/latest/logs)
+2026-06-06 09:42:44,688 : INFO : root : MPF run loop ended.

@@ -19,10 +19,10 @@ timers:
     start_value: 60
     direction: down
     tick_interval: 1s
-    events_when_complete: sharp_shooter_complete
 
 event_player:
   mode_sharp_shooter_started: ss_set_active
+  timer_ss_mode_timer_complete: sharp_shooter_complete
 
 variable_player:
   ss_set_active:

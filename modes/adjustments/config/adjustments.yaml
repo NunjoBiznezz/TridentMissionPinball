@@ -282,222 +282,221 @@ variable_player:
   mode_adjustments_started:
     adj_setting:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
 
   # --- Adjustment values ---
   adj_award_score_1_on:
-    adj_award_score_1: {int: 1, action: set, type: machine}
+    adj_award_score_1: {int: 1, action: set_machine}
   adj_award_score_1_off:
-    adj_award_score_1: {int: 0, action: set, type: machine}
+    adj_award_score_1: {int: 0, action: set_machine}
 
   adj_award_score_2_on:
-    adj_award_score_2: {int: 1, action: set, type: machine}
+    adj_award_score_2: {int: 1, action: set_machine}
   adj_award_score_2_off:
-    adj_award_score_2: {int: 0, action: set, type: machine}
+    adj_award_score_2: {int: 0, action: set_machine}
 
   adj_award_score_3_on:
-    adj_award_score_3: {int: 1, action: set, type: machine}
+    adj_award_score_3: {int: 1, action: set_machine}
   adj_award_score_3_off:
-    adj_award_score_3: {int: 0, action: set, type: machine}
+    adj_award_score_3: {int: 0, action: set_machine}
 
   adj_high_score_on:
-    adj_high_score: {int: 1, action: set, type: machine}
+    adj_high_score: {int: 1, action: set_machine}
   adj_high_score_off:
-    adj_high_score: {int: 0, action: set, type: machine}
+    adj_high_score: {int: 0, action: set_machine}
 
   adj_total_credits_on:
-    adj_total_credits: {int: 1, action: set, type: machine}
+    adj_total_credits: {int: 1, action: set_machine}
   adj_total_credits_off:
-    adj_total_credits: {int: 0, action: set, type: machine}
+    adj_total_credits: {int: 0, action: set_machine}
 
   adj_total_plays_on:
-    adj_total_plays: {int: 1, action: set, type: machine}
+    adj_total_plays: {int: 1, action: set_machine}
   adj_total_plays_off:
-    adj_total_plays: {int: 0, action: set, type: machine}
+    adj_total_plays: {int: 0, action: set_machine}
 
   adj_total_replays_on:
-    adj_total_replays: {int: 1, action: set, type: machine}
+    adj_total_replays: {int: 1, action: set_machine}
   adj_total_replays_off:
-    adj_total_replays: {int: 0, action: set, type: machine}
+    adj_total_replays: {int: 0, action: set_machine}
 
   adj_high_score_beaten_on:
-    adj_high_score_beaten: {int: 1, action: set, type: machine}
+    adj_high_score_beaten: {int: 1, action: set_machine}
   adj_high_score_beaten_off:
-    adj_high_score_beaten: {int: 0, action: set, type: machine}
+    adj_high_score_beaten: {int: 0, action: set_machine}
 
   adj_chute_2_coins_on:
-    adj_chute_2_coins: {int: 1, action: set, type: machine}
+    adj_chute_2_coins: {int: 1, action: set_machine}
   adj_chute_2_coins_off:
-    adj_chute_2_coins: {int: 0, action: set, type: machine}
+    adj_chute_2_coins: {int: 0, action: set_machine}
 
   adj_chute_1_coins_on:
-    adj_chute_1_coins: {int: 1, action: set, type: machine}
+    adj_chute_1_coins: {int: 1, action: set_machine}
   adj_chute_1_coins_off:
-    adj_chute_1_coins: {int: 0, action: set, type: machine}
+    adj_chute_1_coins: {int: 0, action: set_machine}
 
   adj_chute_3_coins_on:
-    adj_chute_3_coins: {int: 1, action: set, type: machine}
+    adj_chute_3_coins: {int: 1, action: set_machine}
   adj_chute_3_coins_off:
-    adj_chute_3_coins: {int: 0, action: set, type: machine}
+    adj_chute_3_coins: {int: 0, action: set_machine}
 
   adj_reboot_credit_reset_on:
-    adj_reboot_credit_reset: {int: 1, action: set, type: machine}
+    adj_reboot_credit_reset: {int: 1, action: set_machine}
   adj_reboot_credit_reset_off:
-    adj_reboot_credit_reset: {int: 0, action: set, type: machine}
+    adj_reboot_credit_reset: {int: 0, action: set_machine}
 
   adj_chute_1_per_credit_on:
-    adj_chute_1_per_credit: {int: 1, action: set, type: machine}
+    adj_chute_1_per_credit: {int: 1, action: set_machine}
   adj_chute_1_per_credit_off:
-    adj_chute_1_per_credit: {int: 0, action: set, type: machine}
+    adj_chute_1_per_credit: {int: 0, action: set_machine}
 
   adj_chute_2_per_credit_on:
-    adj_chute_2_per_credit: {int: 1, action: set, type: machine}
+    adj_chute_2_per_credit: {int: 1, action: set_machine}
   adj_chute_2_per_credit_off:
-    adj_chute_2_per_credit: {int: 0, action: set, type: machine}
+    adj_chute_2_per_credit: {int: 0, action: set_machine}
 
   adj_chute_3_per_credit_on:
-    adj_chute_3_per_credit: {int: 1, action: set, type: machine}
+    adj_chute_3_per_credit: {int: 1, action: set_machine}
   adj_chute_3_per_credit_off:
-    adj_chute_3_per_credit: {int: 0, action: set, type: machine}
+    adj_chute_3_per_credit: {int: 0, action: set_machine}
 
   adj_free_play_on:
-    adj_free_play: {int: 1, action: set, type: machine}
+    adj_free_play: {int: 1, action: set_machine}
   adj_free_play_off:
-    adj_free_play: {int: 0, action: set, type: machine}
+    adj_free_play: {int: 0, action: set_machine}
 
   adj_ball_save_on:
-    adj_ball_save: {int: 1, action: set, type: machine}
+    adj_ball_save: {int: 1, action: set_machine}
   adj_ball_save_off:
-    adj_ball_save: {int: 0, action: set, type: machine}
+    adj_ball_save: {int: 0, action: set_machine}
 
   adj_sound_effects_on:
-    adj_sound_effects: {int: 1, action: set, type: machine}
+    adj_sound_effects: {int: 1, action: set_machine}
   adj_sound_effects_off:
-    adj_sound_effects: {int: 0, action: set, type: machine}
+    adj_sound_effects: {int: 0, action: set_machine}
 
   adj_music_volume_on:
-    adj_music_volume: {int: 1, action: set, type: machine}
+    adj_music_volume: {int: 1, action: set_machine}
   adj_music_volume_off:
-    adj_music_volume: {int: 0, action: set, type: machine}
+    adj_music_volume: {int: 0, action: set_machine}
 
   adj_sfx_volume_on:
-    adj_sfx_volume: {int: 1, action: set, type: machine}
+    adj_sfx_volume: {int: 1, action: set_machine}
   adj_sfx_volume_off:
-    adj_sfx_volume: {int: 0, action: set, type: machine}
+    adj_sfx_volume: {int: 0, action: set_machine}
 
   adj_callout_volume_on:
-    adj_callout_volume: {int: 1, action: set, type: machine}
+    adj_callout_volume: {int: 1, action: set_machine}
   adj_callout_volume_off:
-    adj_callout_volume: {int: 0, action: set, type: machine}
+    adj_callout_volume: {int: 0, action: set_machine}
 
   adj_tournament_scoring_on:
-    adj_tournament_scoring: {int: 1, action: set, type: machine}
+    adj_tournament_scoring: {int: 1, action: set_machine}
   adj_tournament_scoring_off:
-    adj_tournament_scoring: {int: 0, action: set, type: machine}
+    adj_tournament_scoring: {int: 0, action: set_machine}
 
   adj_tilt_warnings_on:
-    adj_tilt_warnings: {int: 1, action: set, type: machine}
+    adj_tilt_warnings: {int: 1, action: set_machine}
   adj_tilt_warnings_off:
-    adj_tilt_warnings: {int: 0, action: set, type: machine}
+    adj_tilt_warnings: {int: 0, action: set_machine}
 
   adj_award_scores_on:
-    adj_award_scores: {int: 1, action: set, type: machine}
+    adj_award_scores: {int: 1, action: set_machine}
   adj_award_scores_off:
-    adj_award_scores: {int: 0, action: set, type: machine}
+    adj_award_scores: {int: 0, action: set_machine}
 
   adj_num_balls_on:
-    adj_num_balls: {int: 1, action: set, type: machine}
+    adj_num_balls: {int: 1, action: set_machine}
   adj_num_balls_off:
-    adj_num_balls: {int: 0, action: set, type: machine}
+    adj_num_balls: {int: 0, action: set_machine}
 
   adj_scrolling_scores_on:
-    adj_scrolling_scores: {int: 1, action: set, type: machine}
+    adj_scrolling_scores: {int: 1, action: set_machine}
   adj_scrolling_scores_off:
-    adj_scrolling_scores: {int: 0, action: set, type: machine}
+    adj_scrolling_scores: {int: 0, action: set_machine}
 
   adj_eba_set_0:
-    adj_extra_ball_award: {int: 0, action: set, type: machine}
+    adj_extra_ball_award: {int: 0, action: set_machine}
   adj_eba_set_10k:
-    adj_extra_ball_award: {int: 10000, action: set, type: machine}
+    adj_extra_ball_award: {int: 10000, action: set_machine}
   adj_eba_set_25k:
-    adj_extra_ball_award: {int: 25000, action: set, type: machine}
+    adj_extra_ball_award: {int: 25000, action: set_machine}
   adj_eba_set_50k:
-    adj_extra_ball_award: {int: 50000, action: set, type: machine}
+    adj_extra_ball_award: {int: 50000, action: set_machine}
   adj_eba_set_100k:
-    adj_extra_ball_award: {int: 100000, action: set, type: machine}
+    adj_extra_ball_award: {int: 100000, action: set_machine}
 
   adj_sa_set_0:
-    adj_special_award: {int: 0, action: set, type: machine}
+    adj_special_award: {int: 0, action: set_machine}
   adj_sa_set_25k:
-    adj_special_award: {int: 25000, action: set, type: machine}
+    adj_special_award: {int: 25000, action: set_machine}
   adj_sa_set_50k:
-    adj_special_award: {int: 50000, action: set, type: machine}
+    adj_special_award: {int: 50000, action: set_machine}
   adj_sa_set_100k:
-    adj_special_award: {int: 100000, action: set, type: machine}
+    adj_special_award: {int: 100000, action: set_machine}
 
   adj_dim_level_on:
-    adj_dim_level: {int: 1, action: set, type: machine}
+    adj_dim_level: {int: 1, action: set_machine}
   adj_dim_level_off:
-    adj_dim_level: {int: 0, action: set, type: machine}
+    adj_dim_level: {int: 0, action: set_machine}
 
   # --- Navigation ---
   adjustments_advance_to_2:
-    adj_setting: {int: 2, action: set, type: machine}
+    adj_setting: {int: 2, action: set_machine}
   adjustments_advance_to_3:
-    adj_setting: {int: 3, action: set, type: machine}
+    adj_setting: {int: 3, action: set_machine}
   adjustments_advance_to_4:
-    adj_setting: {int: 4, action: set, type: machine}
+    adj_setting: {int: 4, action: set_machine}
   adjustments_advance_to_5:
-    adj_setting: {int: 5, action: set, type: machine}
+    adj_setting: {int: 5, action: set_machine}
   adjustments_advance_to_6:
-    adj_setting: {int: 6, action: set, type: machine}
+    adj_setting: {int: 6, action: set_machine}
   adjustments_advance_to_7:
-    adj_setting: {int: 7, action: set, type: machine}
+    adj_setting: {int: 7, action: set_machine}
   adjustments_advance_to_8:
-    adj_setting: {int: 8, action: set, type: machine}
+    adj_setting: {int: 8, action: set_machine}
   adjustments_advance_to_9:
-    adj_setting: {int: 9, action: set, type: machine}
+    adj_setting: {int: 9, action: set_machine}
   adjustments_advance_to_10:
-    adj_setting: {int: 10, action: set, type: machine}
+    adj_setting: {int: 10, action: set_machine}
   adjustments_advance_to_11:
-    adj_setting: {int: 11, action: set, type: machine}
+    adj_setting: {int: 11, action: set_machine}
   adjustments_advance_to_12:
-    adj_setting: {int: 12, action: set, type: machine}
+    adj_setting: {int: 12, action: set_machine}
   adjustments_advance_to_13:
-    adj_setting: {int: 13, action: set, type: machine}
+    adj_setting: {int: 13, action: set_machine}
   adjustments_advance_to_14:
-    adj_setting: {int: 14, action: set, type: machine}
+    adj_setting: {int: 14, action: set_machine}
   adjustments_advance_to_15:
-    adj_setting: {int: 15, action: set, type: machine}
+    adj_setting: {int: 15, action: set_machine}
   adjustments_advance_to_16:
-    adj_setting: {int: 16, action: set, type: machine}
+    adj_setting: {int: 16, action: set_machine}
   adjustments_advance_to_17:
-    adj_setting: {int: 17, action: set, type: machine}
+    adj_setting: {int: 17, action: set_machine}
   adjustments_advance_to_18:
-    adj_setting: {int: 18, action: set, type: machine}
+    adj_setting: {int: 18, action: set_machine}
   adjustments_advance_to_19:
-    adj_setting: {int: 19, action: set, type: machine}
+    adj_setting: {int: 19, action: set_machine}
   adjustments_advance_to_20:
-    adj_setting: {int: 20, action: set, type: machine}
+    adj_setting: {int: 20, action: set_machine}
   adjustments_advance_to_21:
-    adj_setting: {int: 21, action: set, type: machine}
+    adj_setting: {int: 21, action: set_machine}
   adjustments_advance_to_22:
-    adj_setting: {int: 22, action: set, type: machine}
+    adj_setting: {int: 22, action: set_machine}
   adjustments_advance_to_23:
-    adj_setting: {int: 23, action: set, type: machine}
+    adj_setting: {int: 23, action: set_machine}
   adjustments_advance_to_24:
-    adj_setting: {int: 24, action: set, type: machine}
+    adj_setting: {int: 24, action: set_machine}
   adjustments_advance_to_25:
-    adj_setting: {int: 25, action: set, type: machine}
+    adj_setting: {int: 25, action: set_machine}
   adjustments_advance_to_26:
-    adj_setting: {int: 26, action: set, type: machine}
+    adj_setting: {int: 26, action: set_machine}
   adjustments_advance_to_27:
-    adj_setting: {int: 27, action: set, type: machine}
+    adj_setting: {int: 27, action: set_machine}
   adjustments_advance_to_28:
-    adj_setting: {int: 28, action: set, type: machine}
+    adj_setting: {int: 28, action: set_machine}
   adjustments_advance_to_29:
-    adj_setting: {int: 29, action: set, type: machine}
+    adj_setting: {int: 29, action: set_machine}
 
 segment_display_player:
   adjustments_show_setting_1{machine.adj_award_score_1 == 0}:

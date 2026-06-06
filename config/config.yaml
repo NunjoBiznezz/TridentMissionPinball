@@ -10,24 +10,10 @@ machine:
 hardware:
   platform: lisy
   driverboards: lisy
-  accelerometer: none
-  servo_controller: none
-  i2c: none
   switches: lisy
   coils: lisy
   lights: lisy
-  dmd: lisy
 
-lisy:
-  connection: network
-  port: /dev/ttyUSB0
-  baud: 115200
-  flow_control: none
-  network_interface: 127.0.0.1
-  network_port: 5963
-  debug: true
-  platform: stern
-  hw_rule_coil_delay: 50ms
 
 displays:
   window:

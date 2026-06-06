@@ -1,0 +1,8 @@
+2026-06-06 09:37:45,273 : INFO : root : Loading config.
+2026-06-06 09:37:45,274 : INFO : YamlMultifileConfigLoader : Machine config file #1: config_dev.yaml
+2026-06-06 09:37:45,275 : WARNING : ConfigProcessor : Config file in cache changed: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml
+2026-06-06 09:37:45,275 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml.
+2026-06-06 09:37:45,280 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml
+2026-06-06 09:37:45,280 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml.
+2026-06-06 09:37:45,281 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml
+2026-06-06 09:37:45,285 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config.yaml

@@ -1,0 +1,7 @@
+2026-06-06 09:33:23,047 : INFO : root : Loading config.
+2026-06-06 09:33:23,067 : INFO : ConfigProcessor : Config spec file cache created: /tmp/claude-501/config_spec.mpf_cache
+2026-06-06 09:33:23,067 : INFO : YamlMultifileConfigLoader : Machine config file #1: config_dev.yaml
+2026-06-06 09:33:23,067 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml.
+2026-06-06 09:33:23,071 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml
+2026-06-06 09:33:23,072 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml.
+2026-06-06 09:33:23,072 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml

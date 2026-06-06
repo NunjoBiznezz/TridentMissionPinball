@@ -19,10 +19,10 @@ timers:
     start_value: 60
     direction: down
     tick_interval: 1s
-    events_when_complete: explore_the_depths_complete
 
 event_player:
   mode_explore_the_depths_started: etd_set_active
+  timer_etd_mode_timer_complete: explore_the_depths_complete
 
 variable_player:
   etd_set_active:

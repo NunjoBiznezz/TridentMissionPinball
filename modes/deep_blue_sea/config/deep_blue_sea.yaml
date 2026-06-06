@@ -26,10 +26,10 @@ timers:
     start_value: 110
     direction: down
     tick_interval: 1s
-    events_when_complete: deep_blue_sea_complete
 
 event_player:
   mode_deep_blue_sea_started: dbs_mode_init
+  timer_dbs_mode_timer_complete: deep_blue_sea_complete
 
   # Track spins / drops / standups for jackpot value and requalification
   s_left_spinner_active: dbs_spin_hit
@@ -120,7 +120,5 @@ light_player:
   dbs_jackpot_requalified:
     l_top_eject_30k:
       color: white
-      loops: -1
-      speed: 4
   dbs_jackpot_collected:
     l_top_eject_30k: off

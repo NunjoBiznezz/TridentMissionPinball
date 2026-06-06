@@ -149,8 +149,6 @@ light_player:
   mode_qualify_saucer:
     l_top_eject_5k:
       color: white
-      loops: -1
-      speed: 4
   saucer_window_close:
     l_top_eject_5k: off
 
@@ -158,7 +156,5 @@ light_player:
   rescue_from_deep_activate:
     l_extra_ball:
       color: white
-      loops: -1
-      speed: 8
   ball_drain:
     l_extra_ball: off

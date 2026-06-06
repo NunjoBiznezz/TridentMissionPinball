@@ -166,290 +166,238 @@ variable_player:
   mode_service_menu_started:
     service_setting:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
     service_menu_ready:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
 
   service_menu_advance_to_2:
     service_setting:
       int: 2
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_3:
     service_setting:
       int: 3
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_4:
     service_setting:
       int: 4
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_5:
     service_setting:
       int: 5
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_6:
     service_setting:
       int: 6
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_7:
     service_setting:
       int: 7
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_8:
     service_setting:
       int: 8
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_9:
     service_setting:
       int: 9
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_10:
     service_setting:
       int: 10
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_11:
     service_setting:
       int: 11
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_12:
     service_setting:
       int: 12
-      action: set
-      type: machine
+      action: set_machine
   service_menu_advance_to_13:
     service_setting:
       int: 13
-      action: set
-      type: machine
+      action: set_machine
 
   # High Score Feature values
   high_score_feature_set_extra_ball:
     high_score_feature:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   high_score_feature_set_replay:
     high_score_feature:
       int: 2
-      action: set
-      type: machine
+      action: set_machine
 
   # Balls Per Game values
   balls_per_game_set_3:
     balls_per_game_setting:
       int: 3
-      action: set
-      type: machine
+      action: set_machine
   balls_per_game_set_5:
     balls_per_game_setting:
       int: 5
-      action: set
-      type: machine
+      action: set_machine
 
   # Melody Option values
   melody_option_set_1:
     melody_option:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   melody_option_set_2:
     melody_option:
       int: 2
-      action: set
-      type: machine
+      action: set_machine
 
   # High Game to Date values
   high_game_set_1:
     high_game_to_date:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   high_game_set_2:
     high_game_to_date:
       int: 2
-      action: set
-      type: machine
+      action: set_machine
   high_game_set_3:
     high_game_to_date:
       int: 3
-      action: set
-      type: machine
+      action: set_machine
   high_game_set_4:
     high_game_to_date:
       int: 4
-      action: set
-      type: machine
+      action: set_machine
 
   # Max Credits values
   max_credits_set_5:
     max_credits:
       int: 5
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_10:
     max_credits:
       int: 10
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_15:
     max_credits:
       int: 15
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_20:
     max_credits:
       int: 20
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_25:
     max_credits:
       int: 25
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_30:
     max_credits:
       int: 30
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_35:
     max_credits:
       int: 35
-      action: set
-      type: machine
+      action: set_machine
   max_credits_set_40:
     max_credits:
       int: 40
-      action: set
-      type: machine
+      action: set_machine
 
   # Credits in Attract values
   credits_attract_set_on:
     display_credits_attract:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   credits_attract_set_off:
     display_credits_attract:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Match Feature values
   match_feature_set_on:
     match_feature:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   match_feature_set_off:
     match_feature:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Extra Ball values
   extra_ball_set_on:
     extra_ball_enabled:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   extra_ball_set_off:
     extra_ball_enabled:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Special Award values
   special_award_set_1:
     special_award_setting:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   special_award_set_2:
     special_award_setting:
       int: 2
-      action: set
-      type: machine
+      action: set_machine
   special_award_set_3:
     special_award_setting:
       int: 3
-      action: set
-      type: machine
+      action: set_machine
   special_award_set_4:
     special_award_setting:
       int: 4
-      action: set
-      type: machine
+      action: set_machine
 
   # Extra Ball Alternation values
   extra_ball_alt_set_on:
     extra_ball_alternation:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   extra_ball_alt_set_off:
     extra_ball_alternation:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Outlane Special Limit values
   outlane_special_limit_set_on:
     outlane_special_limit:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   outlane_special_limit_set_off:
     outlane_special_limit:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Target Special values
   target_special_set_on:
     target_special_limit:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   target_special_set_off:
     target_special_limit:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Outlane Special values
   outlane_special_set_on:
     outlane_special_setting:
       int: 1
-      action: set
-      type: machine
+      action: set_machine
   outlane_special_set_off:
     outlane_special_setting:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
   # Reset transient state on exit
   service_menu_exit:
     service_menu_ready:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
     operator_mode_active:
       int: 0
-      action: set
-      type: machine
+      action: set_machine
 
 segment_display_player:
   # Setting 1: High Score Feature

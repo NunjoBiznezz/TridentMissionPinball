@@ -329,7 +329,7 @@ ball_devices:
     eject_coil: c_outhole
     tags: trough, home, drain
     eject_timeouts: 3s
-    confirm_eject_type: playfield
+    confirm_eject_type: target
     max_eject_attempts: 3
 
 playfields:

@@ -29,9 +29,6 @@ timers:
         action: stop
 
 event_player:
-  mode_skill_shot_started:
-    skill_shot_active: 1  # shorthand scalar — sets player var via variable_player below
-
   # Roving saucer value cycles 0→1→2→3→0
   timer_ss_saucer_roving_tick{current_player.ss_saucer_idx == 3}: ss_saucer_wrap
 

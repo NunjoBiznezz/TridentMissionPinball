@@ -1,0 +1,53 @@
+2026-06-06 09:36:56,351 : INFO : root : Loading config.
+2026-06-06 09:36:56,352 : INFO : YamlMultifileConfigLoader : Machine config file #1: config_dev.yaml
+2026-06-06 09:36:56,352 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/8a8bd3c1db2a39eff3d2d79d50219fdb.mpf_cache
+2026-06-06 09:36:56,353 : WARNING : ConfigProcessor : Config file in cache changed: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config.yaml
+2026-06-06 09:36:56,353 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml.
+2026-06-06 09:36:56,358 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml
+2026-06-06 09:36:56,358 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml.
+2026-06-06 09:36:56,358 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config_dev.yaml
+2026-06-06 09:36:56,362 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./config/config.yaml
+2026-06-06 09:36:56,363 : INFO : ConfigProcessor : Config file cache created: /tmp/claude-501/8a8bd3c1db2a39eff3d2d79d50219fdb.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/a8ebd7f0c5c69f4b777acc7c439548c8.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7a316ebb72ef3f603dbb10f7ae417b19.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/5e534601006e87907ea3e5931c7b83f8.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/a8ebd7f0c5c69f4b777acc7c439548c8.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7a316ebb72ef3f603dbb10f7ae417b19.mpf_cache
+2026-06-06 09:36:56,381 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/2d965ecb1cefd0d7bdc4e8d2203b20c8.mpf_cache
+2026-06-06 09:36:56,382 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/21296d225677e3223e89e91171ba0f44.mpf_cache
+2026-06-06 09:36:56,382 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/bacb4b03ba8f661591fe3b96623b23f0.mpf_cache
+2026-06-06 09:36:56,382 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/866cb3e3025383ef4a88e9540622ddef.mpf_cache
+2026-06-06 09:36:56,382 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/7e8e0a257ab7add2d052f1d01d1cac58.mpf_cache
+2026-06-06 09:36:56,382 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/1652e478a9f04aa5d6ad8334dffba9eb.mpf_cache
+2026-06-06 09:36:56,383 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/e4054ad87e21c4e7d82bed919e66f3a1.mpf_cache
+2026-06-06 09:36:56,383 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/6e0d2940ba78a2c07a8464a6a19250dd.mpf_cache
+2026-06-06 09:36:56,383 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/353193eacb44c8bc953daae66c3fb2ca.mpf_cache
+2026-06-06 09:36:56,383 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/fca1a9de538d6bbf564f302fa8732e73.mpf_cache
+2026-06-06 09:36:56,383 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/3714f2cabe4724e32f109a085773cef0.mpf_cache
+2026-06-06 09:36:56,384 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/b9e9a65d387d50e12ca539d8b2880a0d.mpf_cache
+2026-06-06 09:36:56,384 : INFO : Machine : Mission Pinball Framework Core Engine v0.80.0
+2026-06-06 09:36:56,384 : INFO : Machine : Command line arguments: {'no_load_cache': False, 'create_config_cache': True, 'bcp': True, 'configfile': ['config_dev.yaml'], 'force_assets_load': False, 'platform_integration_test': False, 'jsonlogging': False, 'logfile': 'logs/2026-06-06-09-36-56-mpf-Douglass-MacBook-Pro.local.log', 'pause': False, 'production': False, 'text_ui': False, 'loglevel': 15, 'consoleloglevel': 20, 'force_platform': None, 'syslog_address': None, 'full_logfile_path': '/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./logs/2026-06-06-09-36-56-mpf-Douglass-MacBook-Pro.local.log'}
+2026-06-06 09:36:56,384 : INFO : Machine : MPF path: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf
+2026-06-06 09:36:56,384 : INFO : Machine : Machine path: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/.
+2026-06-06 09:36:56,384 : INFO : Machine : Platform: darwin
+2026-06-06 09:36:56,384 : INFO : Machine : Python executable location: /Users/douglasbercot/mpf/venv/bin/python3.11
+2026-06-06 09:36:56,384 : INFO : Machine : Python version: 3.11.15 (64-bit)
+2026-06-06 09:36:56,384 : INFO : Machine : Initializing MPF...
+2026-06-06 09:36:56,388 : ERROR : Machine : Failed to initialize MPF
+Traceback (most recent call last):
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 688, in initialize_mpf
+    raise init.exception()
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 250, in initialize
+    await self.initialize_core_and_hardware()
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 236, in initialize_core_and_hardware
+    self._load_hardware_platforms()
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 492, in _load_hardware_platforms
+    self.add_platform(hardware_platform)
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/core/machine.py", line 622, in add_platform
+    self.hardware_platforms[name] = hardware_platform(self)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/platforms/lisy/lisy.py", line 337, in __init__
+    self.config = self.machine.config_validator.validate_config("lisy", self.machine.config['lisy'])
+                                                                        ~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: 'lisy'
+2026-06-06 09:36:56,388 : INFO : root : MPF run loop ended.

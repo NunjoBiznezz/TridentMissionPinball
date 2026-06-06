@@ -5,6 +5,7 @@
 
 config:
   - config.yaml
+  - ../machine_files/stern_trident.yaml
 
 hardware:
   platform: virtual
@@ -16,31 +17,7 @@ hardware:
 
 # Virtual hardware for testing
 virtual_platform_start_active_switches:
-  - s_trough_1
-  - s_trough_2 
-  - s_trough_3
-
-# Enable keyboard controls for development
-keyboard:
-  s:
-    switch: s_start_button
-  z:
-    switch: s_left_flipper
-  slash:
-    switch: s_right_flipper
-  x:
-    switch: s_left_slingshot
-  period:
-    switch: s_right_slingshot
-  1:
-    switch: s_trough_1
-    toggle: true
-  2:
-    switch: s_trough_2
-    toggle: true
-  3:
-    switch: s_trough_3
-    toggle: true
+  - s_outhole
 
 # Development logging
 logging:

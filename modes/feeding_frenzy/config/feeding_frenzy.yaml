@@ -20,10 +20,10 @@ timers:
     direction: down
     tick_interval: 1s
     start_running: true
-    events_when_complete: feeding_frenzy_complete
 
 event_player:
   mode_feeding_frenzy_started: ff_set_active
+  timer_ff_mode_timer_complete: feeding_frenzy_complete
 
 variable_player:
   ff_set_active:

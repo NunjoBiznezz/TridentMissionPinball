@@ -1,0 +1,12 @@
+2026-06-06 09:34:16,192 : INFO : root : Loading config.
+2026-06-06 09:34:16,194 : INFO : YamlMultifileConfigLoader : Machine config file #1: config_dev.yaml
+2026-06-06 09:34:16,194 : INFO : ConfigProcessor : Loading config from cache: /tmp/claude-501/8a8bd3c1db2a39eff3d2d79d50219fdb.mpf_cache
+2026-06-06 09:34:16,212 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/attract/config/attract.yaml.
+2026-06-06 09:34:16,213 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/attract/config/attract.yaml
+2026-06-06 09:34:16,213 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/attract/config/attract.yaml.
+2026-06-06 09:34:16,214 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/attract/config/attract.yaml
+2026-06-06 09:34:16,214 : INFO : ConfigProcessor : Config file cache created: /tmp/claude-501/a8ebd7f0c5c69f4b777acc7c439548c8.mpf_cache
+2026-06-06 09:34:16,214 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/game/config/game.yaml.
+2026-06-06 09:34:16,215 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/game/config/game.yaml
+2026-06-06 09:34:16,215 : INFO : ConfigProcessor : Loading config from file /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/game/config/game.yaml.
+2026-06-06 09:34:16,215 : INFO : ConfigProcessor : Loading config: /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/./modes/game/config/game.yaml

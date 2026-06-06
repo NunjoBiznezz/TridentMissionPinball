@@ -1,0 +1,60 @@
+#config_version=6
+
+# Explore the Depths mode
+#
+# Qualify: hit all 5 standup targets (standup_all_hit from ruleset_original accrual)
+# Start:   saucer during the 45-second qualification window
+# Scoring: standups score 10K each (original 1K + 9K additive here = 10K total)
+# Objective: at least one standup hit (tracked for Deep Blue Sea qualification)
+# Bonus:   2.5K awarded if mode timer completes with ball still in play
+
+mode:
+  start_events: start_explore_the_depths
+  stop_events: explore_the_depths_complete, game_ending
+  priority: 250
+  game_mode: true
+
+timers:
+  etd_mode_timer:
+    start_value: 60
+    direction: down
+    tick_interval: 1s
+    events_when_complete: explore_the_depths_complete
+
+event_player:
+  mode_explore_the_depths_started: etd_set_active
+
+variable_player:
+  etd_set_active:
+    etd_active: {int: 1, action: set}
+
+  # +9K per standup (original scores 1K, total = 10K)
+  s_standup_white_active:
+    score: 9000
+  s_standup_yellow_active:
+    score: 9000
+  s_standup_amber_active:
+    score: 9000
+  s_standup_green_active:
+    score: 9000
+  s_standup_purple_active:
+    score: 9000
+
+  # Track objective: first standup during the mode
+  s_standup_white_active{current_player.etd_obj == 0}:
+    etd_obj: {int: 1, action: set}
+  s_standup_yellow_active{current_player.etd_obj == 0}:
+    etd_obj: {int: 1, action: set}
+  s_standup_amber_active{current_player.etd_obj == 0}:
+    etd_obj: {int: 1, action: set}
+  s_standup_green_active{current_player.etd_obj == 0}:
+    etd_obj: {int: 1, action: set}
+  s_standup_purple_active{current_player.etd_obj == 0}:
+    etd_obj: {int: 1, action: set}
+
+  # 2.5K mode bonus if timer completes while objective was met
+  explore_the_depths_complete{current_player.etd_obj == 1}:
+    score: 2500
+
+  explore_the_depths_complete:
+    etd_active: {int: 0, action: set}

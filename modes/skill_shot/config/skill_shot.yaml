@@ -1,0 +1,108 @@
+#config_version=6
+
+# Skill shot mode
+#
+# Active from ball_started until the first qualifying switch is hit (or ball drains).
+# The saucer award roves through 5K → 10K → 20K → 30K on a 2-second cycle.
+#
+# Awards:
+#   Saucer         roving 5K / 10K / 20K / 30K
+#   Drop target    10K + set bonus multiplier to 2 (if currently below 2)
+#   Standup        15K
+#   Left spinner   10K
+#   Rollover       8K + advance left lane to 6K
+
+mode:
+  start_events: ball_started
+  stop_events: skill_shot_awarded, ball_drain
+  priority: 230
+  game_mode: true
+
+timers:
+  ss_saucer_roving:
+    start_value: 0
+    direction: up
+    tick_interval: 2s
+    start_running: true
+    control_events:
+      - event: skill_shot_awarded
+        action: stop
+
+event_player:
+  mode_skill_shot_started:
+    skill_shot_active: 1  # shorthand scalar — sets player var via variable_player below
+
+  # Roving saucer value cycles 0→1→2→3→0
+  timer_ss_saucer_roving_tick{current_player.ss_saucer_idx == 3}: ss_saucer_wrap
+
+  # Saucer skill shot
+  s_saucer_active{current_player.skill_shot_active == 1 and current_player.ss_saucer_idx == 0}: skill_shot_saucer_5k
+  s_saucer_active{current_player.skill_shot_active == 1 and current_player.ss_saucer_idx == 1}: skill_shot_saucer_10k
+  s_saucer_active{current_player.skill_shot_active == 1 and current_player.ss_saucer_idx == 2}: skill_shot_saucer_20k
+  s_saucer_active{current_player.skill_shot_active == 1 and current_player.ss_saucer_idx == 3}: skill_shot_saucer_30k
+  skill_shot_saucer_5k: skill_shot_awarded
+  skill_shot_saucer_10k: skill_shot_awarded
+  skill_shot_saucer_20k: skill_shot_awarded
+  skill_shot_saucer_30k: skill_shot_awarded
+
+  # Drop target skill shot (any of the 5 targets)
+  s_drop_target_1_active{current_player.skill_shot_active == 1}: skill_shot_drop
+  s_drop_target_2_active{current_player.skill_shot_active == 1}: skill_shot_drop
+  s_drop_target_3_active{current_player.skill_shot_active == 1}: skill_shot_drop
+  s_drop_target_4_active{current_player.skill_shot_active == 1}: skill_shot_drop
+  s_drop_target_5_active{current_player.skill_shot_active == 1}: skill_shot_drop
+  skill_shot_drop: skill_shot_awarded
+  # Only bump multiplier if it would be an improvement
+  skill_shot_drop{current_player.bonus_multiplier < 2}: skill_shot_drop_set_2x
+
+  # Standup skill shot (any standup)
+  s_standup_white_active{current_player.skill_shot_active == 1}: skill_shot_standup
+  s_standup_yellow_active{current_player.skill_shot_active == 1}: skill_shot_standup
+  s_standup_amber_active{current_player.skill_shot_active == 1}: skill_shot_standup
+  s_standup_green_active{current_player.skill_shot_active == 1}: skill_shot_standup
+  s_standup_purple_active{current_player.skill_shot_active == 1}: skill_shot_standup
+  skill_shot_standup: skill_shot_awarded
+
+  # Left spinner skill shot
+  s_left_spinner_active{current_player.skill_shot_active == 1}: skill_shot_spinner
+  skill_shot_spinner: skill_shot_awarded
+
+  # Rollover skill shot
+  s_rollover_active{current_player.skill_shot_active == 1}: skill_shot_rollover
+  skill_shot_rollover: skill_shot_awarded
+
+variable_player:
+  mode_skill_shot_started:
+    skill_shot_active: {int: 1, action: set}
+    ss_saucer_idx: {int: 0, action: set}
+
+  # Roving saucer index advances each tick, wraps at 3
+  timer_ss_saucer_roving_tick{current_player.ss_saucer_idx < 3}:
+    ss_saucer_idx: {int: 1, action: add}
+  ss_saucer_wrap:
+    ss_saucer_idx: {int: 0, action: set}
+
+  # Awards
+  skill_shot_saucer_5k:
+    score: 5000
+  skill_shot_saucer_10k:
+    score: 10000
+  skill_shot_saucer_20k:
+    score: 20000
+  skill_shot_saucer_30k:
+    score: 30000
+  skill_shot_drop:
+    score: 10000
+  skill_shot_drop_set_2x:
+    bonus_multiplier: {int: 2, action: set}
+  skill_shot_standup:
+    score: 15000
+  skill_shot_spinner:
+    score: 10000
+  skill_shot_rollover:
+    score: 8000
+    left_lane_value: {int: 6000, action: set}
+
+  # Clear flag on award (stops the mode via stop_events)
+  skill_shot_awarded:
+    skill_shot_active: {int: 0, action: set}

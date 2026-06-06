@@ -1,8 +1,164 @@
 #config_version=6
 
-# Rule set 2: Trident 2020 rules
+# Trident 2020 rule extensions
+#
+# Runs alongside ruleset_original (which also starts on ruleset_trident2020_selected).
+# Priority 220 sits above original (210) so its handlers win where both would fire.
+#
+# Features:
+#   Ball save  - Right inlane triggers 6-second Rescue from the Deep, once per ball
+#   Skill shot - First qualifying switch hit at ball start earns a bonus
+#   Feeding Frenzy   - Qualify: alternate spinners 4x (30 s reset); start at saucer
+#   Sharp Shooter    - Qualify: reach 3x bonus (dt_phase_b_complete); start at saucer
+#   Explore the Depths - Qualify: complete all 5 standups; start at saucer
+#   Deep Blue Sea    - Auto-starts when the last active mode expires if all objectives met
+#
+# NOTE: Deep Blue Sea 3x-all-shots scoring is tracked per-shot via additive DBS mode
+# scoring; the original mode still fires its handlers for the same switches.
 
 mode:
   start_events: ruleset_trident2020_selected
   stop_events: game_ending
-  priority: 210
+  priority: 220
+  game_mode: false
+
+timers:
+  # Resets Feeding Frenzy progress if no qualifying spinner hit within 30 s
+  ff_spinner_timeout:
+    start_value: 30
+    direction: down
+    tick_interval: 1s
+    start_running: false
+    control_events:
+      - event: ff_qualifying_hit
+        action: restart
+      - event: ff_qualify
+        action: stop
+
+  # 45-second window after any mode qualifies for saucer start
+  saucer_window:
+    start_value: 45
+    direction: down
+    tick_interval: 1s
+    start_running: false
+    control_events:
+      - event: mode_qualify_saucer
+        action: restart
+      - event: saucer_window_close
+        action: stop
+
+ball_saves:
+  rescue_from_deep:
+    active_time: 6s
+    enable_events: rescue_from_deep_activate
+    balls_to_save: 1
+    auto_launch: true
+
+event_player:
+  # Per-ball state reset
+  ball_drain: t2020_ball_reset
+
+  # --- Ball save (Rescue from the Deep) ---
+  s_right_inlane_active{current_player.ball_save_used == 0 and machine.adj_ball_save == 1}: rescue_from_deep_activate
+
+  # --- Feeding Frenzy qualification ---
+  s_left_spinner_active{current_player.ff_active == 0 and current_player.ff_qualified == 0 and current_player.ff_last_spinner != 1}: ff_qualifying_hit_left
+  s_right_spinner_active{current_player.ff_active == 0 and current_player.ff_qualified == 0 and current_player.ff_last_spinner != 2}: ff_qualifying_hit_right
+  ff_qualifying_hit_left: ff_qualifying_hit
+  ff_qualifying_hit_right: ff_qualifying_hit
+  ff_qualifying_hit: ff_check_qualify
+  ff_check_qualify{current_player.ff_spinner_hits >= 4}: ff_qualify
+  timer_ff_spinner_timeout_complete: ff_progress_reset
+
+  # --- Sharp Shooter qualification ---
+  dt_phase_b_complete{current_player.ss_qualified == 0 and current_player.ss_started == 0}: ss_qualify
+
+  # --- Explore the Depths qualification ---
+  standup_all_hit{current_player.etd_qualified == 0 and current_player.etd_started == 0}: etd_qualify
+
+  # --- Saucer window ---
+  ff_qualify: mode_qualify_saucer
+  ss_qualify: mode_qualify_saucer
+  etd_qualify: mode_qualify_saucer
+  timer_saucer_window_complete: saucer_window_close
+
+  # Saucer hit during window: start all qualified modes, then close window
+  s_saucer_active{current_player.saucer_window_active == 1 and current_player.ff_qualified == 1}: start_feeding_frenzy
+  s_saucer_active{current_player.saucer_window_active == 1 and current_player.ss_qualified == 1}: start_sharp_shooter
+  s_saucer_active{current_player.saucer_window_active == 1 and current_player.etd_qualified == 1}: start_explore_the_depths
+  s_saucer_active{current_player.saucer_window_active == 1}: saucer_window_close
+
+  # --- Deep Blue Sea ---
+  # Fires when any mode completes and all three have been started with objectives met
+  feeding_frenzy_complete{current_player.ff_obj == 1 and current_player.ss_started == 1 and current_player.ss_obj == 1 and current_player.etd_started == 1 and current_player.etd_obj == 1}: start_deep_blue_sea
+  sharp_shooter_complete{current_player.ss_obj == 1 and current_player.ff_started == 1 and current_player.ff_obj == 1 and current_player.etd_started == 1 and current_player.etd_obj == 1}: start_deep_blue_sea
+  explore_the_depths_complete{current_player.etd_obj == 1 and current_player.ff_started == 1 and current_player.ff_obj == 1 and current_player.ss_started == 1 and current_player.ss_obj == 1}: start_deep_blue_sea
+
+variable_player:
+  # Per-ball reset (does not reset game-level progression flags)
+  t2020_ball_reset:
+    ball_save_used: {int: 0, action: set}
+    ff_spinner_hits: {int: 0, action: set}
+    ff_last_spinner: {int: 0, action: set}
+    saucer_window_active: {int: 0, action: set}
+    ff_active: {int: 0, action: set}
+    ss_active: {int: 0, action: set}
+    etd_active: {int: 0, action: set}
+
+  rescue_from_deep_activate:
+    ball_save_used: {int: 1, action: set}
+
+  # FF qualification tracking
+  ff_qualifying_hit_left:
+    ff_spinner_hits: {int: 1, action: add}
+    ff_last_spinner: {int: 1, action: set}
+  ff_qualifying_hit_right:
+    ff_spinner_hits: {int: 1, action: add}
+    ff_last_spinner: {int: 2, action: set}
+  ff_progress_reset:
+    ff_spinner_hits: {int: 0, action: set}
+    ff_last_spinner: {int: 0, action: set}
+  ff_qualify:
+    ff_qualified: {int: 1, action: set}
+
+  # SS / ETD qualification
+  ss_qualify:
+    ss_qualified: {int: 1, action: set}
+  etd_qualify:
+    etd_qualified: {int: 1, action: set}
+
+  # Saucer window
+  mode_qualify_saucer:
+    saucer_window_active: {int: 1, action: set}
+  saucer_window_close:
+    saucer_window_active: {int: 0, action: set}
+
+  # Mode start: consume qualification, record that the mode has been started
+  start_feeding_frenzy:
+    ff_qualified: {int: 0, action: set}
+    ff_started: {int: 1, action: set}
+  start_sharp_shooter:
+    ss_qualified: {int: 0, action: set}
+    ss_started: {int: 1, action: set}
+  start_explore_the_depths:
+    etd_qualified: {int: 0, action: set}
+    etd_started: {int: 1, action: set}
+
+light_player:
+  # Saucer flashes during the start window
+  mode_qualify_saucer:
+    l_top_eject_5k:
+      color: white
+      loops: -1
+      speed: 4
+  saucer_window_close:
+    l_top_eject_5k: off
+
+  # Extra ball lamp flashes during Rescue from the Deep ball save
+  rescue_from_deep_activate:
+    l_extra_ball:
+      color: white
+      loops: -1
+      speed: 8
+  ball_drain:
+    l_extra_ball: off

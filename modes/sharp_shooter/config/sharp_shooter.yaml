@@ -1,0 +1,60 @@
+#config_version=6
+
+# Sharp Shooter mode
+#
+# Qualify: clear the drop targets to reach 3x bonus (dt_phase_b_complete)
+# Start:   saucer during the 45-second qualification window
+# Scoring: each drop target hit scores 2K (original drops score nothing directly)
+# Objective: at least one drop hit (tracked for Deep Blue Sea qualification)
+# Bonus:   2.5K awarded if mode timer completes with ball still in play
+
+mode:
+  start_events: start_sharp_shooter
+  stop_events: sharp_shooter_complete, game_ending
+  priority: 250
+  game_mode: true
+
+timers:
+  ss_mode_timer:
+    start_value: 60
+    direction: down
+    tick_interval: 1s
+    events_when_complete: sharp_shooter_complete
+
+event_player:
+  mode_sharp_shooter_started: ss_set_active
+
+variable_player:
+  ss_set_active:
+    ss_active: {int: 1, action: set}
+
+  # 2K per drop hit during Sharp Shooter
+  s_drop_target_1_active:
+    score: 2000
+  s_drop_target_2_active:
+    score: 2000
+  s_drop_target_3_active:
+    score: 2000
+  s_drop_target_4_active:
+    score: 2000
+  s_drop_target_5_active:
+    score: 2000
+
+  # Track objective: first drop during the mode
+  s_drop_target_1_active{current_player.ss_obj == 0}:
+    ss_obj: {int: 1, action: set}
+  s_drop_target_2_active{current_player.ss_obj == 0}:
+    ss_obj: {int: 1, action: set}
+  s_drop_target_3_active{current_player.ss_obj == 0}:
+    ss_obj: {int: 1, action: set}
+  s_drop_target_4_active{current_player.ss_obj == 0}:
+    ss_obj: {int: 1, action: set}
+  s_drop_target_5_active{current_player.ss_obj == 0}:
+    ss_obj: {int: 1, action: set}
+
+  # 2.5K mode bonus if timer completes while objective was met
+  sharp_shooter_complete{current_player.ss_obj == 1}:
+    score: 2500
+
+  sharp_shooter_complete:
+    ss_active: {int: 0, action: set}

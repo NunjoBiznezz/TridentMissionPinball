@@ -3,7 +3,7 @@
 # Rule set 1: Original Stern Trident (1979) rules
 
 mode:
-  start_events: ruleset_original_selected
+  start_events: ruleset_original_selected, ruleset_trident2020_selected
   stop_events: game_ending
   priority: 210
 
@@ -58,22 +58,25 @@ event_player:
 
   # Special award dispatch  1=100K pts  2=Free ball  3=Free game  4=Free ball+game
   dt_phase_e_complete{machine.special_award_setting == 1}: special_award_points
-  dt_phase_e_complete{machine.special_award_setting == 2 or machine.special_award_setting == 4}: special_award_extra_ball
+  dt_phase_e_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
+  dt_phase_e_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
   dt_phase_e_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # All 5 standup targets hit
   standup_all_hit{current_player.standup_completions == 0}: standup_first_complete
   standup_all_hit{current_player.standup_completions == 1}: standup_second_complete
 
-  # Right inlane collects extra ball when lit
-  s_right_inlane_active{current_player.extra_ball_lit == 1}: collect_standup_extra_ball
+  # Right inlane collects extra ball when lit (or scores points in tournament mode)
+  s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 0}: collect_standup_extra_ball
+  s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 1}: tournament_extra_ball_collect
 
   # Right outlane collects right special when lit
   s_right_outlane_active{current_player.right_special_lit == 1}: right_special_awarded
 
   # Right special dispatches same award as drop target special
   right_special_awarded{machine.special_award_setting == 1}: special_award_points
-  right_special_awarded{machine.special_award_setting == 2 or machine.special_award_setting == 4}: special_award_extra_ball
+  right_special_awarded{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
+  right_special_awarded{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
   right_special_awarded{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # Left inlane bonus advance: 1 step (reuses bonus_9_to_10 for the cap case)
@@ -238,6 +241,15 @@ variable_player:
   # Special award: 100,000 points option
   special_award_points:
     score: 100000
+
+  # Tournament mode: score points instead of awarding extra ball
+  tournament_extra_ball_score:
+    score: machine.adj_extra_ball_award
+  tournament_extra_ball_collect:
+    score: machine.adj_extra_ball_award
+    extra_ball_lit:
+      int: 0
+      action: set
 
   # Phase E saucer reset: return to Phase A, saucer resets to 5,000
   # Earned multiplier lamps and bonus_multiplier are preserved intentionally
@@ -442,15 +454,14 @@ variable_player:
       int: 1
       action: set
 
-  # Spinner scoring: base value always fires; purple bonus fires conditionally
-  # Both entries execute when condition is true, giving the combined total
-  s_left_spinner_active:
+  # Spinner scoring: suppressed during Feeding Frenzy (ff_active == 1) which scores 5K flat
+  s_left_spinner_active{current_player.ff_active == 0}:
     score: current_player.left_spinner_value
-  s_left_spinner_active{current_player.purple_on_left == 1}:
+  s_left_spinner_active{current_player.purple_on_left == 1 and current_player.ff_active == 0}:
     score: current_player.purple_bonus
-  s_right_spinner_active:
+  s_right_spinner_active{current_player.ff_active == 0}:
     score: current_player.right_spinner_value
-  s_right_spinner_active{current_player.purple_on_left == 0}:
+  s_right_spinner_active{current_player.purple_on_left == 0 and current_player.ff_active == 0}:
     score: current_player.purple_bonus
 
   # Purple bonus side swaps
@@ -735,6 +746,8 @@ light_player:
   standup_second_complete:
     l_right_outlane_special: on
   collect_standup_extra_ball:
+    l_extra_ball: off
+  tournament_extra_ball_collect:
     l_extra_ball: off
   right_special_awarded:
     l_right_outlane_special: off

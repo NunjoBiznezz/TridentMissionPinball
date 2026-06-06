@@ -61,6 +61,11 @@ modes:
   - ruleset_original
   - ruleset_trident2020
   - ruleset_tournament
+  - skill_shot
+  - feeding_frenzy
+  - sharp_shooter
+  - explore_the_depths
+  - deep_blue_sea
 
 game:
   balls_per_game: (machine.balls_per_game_setting)
@@ -263,11 +268,11 @@ machine_vars:
     value_type: int
     persist: true
   adj_extra_ball_award:
-    initial_value: 1
+    initial_value: 25000
     value_type: int
     persist: true
   adj_special_award:
-    initial_value: 1
+    initial_value: 50000
     value_type: int
     persist: true
   adj_dim_level:
@@ -332,6 +337,82 @@ player_vars:
     value_type: int
   bonus_steps:
     initial_value: 1
+    value_type: int
+  # Trident 2020 skill shot
+  skill_shot_active:
+    initial_value: 0
+    value_type: int
+  ss_saucer_idx:
+    initial_value: 0
+    value_type: int
+  # Trident 2020 ball save
+  ball_save_used:
+    initial_value: 0
+    value_type: int
+  # Feeding Frenzy
+  ff_spinner_hits:
+    initial_value: 0
+    value_type: int
+  ff_last_spinner:
+    initial_value: 0
+    value_type: int
+  ff_qualified:
+    initial_value: 0
+    value_type: int
+  ff_started:
+    initial_value: 0
+    value_type: int
+  ff_obj:
+    initial_value: 0
+    value_type: int
+  ff_active:
+    initial_value: 0
+    value_type: int
+  # Sharp Shooter
+  ss_qualified:
+    initial_value: 0
+    value_type: int
+  ss_started:
+    initial_value: 0
+    value_type: int
+  ss_obj:
+    initial_value: 0
+    value_type: int
+  ss_active:
+    initial_value: 0
+    value_type: int
+  # Explore the Depths
+  etd_qualified:
+    initial_value: 0
+    value_type: int
+  etd_started:
+    initial_value: 0
+    value_type: int
+  etd_obj:
+    initial_value: 0
+    value_type: int
+  etd_active:
+    initial_value: 0
+    value_type: int
+  # Saucer qualification window
+  saucer_window_active:
+    initial_value: 0
+    value_type: int
+  # Deep Blue Sea
+  dbs_active:
+    initial_value: 0
+    value_type: int
+  dbs_jackpot_lit:
+    initial_value: 0
+    value_type: int
+  dbs_jackpot_spins:
+    initial_value: 0
+    value_type: int
+  dbs_jackpot_drops:
+    initial_value: 0
+    value_type: int
+  dbs_jackpot_standups:
+    initial_value: 0
     value_type: int
 
 logging:

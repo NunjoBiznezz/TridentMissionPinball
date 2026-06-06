@@ -1,0 +1,50 @@
+#config_version=6
+
+# Feeding Frenzy mode
+#
+# Qualify: hit alternating spinners 4 times (30 s timeout between hits)
+# Start:   saucer during the 45-second qualification window
+# Scoring: spinners score 5K per spin (original spinner scoring is suppressed)
+# Objective: at least one spin (tracked for Deep Blue Sea qualification)
+# Bonus:   1K awarded if mode timer completes with ball still in play
+
+mode:
+  start_events: start_feeding_frenzy
+  stop_events: feeding_frenzy_complete, game_ending
+  priority: 250
+  game_mode: true
+
+timers:
+  ff_mode_timer:
+    start_value: 60
+    direction: down
+    tick_interval: 1s
+    start_running: true
+    events_when_complete: feeding_frenzy_complete
+
+event_player:
+  mode_feeding_frenzy_started: ff_set_active
+
+variable_player:
+  ff_set_active:
+    ff_active: {int: 1, action: set}
+
+  # 5K flat per spin during Feeding Frenzy
+  s_left_spinner_active:
+    score: 5000
+  s_right_spinner_active:
+    score: 5000
+
+  # Track objective: first spin during the mode
+  s_left_spinner_active{current_player.ff_obj == 0}:
+    ff_obj: {int: 1, action: set}
+  s_right_spinner_active{current_player.ff_obj == 0}:
+    ff_obj: {int: 1, action: set}
+
+  # 1K mode bonus if timer completes while objective was met
+  feeding_frenzy_complete{current_player.ff_obj == 1}:
+    score: 1000
+
+  # Clear active flag on mode end
+  feeding_frenzy_complete:
+    ff_active: {int: 0, action: set}

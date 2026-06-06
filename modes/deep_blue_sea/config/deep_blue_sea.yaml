@@ -1,0 +1,126 @@
+#config_version=6
+
+# Deep Blue Sea — wizard mode
+#
+# Qualify: start each of the three main modes AND complete at least one objective
+#          in each (one spin, one drop, one standup). Tracked in ruleset_trident2020.
+# Start:   auto-starts when the last active main mode's timer expires (if all objectives met)
+# Duration: 110 seconds
+#
+# Scoring:
+#   All shots score 3x. Implemented here as +2x additive on top of original 1x.
+#   Jackpot is lit at saucer from the start. Value = 1K/spin + 10K/drop + 10K/standup
+#   since the previous collect. After collecting, complete at least one spin, one drop,
+#   and one standup to re-light the jackpot.
+#
+# TODO: full 3x override for all shots (currently additive +2x per switch)
+
+mode:
+  start_events: start_deep_blue_sea
+  stop_events: deep_blue_sea_complete, game_ending
+  priority: 260
+  game_mode: true
+
+timers:
+  dbs_mode_timer:
+    start_value: 110
+    direction: down
+    tick_interval: 1s
+    events_when_complete: deep_blue_sea_complete
+
+event_player:
+  mode_deep_blue_sea_started: dbs_mode_init
+
+  # Track spins / drops / standups for jackpot value and requalification
+  s_left_spinner_active: dbs_spin_hit
+  s_right_spinner_active: dbs_spin_hit
+  s_drop_target_1_active: dbs_drop_hit
+  s_drop_target_2_active: dbs_drop_hit
+  s_drop_target_3_active: dbs_drop_hit
+  s_drop_target_4_active: dbs_drop_hit
+  s_drop_target_5_active: dbs_drop_hit
+  s_standup_white_active: dbs_standup_hit
+  s_standup_yellow_active: dbs_standup_hit
+  s_standup_amber_active: dbs_standup_hit
+  s_standup_green_active: dbs_standup_hit
+  s_standup_purple_active: dbs_standup_hit
+
+  # Check jackpot requalification after each hit
+  dbs_spin_hit: dbs_check_requalify
+  dbs_drop_hit: dbs_check_requalify
+  dbs_standup_hit: dbs_check_requalify
+  dbs_check_requalify{current_player.dbs_jackpot_lit == 0 and current_player.dbs_jackpot_spins > 0 and current_player.dbs_jackpot_drops > 0 and current_player.dbs_jackpot_standups > 0}: dbs_jackpot_requalified
+
+  # Saucer collects jackpot when lit
+  s_saucer_active{current_player.dbs_jackpot_lit == 1}:
+    - dbs_jackpot_spin_score
+    - dbs_jackpot_drop_score
+    - dbs_jackpot_standup_score
+    - dbs_jackpot_collected
+
+variable_player:
+  dbs_mode_init:
+    dbs_active: {int: 1, action: set}
+    dbs_jackpot_lit: {int: 1, action: set}
+    dbs_jackpot_spins: {int: 0, action: set}
+    dbs_jackpot_drops: {int: 0, action: set}
+    dbs_jackpot_standups: {int: 0, action: set}
+
+  # +2x additive scoring on all main shot types (original fires 1x, total = 3x)
+  s_left_spinner_active:
+    score: current_player.left_spinner_value * 2
+  s_right_spinner_active:
+    score: current_player.right_spinner_value * 2
+  s_standup_white_active:
+    score: 2000
+  s_standup_yellow_active:
+    score: 2000
+  s_standup_amber_active:
+    score: 2000
+  s_standup_green_active:
+    score: 2000
+  s_standup_purple_active:
+    score: 2000
+  upper_sling_hit:
+    score: 2000
+  lower_sling_hit:
+    score: 20
+  s_rollover_active:
+    score: 200
+
+  # Jackpot tracking
+  dbs_spin_hit:
+    dbs_jackpot_spins: {int: 1, action: add}
+  dbs_drop_hit:
+    dbs_jackpot_drops: {int: 1, action: add}
+  dbs_standup_hit:
+    dbs_jackpot_standups: {int: 1, action: add}
+
+  # Jackpot requalified
+  dbs_jackpot_requalified:
+    dbs_jackpot_lit: {int: 1, action: set}
+
+  # Jackpot collect: score each component then reset counters
+  dbs_jackpot_spin_score:
+    score: current_player.dbs_jackpot_spins * 1000
+  dbs_jackpot_drop_score:
+    score: current_player.dbs_jackpot_drops * 10000
+  dbs_jackpot_standup_score:
+    score: current_player.dbs_jackpot_standups * 10000
+  dbs_jackpot_collected:
+    dbs_jackpot_lit: {int: 0, action: set}
+    dbs_jackpot_spins: {int: 0, action: set}
+    dbs_jackpot_drops: {int: 0, action: set}
+    dbs_jackpot_standups: {int: 0, action: set}
+
+  deep_blue_sea_complete:
+    dbs_active: {int: 0, action: set}
+
+light_player:
+  dbs_jackpot_requalified:
+    l_top_eject_30k:
+      color: white
+      loops: -1
+      speed: 4
+  dbs_jackpot_collected:
+    l_top_eject_30k: off

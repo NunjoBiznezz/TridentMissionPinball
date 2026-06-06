@@ -191,17 +191,27 @@ event_player:
   adj_scrolling_scores_on: adjustments_show_setting_26
   adj_scrolling_scores_off: adjustments_show_setting_26
 
-  # --- Adjustment 27: Extra Ball Award ---
-  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 0}: adj_extra_ball_award_on
-  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 1}: adj_extra_ball_award_off
-  adj_extra_ball_award_on: adjustments_show_setting_27
-  adj_extra_ball_award_off: adjustments_show_setting_27
+  # --- Adjustment 27: Extra Ball Award (points in tournament mode: 0/10K/25K/50K/100K) ---
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 0}: adj_eba_set_10k
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 10000}: adj_eba_set_25k
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 25000}: adj_eba_set_50k
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 50000}: adj_eba_set_100k
+  s_service_active{machine.adj_setting == 27 and machine.adj_extra_ball_award == 100000}: adj_eba_set_0
+  adj_eba_set_0: adjustments_show_setting_27
+  adj_eba_set_10k: adjustments_show_setting_27
+  adj_eba_set_25k: adjustments_show_setting_27
+  adj_eba_set_50k: adjustments_show_setting_27
+  adj_eba_set_100k: adjustments_show_setting_27
 
-  # --- Adjustment 28: Special Award ---
-  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 0}: adj_special_award_on
-  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 1}: adj_special_award_off
-  adj_special_award_on: adjustments_show_setting_28
-  adj_special_award_off: adjustments_show_setting_28
+  # --- Adjustment 28: Special Award (points in tournament mode: 0/25K/50K/100K) ---
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 0}: adj_sa_set_25k
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 25000}: adj_sa_set_50k
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 50000}: adj_sa_set_100k
+  s_service_active{machine.adj_setting == 28 and machine.adj_special_award == 100000}: adj_sa_set_0
+  adj_sa_set_0: adjustments_show_setting_28
+  adj_sa_set_25k: adjustments_show_setting_28
+  adj_sa_set_50k: adjustments_show_setting_28
+  adj_sa_set_100k: adjustments_show_setting_28
 
   # --- Adjustment 29: Dim Level ---
   s_service_active{machine.adj_setting == 29 and machine.adj_dim_level == 0}: adj_dim_level_on
@@ -406,15 +416,25 @@ variable_player:
   adj_scrolling_scores_off:
     adj_scrolling_scores: {int: 0, action: set, type: machine}
 
-  adj_extra_ball_award_on:
-    adj_extra_ball_award: {int: 1, action: set, type: machine}
-  adj_extra_ball_award_off:
+  adj_eba_set_0:
     adj_extra_ball_award: {int: 0, action: set, type: machine}
+  adj_eba_set_10k:
+    adj_extra_ball_award: {int: 10000, action: set, type: machine}
+  adj_eba_set_25k:
+    adj_extra_ball_award: {int: 25000, action: set, type: machine}
+  adj_eba_set_50k:
+    adj_extra_ball_award: {int: 50000, action: set, type: machine}
+  adj_eba_set_100k:
+    adj_extra_ball_award: {int: 100000, action: set, type: machine}
 
-  adj_special_award_on:
-    adj_special_award: {int: 1, action: set, type: machine}
-  adj_special_award_off:
+  adj_sa_set_0:
     adj_special_award: {int: 0, action: set, type: machine}
+  adj_sa_set_25k:
+    adj_special_award: {int: 25000, action: set, type: machine}
+  adj_sa_set_50k:
+    adj_special_award: {int: 50000, action: set, type: machine}
+  adj_sa_set_100k:
+    adj_special_award: {int: 100000, action: set, type: machine}
 
   adj_dim_level_on:
     adj_dim_level: {int: 1, action: set, type: machine}
@@ -665,16 +685,31 @@ segment_display_player:
   adjustments_show_setting_27{machine.adj_extra_ball_award == 0}:
     ball_display: {text: "27"}
     player1_score: {text: "0"}
-  adjustments_show_setting_27{machine.adj_extra_ball_award == 1}:
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 10000}:
     ball_display: {text: "27"}
-    player1_score: {text: "1"}
+    player1_score: {text: "10000"}
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 25000}:
+    ball_display: {text: "27"}
+    player1_score: {text: "25000"}
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 50000}:
+    ball_display: {text: "27"}
+    player1_score: {text: "50000"}
+  adjustments_show_setting_27{machine.adj_extra_ball_award == 100000}:
+    ball_display: {text: "27"}
+    player1_score: {text: "100000"}
 
   adjustments_show_setting_28{machine.adj_special_award == 0}:
     ball_display: {text: "28"}
     player1_score: {text: "0"}
-  adjustments_show_setting_28{machine.adj_special_award == 1}:
+  adjustments_show_setting_28{machine.adj_special_award == 25000}:
     ball_display: {text: "28"}
-    player1_score: {text: "1"}
+    player1_score: {text: "25000"}
+  adjustments_show_setting_28{machine.adj_special_award == 50000}:
+    ball_display: {text: "28"}
+    player1_score: {text: "50000"}
+  adjustments_show_setting_28{machine.adj_special_award == 100000}:
+    ball_display: {text: "28"}
+    player1_score: {text: "100000"}
 
   adjustments_show_setting_29{machine.adj_dim_level == 0}:
     ball_display: {text: "29"}

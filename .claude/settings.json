@@ -45,7 +45,8 @@
       "Bash(git -C /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball status)",
       "Bash(git -C /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball check-ignore -v gmc/.godot gmc/.godot/global_script_class_cache.cfg gmc/gmc.local.cfg)",
       "Bash(pkill -f \"godot\")",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(pkill -f godot)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

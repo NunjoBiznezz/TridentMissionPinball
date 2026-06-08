@@ -43,11 +43,11 @@ extra_balls:
 
 event_player:
   # Phase completions — only act when in the matching phase
-  drop_target_bank_phase_a_complete{current_player.drop_phase == 1}: dt_phase_a_complete
-  drop_target_bank_phase_b_complete{current_player.drop_phase == 2}: dt_phase_b_complete
-  drop_target_bank_phase_c_complete{current_player.drop_phase == 3}: dt_phase_c_complete
-  drop_target_bank_phase_de_complete{current_player.drop_phase == 4}: dt_phase_d_complete
-  drop_target_bank_phase_de_complete{current_player.drop_phase == 5}: dt_phase_e_complete
+  drop_target_bank_phase_a_down{current_player.drop_phase == 1}: dt_phase_a_complete
+  drop_target_bank_phase_b_down{current_player.drop_phase == 2}: dt_phase_b_complete
+  drop_target_bank_phase_c_down{current_player.drop_phase == 3}: dt_phase_c_complete
+  drop_target_bank_phase_de_down{current_player.drop_phase == 4}: dt_phase_d_complete
+  drop_target_bank_phase_de_down{current_player.drop_phase == 5}: dt_phase_e_complete
 
   # Saucer hit during Phase E resets progression to Phase A (5X bonus stays earned)
   s_saucer_active{current_player.drop_phase == 5}: phase_e_saucer_reset
@@ -532,16 +532,25 @@ coil_player:
     c_drop_target_2: pulse
     c_drop_target_4: pulse
 
-  # Phase A complete: raise targets 1, 3, 5
+  # Phase A complete: raise all 5 so Phase B starts clean.
+  # Raising 2 and 4 here (in addition to 1, 3, 5) prevents the Phase C
+  # bank from falsely completing when 1, 3, 5 go down during Phase B
+  # (because the bank also tracks 2 and 4, which were still down from Phase A).
   dt_phase_a_complete:
     c_drop_target_1: pulse
+    c_drop_target_2: pulse
     c_drop_target_3: pulse
+    c_drop_target_4: pulse
     c_drop_target_5: pulse
 
-  # Phase B complete: raise targets 1, 2, 4, 5 (target 3 stays down)
+  # Phase B complete: raise all 5 so Phase C starts clean.
+  # Raising target 3 here prevents the phase_de bank from falsely
+  # completing during Phase C (target 3 would otherwise still be down,
+  # making all 5 targets down the moment Phase C's four targets are hit).
   dt_phase_b_complete:
     c_drop_target_1: pulse
     c_drop_target_2: pulse
+    c_drop_target_3: pulse
     c_drop_target_4: pulse
     c_drop_target_5: pulse
 

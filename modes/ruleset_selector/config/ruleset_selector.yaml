@@ -1,9 +1,10 @@
 #config_version=6
 
 mode:
-  start_events: game_starting
-  stop_events: game_started
+  start_events: ball_started
+  stop_events: game_ended
   priority: 190
+  game_mode: false
 
 event_player:
   mode_ruleset_selector_started{machine.current_ruleset == 1}: ruleset_original_selected

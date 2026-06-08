@@ -19,6 +19,12 @@ hardware:
 virtual_platform_start_active_switches:
   - s_outhole
 
+# In virtual/smart_virtual there is no downstream device to confirm the eject,
+# so use 'fake' to let the trough immediately confirm the ball left.
+ball_devices:
+  bd_trough:
+    confirm_eject_type: fake
+
 # Development logging
 logging:
   console:

@@ -1,8 +1,5 @@
 #config_version=6
 
-mode:
-  start_events: game_starting
-  stop_events: game_ending
-  priority: 200
-  events_when_started: start_game_mode
-  events_when_stopped: stop_game_mode
+# Intentionally minimal — MPF's built-in game mode (game_start → Game class)
+# handles ball management and game lifecycle.  Any machine-level game logic
+# that must run during a game belongs in the base mode or a separate game mode.

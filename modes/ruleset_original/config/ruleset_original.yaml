@@ -32,6 +32,7 @@ accruals:
       - s_standup_purple_active
     events_when_complete: standup_all_hit
     reset_on_complete: true
+    disable_on_complete: false
     reset_events: ball_drain, mode_ruleset_original_started
     start_enabled: true
 
@@ -554,13 +555,28 @@ coil_player:
     c_drop_target_4: pulse
     c_drop_target_5: pulse
 
-  # Phases C, D, E complete: raise all 5
+  # Phases C, D, E complete: raise all 5.
+  # Individual coils used so smart_virtual can track each switch release;
+  # the physical reset bar (c_drop_target_reset) achieves the same result
+  # on real hardware but is opaque to the virtual platform.
   dt_phase_c_complete:
-    c_drop_target_reset: pulse
+    c_drop_target_1: pulse
+    c_drop_target_2: pulse
+    c_drop_target_3: pulse
+    c_drop_target_4: pulse
+    c_drop_target_5: pulse
   dt_phase_d_complete:
-    c_drop_target_reset: pulse
+    c_drop_target_1: pulse
+    c_drop_target_2: pulse
+    c_drop_target_3: pulse
+    c_drop_target_4: pulse
+    c_drop_target_5: pulse
   dt_phase_e_complete:
-    c_drop_target_reset: pulse
+    c_drop_target_1: pulse
+    c_drop_target_2: pulse
+    c_drop_target_3: pulse
+    c_drop_target_4: pulse
+    c_drop_target_5: pulse
 
   # Phase E saucer reset: raise only targets 2 and 4 to restart Phase A
   phase_e_saucer_reset:

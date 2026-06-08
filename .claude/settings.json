@@ -21,7 +21,9 @@
       "Bash(python3 -c ' *)",
       "Bash(gtimeout 8 /Users/douglasbercot/mpf/venv/bin/mpf . -c config_dev.yaml -t -x)",
       "Bash(chmod +x /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/run_dev.sh)",
-      "Bash(/Users/douglasbercot/mpf/venv/bin/python -m unittest tests.test_ruleset_original -v)"
+      "Bash(/Users/douglasbercot/mpf/venv/bin/python -m unittest tests.test_ruleset_original -v)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/python -m unittest tests.test_ruleset_original.TestDropTargetPhases.test_standup_target_sequence -v)",
+      "Bash(/Users/douglasbercot/mpf/venv/bin/python -m unittest discover -s tests -v)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test"

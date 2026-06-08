@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+*.egg-info/
+
+# MPF runtime output
+logs/
+data/
+
+# Godot generated cache (never commit these)
+gmc/.godot/
+
+# Godot per-user local config overrides
+gmc/gmc.local.cfg

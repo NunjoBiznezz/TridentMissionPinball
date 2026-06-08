@@ -1,0 +1,30 @@
+; Engine configuration file.
+; Generated for Mission Pinball Framework — Stern Trident
+
+config_version=5
+
+[application]
+
+config/name="TridentGMC"
+config/description="GMC project for Stern Trident"
+run/main_scene="res://Main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/resizable=true
+window/stretch/mode="canvas_items"
+
+[autoload]
+
+MPF="*res://addons/mpf-gmc/mpf_gmc.gd"
+
+[audio]
+
+default_bus_layout="res://default_bus_layout.tres"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/mpf-gmc/plugin.cfg")

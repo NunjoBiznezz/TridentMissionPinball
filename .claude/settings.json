@@ -46,11 +46,20 @@
       "Bash(git -C /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball check-ignore -v gmc/.godot gmc/.godot/global_script_class_cache.cfg gmc/gmc.local.cfg)",
       "Bash(pkill -f \"godot\")",
       "Bash(grep -v \"^$\")",
-      "Bash(pkill -f godot)"
+      "Bash(pkill -f godot)",
+      "Bash(./run_gmc.sh --headless --quit)",
+      "Bash(./run_dev.sh)",
+      "Bash(rm -f /var/folders/5t/tc8564pd7kj0nhw21rvn43fm0000gn/T/*.mpf_cache && echo \"cache cleared\")",
+      "Bash(pkill -f \"python.*mpf\")",
+      "Bash(xargs kill -9)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(gtimeout 10 ./run_dev.sh)",
+      "Bash(kill -9 63328)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",
-      "/Users/douglasbercot/Projects/NunjoBiznezz/TridentGMC"
+      "/Users/douglasbercot/Projects/NunjoBiznezz/TridentGMC",
+      "/var/folders/5t/tc8564pd7kj0nhw21rvn43fm0000gn/T"
     ]
   }
 }

@@ -74,6 +74,8 @@ var _score_labels: Array = []
 var _ball_label: Label
 var _credits_label: Label
 var _status_label: Label
+var _attract_label: Label
+var _attract_blink_timer: Timer
 # Maps lamp name → {"rect": ColorRect, "on_color": Color}
 var _lamp_cells: Dictionary = {}
 
@@ -96,6 +98,9 @@ func _ready() -> void:
 		MPF.server.connect("hardware_light_changed", _on_light_changed)
 		MPF.server.connect("hardware_switch_changed", _on_switch_changed)
 
+	MPF.server.add_event_handler("start_attract_mode", _on_attract_start)
+	MPF.server.add_event_handler("stop_attract_mode", _on_attract_stop)
+
 # ---------------------------------------------------------------------------
 # UI construction
 # ---------------------------------------------------------------------------
@@ -112,6 +117,18 @@ func _build_ui() -> void:
 
 	root_vbox.add_child(_build_segment_row())
 	root_vbox.add_child(_build_lamp_grid())
+
+	_attract_label = Label.new()
+	_attract_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_attract_label.add_theme_font_size_override("font_size", 20)
+	_attract_label.add_theme_color_override("font_color", Color(1.0, 0.65, 0.0))
+	_attract_label.visible = false
+	root_vbox.add_child(_attract_label)
+
+	_attract_blink_timer = Timer.new()
+	_attract_blink_timer.wait_time = 0.6
+	_attract_blink_timer.connect("timeout", _on_attract_blink)
+	add_child(_attract_blink_timer)
 
 	_status_label = Label.new()
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -255,6 +272,25 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 
 func _on_switch_changed(_switch_name: String, _state: bool) -> void:
 	pass  # Switch panel not yet implemented
+
+func _on_attract_start(_payload = null) -> void:
+	_attract_label.text = "GAME OVER"
+	_attract_label.visible = true
+	_attract_blink_timer.start()
+	# Dim score labels during attract
+	for lbl in _score_labels:
+		lbl.add_theme_color_override("font_color", Color(0.15, 0.10, 0.00))
+
+func _on_attract_stop(_payload = null) -> void:
+	_attract_label.visible = false
+	_attract_blink_timer.stop()
+
+func _on_attract_blink() -> void:
+	var credits = MPF.game.machine_vars.get("credits", 0)
+	if int(credits) > 0:
+		_attract_label.text = "PRESS START" if _attract_label.text != "PRESS START" else "GAME OVER"
+	else:
+		_attract_label.text = "INSERT COIN" if _attract_label.text != "INSERT COIN" else "GAME OVER"
 
 # ---------------------------------------------------------------------------
 # Helpers

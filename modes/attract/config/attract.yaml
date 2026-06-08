@@ -8,6 +8,33 @@ mode:
   events_when_started: start_attract_mode
   events_when_stopped: stop_attract_mode
 
+show_player:
+  start_attract_mode:
+    attract_bonus:
+      loops: -1
+      speed: 1.0
+    attract_targets:
+      loops: -1
+      speed: 1.0
+    attract_players:
+      loops: -1
+      speed: 1.0
+
+segment_display_player:
+  start_attract_mode:
+    player1_score:
+      text: "GAME"
+    player2_score:
+      text: "OVER"
+    player3_score:
+      text: "      "
+    player4_score:
+      text: "      "
+    credits_display:
+      text: "{machine.credits:02d}"
+    ball_display:
+      text: " "
+
 variable_player:
   s_left_flipper_active{machine.current_ruleset < 3}:
     current_ruleset:
@@ -17,5 +44,3 @@ variable_player:
     current_ruleset:
       int: 1
       action: set_machine
-# TODO: add sound or display feedback tied to current_ruleset_machine_var_changed
-

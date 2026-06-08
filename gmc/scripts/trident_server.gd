@@ -10,6 +10,15 @@ signal hardware_switch_changed(switch_name: String, state: bool)
 func on_connect() -> void:
 	_send("monitor_start?category=lights")
 	_send("monitor_start?category=switches")
+	_send("register_trigger?event=start_attract_mode")
+	_send("register_trigger?event=stop_attract_mode")
+
+# Override the default behavior, which is to quit Godot when MPF disconnects.
+# Instead, clean up and re-open the port so MPF can reconnect.
+func stop(is_exiting: bool = false) -> void:
+	super.stop(true)   # run cleanup but skip the built-in quit()
+	if not is_exiting:
+		call_deferred("listen")
 
 func on_message(message: Dictionary):
 	if message.cmd == "monitor_device_attribute_changed":

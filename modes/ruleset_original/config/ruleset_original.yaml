@@ -293,9 +293,11 @@ variable_player:
   upper_sling_hit:
     score: 1000
 
-  # Lower slingshots: 10 points
-  lower_sling_hit:
-    score: 10
+  # Lower slingshots: 1,000 on 3-ball game; 100 on 5-ball game
+  lower_sling_hit{machine.balls_per_game_setting == 3}:
+    score: 1000
+  lower_sling_hit{machine.balls_per_game_setting == 5}:
+    score: 100
 
   # Upper left rollover: 100 points
   s_rollover_active:

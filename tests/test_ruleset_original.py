@@ -11,7 +11,8 @@ Individual sub-suites can also be run directly:
 import unittest
 
 from tests import (test_bonus_advancement, test_drop_targets,
-                   test_saucer, test_spinners, test_standup_targets)
+                   test_saucer, test_spinners, test_standup_targets,
+                   test_thumper_bumpers)
 
 
 def load_tests(loader, _tests, _pattern):
@@ -21,6 +22,7 @@ def load_tests(loader, _tests, _pattern):
     suite.addTests(loader.loadTestsFromModule(test_bonus_advancement))
     suite.addTests(loader.loadTestsFromModule(test_saucer))
     suite.addTests(loader.loadTestsFromModule(test_spinners))
+    suite.addTests(loader.loadTestsFromModule(test_thumper_bumpers))
     return suite
 
 

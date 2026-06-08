@@ -14,28 +14,6 @@ hardware:
   coils: lisy
   lights: lisy
 
-
-displays:
-  window:
-    width: 800
-    height: 600
-    title: Stern Trident
-    resizable: true
-    fullscreen: false
-    borderless: false
-  dmd:
-    width: 128
-    height: 32
-    default: true
-
-window:
-  width: 1024
-  height: 768
-  title: Mission Pinball Framework
-  resizable: true
-  fullscreen: false
-  borderless: false
-
 modes:
   - base
   - attract

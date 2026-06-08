@@ -13,7 +13,6 @@ hardware:
   switches: virtual
   coils: virtual
   lights: virtual
-  dmd: virtual
 
 # Virtual hardware for testing
 virtual_platform_start_active_switches:

@@ -40,7 +40,8 @@
       "Bash(godot --quit)",
       "Bash(godot)",
       "Bash(kill %1)",
-      "Bash(wait %1)"
+      "Bash(wait %1)",
+      "Bash(wait)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

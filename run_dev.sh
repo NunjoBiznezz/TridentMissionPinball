@@ -24,4 +24,4 @@ PYTHON=$(find_python) || {
     exit 1
 }
 
-exec "$PYTHON" -m mpf . -c config_dev.yaml -t -x -b "$@"
+exec "$PYTHON" -m mpf . -c config_dev.yaml -t -x "$@"

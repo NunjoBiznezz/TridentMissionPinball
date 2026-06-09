@@ -322,91 +322,81 @@
     "radius": 12
   },
   "l_match": {
-    "x": 0.15,
-    "y": 0.77,
+    "x": 0.21667,
+    "y": 0.68571,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_ball_in_play": {
-    "x": 0.85,
-    "y": 0.77,
+    "x": 0.21667,
+    "y": 0.47619,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_high_score_to_date": {
-    "x": 0.95,
-    "y": 0.77,
+    "x": 0.0875,
+    "y": 0.31429,
     "color": "ffff00",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_game_over": {
-    "x": 0.05,
-    "y": 0.95,
+    "x": 0.4625,
+    "y": 0.67619,
     "color": "ff1a1a",
     "image": "backbox"
   },
   "l_tilt": {
-    "x": 0.15,
-    "y": 0.95,
+    "x": 0.48333,
+    "y": 0.87143,
     "color": "ff1a1a",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_1": {
-    "x": 0.25,
-    "y": 0.95,
+    "x": 0.1,
+    "y": 0.10952,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_2": {
-    "x": 0.35,
-    "y": 0.95,
+    "x": 0.89583,
+    "y": 0.10952,
     "color": "ffffff",
     "image": "backbox"
   },
   "l_player_3": {
-    "x": 0.45,
-    "y": 0.95,
+    "x": 0.1,
+    "y": 0.74762,
     "color": "ffffff",
-    "image": "playfield",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_4": {
-    "x": 0.55,
-    "y": 0.95,
+    "x": 0.89583,
+    "y": 0.74762,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_1_up": {
-    "x": 0.65,
-    "y": 0.95,
+    "x": 0.77083,
+    "y": 0.42857,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_2_up": {
-    "x": 0.75,
-    "y": 0.95,
+    "x": 0.82083,
+    "y": 0.42857,
     "color": "ffffff",
     "image": "backbox"
   },
   "l_player_3_up": {
-    "x": 0.85,
-    "y": 0.95,
+    "x": 0.87083,
+    "y": 0.42857,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   },
   "l_player_4_up": {
-    "x": 0.95,
-    "y": 0.95,
+    "x": 0.91667,
+    "y": 0.42857,
     "color": "ffffff",
-    "image": "backbox",
-    "radius": 10
+    "image": "backbox"
   }
 }

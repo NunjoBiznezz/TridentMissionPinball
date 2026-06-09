@@ -59,6 +59,12 @@
     "color": "ffffff",
     "image": "playfield"
   },
+  "l_left_spinner_white": {
+    "x": 0.17685,
+    "y": 0.46771,
+    "color": "ffffff",
+    "image": "playfield"
+  },
   "l_left_spinner_purple": {
     "x": 0.16852,
     "y": 0.43854,
@@ -69,12 +75,6 @@
     "x": 0.22778,
     "y": 0.44635,
     "color": "ffaa00",
-    "image": "playfield"
-  },
-  "l_left_spinner_white": {
-    "x": 0.16852,
-    "y": 0.43854,
-    "color": "ffffff",
     "image": "playfield"
   },
   "l_standup_white": {
@@ -185,10 +185,16 @@
     "color": "ffffff",
     "image": "playfield"
   },
-  "l_bonus_5x_feature": {
-    "x": 0.44537,
-    "y": 0.28073,
+  "l_bonus_2x_feature": {
+    "x": 0.30926,
+    "y": 0.33542,
     "color": "00ff00",
+    "image": "playfield"
+  },
+  "l_bonus_3x_feature": {
+    "x": 0.35463,
+    "y": 0.31823,
+    "color": "9900ff",
     "image": "playfield"
   },
   "l_bonus_4x_feature": {
@@ -197,21 +203,15 @@
     "color": "ffffff",
     "image": "playfield"
   },
-  "l_bonus_3x_feature": {
-    "x": 0.35463,
-    "y": 0.31823,
-    "color": "ffaa00",
-    "image": "playfield"
-  },
-  "l_bonus_2x_feature": {
-    "x": 0.30926,
-    "y": 0.33542,
-    "color": "00ff00",
+  "l_bonus_5x_feature": {
+    "x": 0.44537,
+    "y": 0.28073,
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_bonus_5x": {
     "x": 0.54074,
-    "y": 0.49167,
+    "y": 0.51771,
     "color": "ffff00",
     "image": "playfield"
   },

@@ -1,0 +1,217 @@
+#show_version=6
+- duration: 0.08
+- duration: 0.08
+  lights:
+    l_bonus_2x_feature: 00ffff
+    l_drop_target_1: ff6600
+    l_drop_target_2: ff6600
+    l_drop_target_3: ff6600
+    l_shoot_again: ffffff
+    l_standup_green: 00ff14
+- duration: 0.08
+  lights:
+    l_bonus_10: ffaa00
+    l_bonus_2x: 00ffff
+    l_bonus_3: ffaa00
+    l_bonus_3x: 00ffff
+    l_bonus_3x_feature: 00ffff
+    l_bonus_4x_feature: 00ffff
+    l_bonus_5: ffaa00
+    l_bonus_5x_feature: 00ffff
+    l_bonus_6: ffaa00
+    l_bonus_7: ffaa00
+    l_bonus_8: ffaa00
+    l_bonus_9: ffaa00
+    l_drop_target_4: ff6600
+    l_drop_target_5: ff6600
+    l_drop_target_special: ff6600
+    l_standup_amber: ffaa00
+    l_standup_white: ffffff
+    l_standup_yellow: ffff00
+    l_top_eject_10k: ffffff
+    l_top_eject_5k: ffffff
+- duration: 0.08
+  lights:
+    l_bonus_1: ffaa00
+    l_bonus_2: ffaa00
+    l_bonus_4: ffaa00
+    l_bonus_4x: 00ffff
+    l_bonus_5x: 00ffff
+    l_top_eject_20k: ffffff
+- duration: 0.08
+  lights:
+    l_top_eject_30k: ffffff
+- duration: 0.08
+  lights:
+    l_extra_ball: ff1a1a
+    l_left_lane_2k: 000000
+    l_right_spinner_green: 00ff14
+    l_right_spinner_purple: 9900ff
+    l_right_spinner_yellow: ffff00
+    l_standup_purple: 9900ff
+    l_standup_special: ffffff
+- duration: 0.08
+  lights:
+    l_left_lane_4k: 000000
+    l_left_lane_6k: 000000
+    l_left_lane_8k: 000000
+    l_left_spinner_amber: 000000
+    l_left_spinner_purple: 000000
+    l_left_spinner_white: 000000
+    l_right_outlane_special: ff1a1a
+- duration: 0.08
+  lights:
+    l_bonus_2x_feature: 000000
+    l_drop_target_1: 000000
+    l_drop_target_2: 000000
+    l_standup_green: 000000
+- duration: 0.08
+  lights:
+    l_bonus_2x: 000000
+    l_bonus_3x: 000000
+    l_bonus_3x_feature: 000000
+    l_bonus_4x_feature: 000000
+    l_drop_target_3: 000000
+    l_drop_target_4: 000000
+    l_drop_target_5: 000000
+    l_drop_target_special: 000000
+    l_shoot_again: 000000
+    l_standup_amber: 000000
+    l_standup_white: 000000
+    l_top_eject_10k: 000000
+    l_top_eject_5k: 000000
+- duration: 0.08
+  lights:
+    l_bonus_1: 000000
+    l_bonus_10: 000000
+    l_bonus_2: 000000
+    l_bonus_3: 000000
+    l_bonus_4: 000000
+    l_bonus_4x: 000000
+    l_bonus_5: 000000
+    l_bonus_5x: 000000
+    l_bonus_5x_feature: 000000
+    l_bonus_6: 000000
+    l_bonus_7: 000000
+    l_bonus_8: 000000
+    l_bonus_9: 000000
+    l_standup_yellow: 000000
+    l_top_eject_20k: 000000
+- duration: 0.08
+  lights:
+    l_top_eject_30k: 000000
+- duration: 0.08
+  lights:
+    l_right_spinner_green: 000000
+    l_right_spinner_purple: 000000
+    l_right_spinner_yellow: 000000
+    l_standup_purple: 000000
+    l_standup_special: 000000
+- duration: 0.08
+- duration: 0.08
+  lights:
+    l_right_spinner_green: 00ff14
+    l_right_spinner_purple: 9900ff
+    l_right_spinner_yellow: ffff00
+    l_standup_purple: 9900ff
+    l_standup_special: ffffff
+- duration: 0.08
+  lights:
+    l_top_eject_30k: ffffff
+- duration: 0.08
+  lights:
+    l_bonus_1: ffaa00
+    l_bonus_10: ffaa00
+    l_bonus_2: ffaa00
+    l_bonus_3: ffaa00
+    l_bonus_4: ffaa00
+    l_bonus_4x: 00ffff
+    l_bonus_5: ffaa00
+    l_bonus_5x: 00ffff
+    l_bonus_5x_feature: 00ffff
+    l_bonus_6: ffaa00
+    l_bonus_7: ffaa00
+    l_bonus_8: ffaa00
+    l_bonus_9: ffaa00
+    l_standup_yellow: ffff00
+    l_top_eject_20k: ffffff
+- duration: 0.08
+  lights:
+    l_bonus_2x: 00ffff
+    l_bonus_3x: 00ffff
+    l_bonus_3x_feature: 00ffff
+    l_bonus_4x_feature: 00ffff
+    l_drop_target_3: ff6600
+    l_drop_target_4: ff6600
+    l_drop_target_5: ff6600
+    l_drop_target_special: ff6600
+    l_shoot_again: ffffff
+    l_standup_amber: ffaa00
+    l_standup_white: ffffff
+    l_top_eject_10k: ffffff
+    l_top_eject_5k: ffffff
+- duration: 0.08
+  lights:
+    l_bonus_2x_feature: 00ffff
+    l_drop_target_1: ff6600
+    l_drop_target_2: ff6600
+    l_standup_green: 00ff14
+- duration: 0.08
+  lights:
+    l_left_lane_4k: 00ff14
+    l_left_lane_6k: 00ff14
+    l_left_lane_8k: 00ff14
+    l_left_spinner_amber: ffaa00
+    l_left_spinner_purple: 9900ff
+    l_left_spinner_white: ffffff
+    l_right_outlane_special: 000000
+- duration: 0.08
+  lights:
+    l_extra_ball: 000000
+    l_left_lane_2k: 00ff14
+    l_right_spinner_green: 000000
+    l_right_spinner_purple: 000000
+    l_right_spinner_yellow: 000000
+    l_standup_purple: 000000
+    l_standup_special: 000000
+- duration: 0.08
+  lights:
+    l_top_eject_30k: 000000
+- duration: 0.08
+  lights:
+    l_bonus_1: 000000
+    l_bonus_2: 000000
+    l_bonus_4: 000000
+    l_bonus_4x: 000000
+    l_bonus_5x: 000000
+    l_top_eject_20k: 000000
+- duration: 0.08
+  lights:
+    l_bonus_10: 000000
+    l_bonus_2x: 000000
+    l_bonus_3: 000000
+    l_bonus_3x: 000000
+    l_bonus_3x_feature: 000000
+    l_bonus_4x_feature: 000000
+    l_bonus_5: 000000
+    l_bonus_5x_feature: 000000
+    l_bonus_6: 000000
+    l_bonus_7: 000000
+    l_bonus_8: 000000
+    l_bonus_9: 000000
+    l_drop_target_4: 000000
+    l_drop_target_5: 000000
+    l_drop_target_special: 000000
+    l_standup_amber: 000000
+    l_standup_white: 000000
+    l_standup_yellow: 000000
+    l_top_eject_10k: 000000
+    l_top_eject_5k: 000000
+- duration: 0.08
+  lights:
+    l_bonus_2x_feature: 000000
+    l_drop_target_1: 000000
+    l_drop_target_2: 000000
+    l_drop_target_3: 000000
+    l_shoot_again: 000000
+    l_standup_green: 000000

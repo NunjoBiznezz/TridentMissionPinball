@@ -10,15 +10,21 @@ mode:
 
 show_player:
   start_attract_mode:
-    attract_bonus:
-      loops: -1
-      speed: 1.0
-    attract_targets:
-      loops: -1
-      speed: 1.0
-    attract_players:
-      loops: -1
-      speed: 1.0
+    attract_radar_sweep:
+      loops: 2
+      events_when_completed: attract_next_center_out
+  attract_next_center_out:
+    attract_center_out:
+      loops: 2
+      events_when_completed: attract_next_bottom_top
+  attract_next_bottom_top:
+    attract_bottom_to_top:
+      loops: 2
+      events_when_completed: attract_next_side_side
+  attract_next_side_side:
+    attract_side_to_side:
+      loops: 2
+      events_when_completed: attract_next_center_out
 
 segment_display_player:
   start_attract_mode:

@@ -34,7 +34,7 @@ func on_message(message: Dictionary):
 			var v = message.get("state", 0)
 			hardware_switch_changed.emit.call_deferred(
 				message.get("name", ""),
-				v == 1 or v == "1" or v == true
+				int(v) == 1
 			)
 			return null
 	return message

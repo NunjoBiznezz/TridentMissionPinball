@@ -397,7 +397,7 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 		return
 	var cell = _lamp_cells[lamp_name]
 	var is_on := color.r > 0.05 or color.g > 0.05 or color.b > 0.05
-	cell["style"].bg_color = color if is_on else cell["off_color"]
+	cell["style"].bg_color = cell["on_color"] if is_on else cell["off_color"]
 
 
 func _on_switch_changed(_switch_name: String, _state: bool) -> void:

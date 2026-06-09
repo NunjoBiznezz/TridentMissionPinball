@@ -85,7 +85,7 @@ const LAMP_RADIUS     := 10   # half-size of each lamp circle on the playfield
 func _find_playfield_path() -> String:
 	for p in ["res://assets/playfield.png", "res://assets/playfield.jpg",
 	          "res://assets/playfield.jpeg", "res://assets/playfield.webp"]:
-		if ResourceLoader.exists(p):
+		if FileAccess.file_exists(p):
 			return p
 	return ""
 
@@ -127,7 +127,7 @@ func _build_ui() -> void:
 
 	root_vbox.add_child(_build_segment_row())
 	var _playfield_path := _find_playfield_path()
-	if ResourceLoader.exists(POSITIONS_PATH) and _playfield_path != "":
+	if FileAccess.file_exists(POSITIONS_PATH) and _playfield_path != "":
 		root_vbox.add_child(_build_playfield_view(_playfield_path))
 	else:
 		root_vbox.add_child(_build_lamp_grid())
@@ -206,8 +206,10 @@ func _build_playfield_view(playfield_path: String) -> Control:
 	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
 	wrapper.clip_contents = true
 
-	# Playfield image — fills the wrapper, preserving aspect ratio
-	var tex: Texture2D = load(playfield_path)
+	# Playfield image — loaded directly from disk to bypass Godot's importer
+	var img := Image.new()
+	img.load(playfield_path)
+	var tex := ImageTexture.create_from_image(img)
 	var bg := TextureRect.new()
 	bg.texture = tex
 	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE

@@ -2,73 +2,73 @@
   "l_bonus_1": {
     "x": 0.4463,
     "y": 0.76927,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_2": {
     "x": 0.44537,
     "y": 0.73906,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_3": {
     "x": 0.44537,
     "y": 0.7099,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_4": {
     "x": 0.44537,
     "y": 0.67917,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_5": {
     "x": 0.44537,
     "y": 0.65052,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_6": {
     "x": 0.44537,
     "y": 0.62031,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_7": {
     "x": 0.44537,
     "y": 0.59062,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_8": {
     "x": 0.44537,
     "y": 0.56094,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_9": {
     "x": 0.44537,
     "y": 0.52969,
-    "color": "ffaa00",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_10": {
     "x": 0.44537,
     "y": 0.49896,
-    "color": "ffaa00",
-    "image": "playfield"
-  },
-  "l_drop_target_5": {
-    "x": 0.44074,
-    "y": 0.25833,
-    "color": "ff6600",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_standup_special": {
     "x": 0.66852,
     "y": 0.32552,
-    "color": "ffffff",
+    "color": "ff0000",
+    "image": "playfield"
+  },
+  "l_left_spinner_purple": {
+    "x": 0.16852,
+    "y": 0.43854,
+    "color": "9900ff",
     "image": "playfield"
   },
   "l_left_spinner_amber": {
@@ -101,6 +101,12 @@
     "color": "ffff00",
     "image": "playfield"
   },
+  "l_right_spinner_purple": {
+    "x": 0.75463,
+    "y": 0.42969,
+    "color": "9900ff",
+    "image": "playfield"
+  },
   "l_right_spinner_green": {
     "x": 0.69815,
     "y": 0.43802,
@@ -119,28 +125,34 @@
     "color": "00ff14",
     "image": "playfield"
   },
+  "l_drop_target_5": {
+    "x": 0.44074,
+    "y": 0.25833,
+    "color": "ffff00",
+    "image": "playfield"
+  },
   "l_drop_target_4": {
     "x": 0.39722,
     "y": 0.27552,
-    "color": "ff6600",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_drop_target_3": {
     "x": 0.35,
     "y": 0.29375,
-    "color": "ff6600",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_drop_target_2": {
     "x": 0.3037,
     "y": 0.31198,
-    "color": "ff6600",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_drop_target_1": {
     "x": 0.25926,
     "y": 0.33021,
-    "color": "ff6600",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_top_eject_30k": {
@@ -170,85 +182,79 @@
   "l_bonus_5x_feature": {
     "x": 0.44537,
     "y": 0.28073,
-    "color": "00ffff",
+    "color": "00ff00",
     "image": "playfield"
   },
   "l_bonus_4x_feature": {
     "x": 0.39815,
     "y": 0.29948,
-    "color": "00ffff",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_3x_feature": {
     "x": 0.35463,
     "y": 0.31823,
-    "color": "00ffff",
+    "color": "ffaa00",
     "image": "playfield"
   },
   "l_bonus_2x_feature": {
     "x": 0.30926,
     "y": 0.33542,
-    "color": "00ffff",
+    "color": "00ff00",
     "image": "playfield"
   },
   "l_bonus_5x": {
     "x": 0.54074,
     "y": 0.49167,
-    "color": "00ffff",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_bonus_4x": {
     "x": 0.5037,
     "y": 0.46094,
-    "color": "00ffff",
+    "color": "ffffff",
     "image": "playfield"
   },
   "l_bonus_3x": {
     "x": 0.38241,
     "y": 0.46094,
-    "color": "00ffff",
+    "color": "9900ff",
     "image": "playfield"
   },
   "l_bonus_2x": {
     "x": 0.3463,
     "y": 0.51771,
-    "color": "00ffff",
+    "color": "00ff00",
     "image": "playfield"
   },
   "l_left_lane_8k": {
     "x": 0.20463,
     "y": 0.58437,
-    "color": "00ff14",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_left_lane_6k": {
     "x": 0.15833,
     "y": 0.6026,
-    "color": "00ff14",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_left_lane_4k": {
     "x": 0.11481,
     "y": 0.61875,
-    "color": "00ff14",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_left_lane_2k": {
     "x": 0.07315,
     "y": 0.63646,
-    "color": "00ff14",
+    "color": "ffff00",
     "image": "playfield"
   },
   "l_shoot_again": {
     "x": 0.32963,
     "y": 0.77604,
-    "color": "ffffff",
-    "image": "playfield"
-  },
-  "l_match": {
-    "x": 0.15,
-    "y": 0.77,
-    "color": "ffffff",
+    "color": "ffaa00",
     "image": "playfield"
   },
   "l_standup_purple": {
@@ -260,68 +266,62 @@
   "l_drop_target_special": {
     "x": 0.41852,
     "y": 0.33437,
-    "color": "ff6600",
-    "image": "playfield"
-  },
-  "l_right_spinner_purple": {
-    "x": 0.75463,
-    "y": 0.42969,
-    "color": "9900ff",
+    "color": "ff0000",
     "image": "playfield"
   },
   "l_right_outlane_special": {
     "x": 0.84722,
     "y": 0.6599,
-    "color": "ff1a1a",
-    "image": "playfield"
-  },
-  "l_left_spinner_purple": {
-    "x": 0.16852,
-    "y": 0.43854,
-    "color": "9900ff",
+    "color": "ff0000",
     "image": "playfield"
   },
   "l_extra_ball": {
     "x": 0.7787,
     "y": 0.66823,
-    "color": "ff1a1a",
+    "color": "ffaa00",
     "image": "playfield"
+  },
+  "l_match": {
+    "x": 0.15,
+    "y": 0.77,
+    "color": "ffffff",
+    "image": "backbox"
   },
   "l_ball_in_play": {
     "x": 0.85,
     "y": 0.77,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_high_score_to_date": {
     "x": 0.95,
     "y": 0.77,
     "color": "ffff00",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_game_over": {
     "x": 0.05,
     "y": 0.95,
     "color": "ff1a1a",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_tilt": {
     "x": 0.15,
     "y": 0.95,
     "color": "ff1a1a",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_1": {
     "x": 0.25,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_2": {
     "x": 0.35,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_3": {
     "x": 0.45,
@@ -333,30 +333,30 @@
     "x": 0.55,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_1_up": {
     "x": 0.65,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_2_up": {
     "x": 0.75,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_3_up": {
     "x": 0.85,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   },
   "l_player_4_up": {
     "x": 0.95,
     "y": 0.95,
     "color": "ffffff",
-    "image": "playfield"
+    "image": "backbox"
   }
 }

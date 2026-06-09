@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-Convert pixel coordinates to normalized lamp_positions.json values.
+Convert pixel coordinates to normalized position JSON values.
 
 Usage:
-    python3 tools/px_to_norm.py <image_file> [--backbox]
+    python3 tools/px_to_norm.py <image_file>              # lamp positions (playfield)
+    python3 tools/px_to_norm.py <image_file> --backbox    # lamp positions (backbox)
+    python3 tools/px_to_norm.py <image_file> --switches   # switch positions (playfield)
+    python3 tools/px_to_norm.py <image_file> --switches --backbox  # switch positions (backbox)
 
-Then type:  lamp_name  pixel_x  pixel_y
+Then type:  name  pixel_x  pixel_y
 Example:    l_bonus_1  342 891
+            s_left_flipper  210 1740
 
 Type 'save' to write changes, 'quit' to exit without saving.
 """
@@ -14,42 +18,54 @@ import argparse, json, sys
 from pathlib import Path
 from PIL import Image
 
-OUTPUT = Path(__file__).parent.parent / "gmc" / "assets" / "lamp_positions.json"
+ASSETS = Path(__file__).parent.parent / "gmc" / "assets"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("image")
-parser.add_argument("--backbox", action="store_true")
+parser.add_argument("--backbox", action="store_true", help="Use backbox image location")
+parser.add_argument("--switches", action="store_true", help="Write to switch_positions.json")
 args = parser.parse_args()
 
 if not Path(args.image).exists():
     print(__doc__); sys.exit(1)
 
 location = "backbox" if args.backbox else "playfield"
-w, h = Image.open(args.image).size
-print(f"Image: {w} × {h} px  ({location})\n")
+output   = ASSETS / ("switch_positions.json" if args.switches else "lamp_positions.json")
+kind     = "switch" if args.switches else "lamp"
 
-data = json.loads(OUTPUT.read_text()) if OUTPUT.exists() else {}
+w, h = Image.open(args.image).size
+print(f"Image: {w} × {h} px  |  {kind} positions  |  location: {location}")
+print(f"Output: {output}\n")
+
+data = json.loads(output.read_text()) if output.exists() else {}
 
 while True:
     try:
-        line = input("lamp  px_x  px_y  (or 'save'/'quit'): ").strip()
+        line = input(f"{kind}  px_x  px_y  (or 'save'/'quit'): ").strip()
     except EOFError:
         break
     if line in ("quit", "q"):
         break
     if line in ("save", "s"):
-        OUTPUT.write_text(json.dumps(data, indent=2))
-        print(f"Saved {len(data)} lamps → {OUTPUT}")
+        output.write_text(json.dumps(data, indent=2))
+        print(f"Saved {len(data)} entries → {output}")
         continue
     parts = line.split()
     if len(parts) != 3:
-        print("  need: lamp_name  x  y"); continue
+        print(f"  need: {kind}_name  x  y"); continue
     name, px, py = parts[0], int(parts[1]), int(parts[2])
     nx = round(px / w, 5)
     ny = round(py / h, 5)
-    color = data.get(name, {}).get("color", "ffffff")
-    data[name] = {"x": nx, "y": ny, "color": color, "image": location}
+    existing = data.get(name, {})
+    if args.switches:
+        data[name] = {"x": nx, "y": ny,
+                      "radius": existing.get("radius", 14),
+                      "image": location}
+    else:
+        data[name] = {"x": nx, "y": ny,
+                      "color": existing.get("color", "ffffff"),
+                      "image": location}
     print(f"  {name}: ({nx}, {ny})")
 
-OUTPUT.write_text(json.dumps(data, indent=2))
-print(f"Saved {len(data)} lamps → {OUTPUT}")
+output.write_text(json.dumps(data, indent=2))
+print(f"Saved {len(data)} entries → {output}")

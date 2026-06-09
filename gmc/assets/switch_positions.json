@@ -1,31 +1,176 @@
 {
-  "s_saucer":          { "x": 0.50, "y": 0.18, "radius": 16, "image": "playfield" },
-  "s_10_pts":          { "x": 0.50, "y": 0.08, "radius": 12, "image": "playfield" },
-  "s_top_bumper":      { "x": 0.38, "y": 0.28, "radius": 18, "image": "playfield" },
-  "s_bottom_bumper":   { "x": 0.62, "y": 0.33, "radius": 18, "image": "playfield" },
-  "s_drop_target_5":   { "x": 0.20, "y": 0.48, "radius": 12, "image": "playfield" },
-  "s_drop_target_4":   { "x": 0.35, "y": 0.48, "radius": 12, "image": "playfield" },
-  "s_drop_target_3":   { "x": 0.50, "y": 0.48, "radius": 12, "image": "playfield" },
-  "s_drop_target_2":   { "x": 0.65, "y": 0.48, "radius": 12, "image": "playfield" },
-  "s_drop_target_1":   { "x": 0.80, "y": 0.48, "radius": 12, "image": "playfield" },
-  "s_standup_yellow":  { "x": 0.30, "y": 0.40, "radius": 12, "image": "playfield" },
-  "s_standup_amber":   { "x": 0.50, "y": 0.38, "radius": 12, "image": "playfield" },
-  "s_standup_green":   { "x": 0.70, "y": 0.40, "radius": 12, "image": "playfield" },
-  "s_standup_white":   { "x": 0.85, "y": 0.55, "radius": 12, "image": "playfield" },
-  "s_standup_purple":  { "x": 0.15, "y": 0.55, "radius": 12, "image": "playfield" },
-  "s_left_spinner":    { "x": 0.15, "y": 0.50, "radius": 14, "image": "playfield" },
-  "s_right_spinner":   { "x": 0.85, "y": 0.50, "radius": 14, "image": "playfield" },
-  "s_ul_sling":        { "x": 0.20, "y": 0.60, "radius": 14, "image": "playfield" },
-  "s_ur_sling":        { "x": 0.80, "y": 0.60, "radius": 14, "image": "playfield" },
-  "s_ll_sling":        { "x": 0.22, "y": 0.72, "radius": 14, "image": "playfield" },
-  "s_lr_sling":        { "x": 0.78, "y": 0.72, "radius": 14, "image": "playfield" },
-  "s_left_inlane":     { "x": 0.28, "y": 0.82, "radius": 12, "image": "playfield" },
-  "s_right_inlane":    { "x": 0.72, "y": 0.82, "radius": 12, "image": "playfield" },
-  "s_right_outlane":   { "x": 0.88, "y": 0.78, "radius": 12, "image": "playfield" },
-  "s_rollover":        { "x": 0.50, "y": 0.88, "radius": 12, "image": "playfield" },
-  "s_left_flipper":    { "x": 0.28, "y": 0.93, "radius": 16, "image": "playfield" },
-  "s_right_flipper":   { "x": 0.72, "y": 0.93, "radius": 16, "image": "playfield" },
-  "s_outhole":         { "x": 0.50, "y": 0.97, "radius": 14, "image": "playfield" },
-  "s_start_button":    { "x": 0.15, "y": 0.97, "radius": 16, "image": "playfield" },
-  "s_tilt":            { "x": 0.85, "y": 0.97, "radius": 14, "image": "playfield" }
+  "s_saucer": {
+    "x": 0.47037,
+    "y": 0.11927,
+    "radius": 16,
+    "image": "playfield"
+  },
+  "s_10_pts": {
+    "x": 0.5,
+    "y": 0.08,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_top_bumper": {
+    "x": 0.38,
+    "y": 0.28,
+    "radius": 18,
+    "image": "playfield"
+  },
+  "s_bottom_bumper": {
+    "x": 0.62,
+    "y": 0.33,
+    "radius": 18,
+    "image": "playfield"
+  },
+  "s_drop_target_1": {
+    "x": 0.19167,
+    "y": 0.28229,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_drop_target_2": {
+    "x": 0.23889,
+    "y": 0.26406,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_drop_target_3": {
+    "x": 0.28333,
+    "y": 0.24688,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_drop_target_4": {
+    "x": 0.32778,
+    "y": 0.23073,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_drop_target_5": {
+    "x": 0.36944,
+    "y": 0.21198,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_standup_white": {
+    "x": 0.61759,
+    "y": 0.17656,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_standup_green": {
+    "x": 0.67315,
+    "y": 0.20208,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_standup_amber": {
+    "x": 0.72037,
+    "y": 0.025,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_standup_yellow": {
+    "x": 0.75833,
+    "y": 0.26823,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_standup_purple": {
+    "x": 0.77778,
+    "y": 0.30312,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_left_spinner": {
+    "x": 0.1287,
+    "y": 0.38854,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_right_spinner": {
+    "x": 0.78981,
+    "y": 0.39479,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_ul_sling": {
+    "x": 0.11944,
+    "y": 0.48542,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_ur_sling": {
+    "x": 0.11944,
+    "y": 0.47448,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_ll_sling": {
+    "x": 0.20278,
+    "y": 0.69063,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_lr_sling": {
+    "x": 0.66944,
+    "y": 0.70469,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_left_inlane": {
+    "x": 0.05185,
+    "y": 0.70417,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_right_inlane": {
+    "x": 0.78056,
+    "y": 0.7151,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_right_outlane": {
+    "x": 0.84907,
+    "y": 0.71823,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_rollover": {
+    "x": 0.05833,
+    "y": 0.25885,
+    "radius": 12,
+    "image": "playfield"
+  },
+  "s_left_flipper": {
+    "x": 0.28,
+    "y": 0.93,
+    "radius": 16,
+    "image": "playfield"
+  },
+  "s_right_flipper": {
+    "x": 0.72,
+    "y": 0.93,
+    "radius": 16,
+    "image": "playfield"
+  },
+  "s_outhole": {
+    "x": 0.44907,
+    "y": 0.90104,
+    "radius": 14,
+    "image": "playfield"
+  },
+  "s_start_button": {
+    "x": 0.15,
+    "y": 0.97,
+    "radius": 16,
+    "image": "playfield"
+  },
+  "s_tilt": {
+    "x": 0.85,
+    "y": 0.97,
+    "radius": 14,
+    "image": "playfield"
+  }
 }

@@ -339,7 +339,7 @@ func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
 		if child is Panel and child.has_meta("nx"):
 			var nx: float = child.get_meta("nx")
 			var ny: float = child.get_meta("ny")
-			var r := child.custom_minimum_size.x * 0.5
+			var r: float = child.custom_minimum_size.x * 0.5
 			child.set_position(Vector2(
 				ox + nx * drawn_w - r,
 				oy + ny * drawn_h - r

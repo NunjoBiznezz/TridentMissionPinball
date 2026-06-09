@@ -383,22 +383,16 @@ func _input(event: InputEvent) -> void:
 			var dpy := (ny - float(area["ny"])) * drawn_h
 			if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
 				print("[Cabinet] HIT: ", area["name"])
-				print("[Cabinet]   has_method force_switch: ", MPF.server.has_method("force_switch"))
-				print("[Cabinet]   server status: ", MPF.server.status)
 				_held_switch    = area["name"]
 				_held_style     = area["style"]
 				_held_off_color = Color(0, 0, 0, 0)
 				_held_label     = null
 				area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
-				if MPF.server.has_method("force_switch"):
-					MPF.server.force_switch(area["name"], true)
-				else:
-					print("[Cabinet]   ERROR: force_switch method not found on server")
+				MPF.server.send_switch(area["name"], 1)
 				break
 	else:
 		if _held_switch != "":
-			if MPF.server.has_method("force_switch"):
-				MPF.server.force_switch(_held_switch, false)
+			MPF.server.send_switch(_held_switch, 0)
 			if _held_style:
 				_held_style.bg_color = _held_off_color
 			if _held_label:
@@ -475,8 +469,7 @@ func _on_cabinet_input(event: InputEvent, sw_name: String, style: StyleBoxFlat, 
 	_held_label     = lbl
 	style.bg_color  = Color(0.2, 0.8, 1.0, 0.5)
 	lbl.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
-	if MPF.server.has_method("force_switch"):
-		MPF.server.force_switch(sw_name, true)
+	MPF.server.send_switch(sw_name, 1)
 
 
 func _build_lamp_grid() -> Control:

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-map_lamps.py  —  Click each lamp on the playfield photo to record its
-                 position and sample its natural color.
+map_lamps.py  —  Click each lamp on a playfield or backbox photo to record
+                 its position and sample its natural color.
 
 Usage:
-    python3 tools/map_lamps.py <path/to/playfield.jpg>
+    python3 tools/map_lamps.py <path/to/playfield.png>
+    python3 tools/map_lamps.py <path/to/backbox.png> --backbox
 
 Output:
-    gmc/assets/lamp_positions.json   (normalized x/y 0-1, hex color)
+    gmc/assets/lamp_positions.json   (normalized x/y 0-1, hex color, image key)
 
 Controls:
     Left-click   — place current lamp
@@ -16,6 +17,7 @@ Controls:
     Q / Save     — save and quit
 """
 
+import argparse
 import json
 import sys
 import os
@@ -28,8 +30,8 @@ except ImportError:
     print("Install Pillow:  pip install Pillow")
     sys.exit(1)
 
-# ── Lamp names in the order you will click them ──────────────────────────────
-LAMPS = [
+# ── Lamp names split by location ─────────────────────────────────────────────
+PLAYFIELD_LAMPS = [
     "l_bonus_1",             "l_bonus_2",             "l_bonus_3",
     "l_bonus_4",             "l_bonus_5",             "l_bonus_6",
     "l_bonus_7",             "l_bonus_8",             "l_bonus_9",
@@ -49,12 +51,16 @@ LAMPS = [
     "l_bonus_3x",            "l_bonus_2x",
     "l_left_lane_8k",        "l_left_lane_6k",
     "l_left_lane_4k",        "l_left_lane_2k",
-    "l_shoot_again",         "l_match",
-    "l_standup_purple",      "l_drop_target_special",
-    "l_right_spinner_purple","l_right_outlane_special",
-    "l_left_spinner_purple", "l_extra_ball",
+    "l_shoot_again",         "l_standup_purple",
+    "l_drop_target_special", "l_right_spinner_purple",
+    "l_right_outlane_special","l_left_spinner_purple",
+    "l_extra_ball",
+]
+
+BACKBOX_LAMPS = [
     "l_ball_in_play",        "l_high_score_to_date",
     "l_game_over",           "l_tilt",
+    "l_match",
     "l_player_1",            "l_player_2",
     "l_player_3",            "l_player_4",
     "l_player_1_up",         "l_player_2_up",
@@ -67,7 +73,9 @@ DOT_RADIUS    = 7   # display dot size on canvas
 
 
 class LampMapper:
-    def __init__(self, image_path: str):
+    def __init__(self, image_path: str, location: str = "playfield"):
+        self.location = location
+        self.lamps = BACKBOX_LAMPS if location == "backbox" else PLAYFIELD_LAMPS
         self.orig = Image.open(image_path).convert("RGB")
         self.iw, self.ih = self.orig.size
 
@@ -77,9 +85,9 @@ class LampMapper:
             with open(OUTPUT_PATH) as f:
                 self.data = json.load(f)
 
-        # Resume after already-mapped lamps
+        # Resume after already-mapped lamps for this location
         self.idx = 0
-        while self.idx < len(LAMPS) and LAMPS[self.idx] in self.data:
+        while self.idx < len(self.lamps) and self.lamps[self.idx] in self.data:
             self.idx += 1
 
         self._build_ui()
@@ -163,16 +171,17 @@ class LampMapper:
     # ── Event handlers ────────────────────────────────────────────────────────
 
     def _click(self, event):
-        if self.idx >= len(LAMPS):
+        if self.idx >= len(self.lamps):
             return
         img_x = int(event.x / self.scale)
         img_y = int(event.y / self.scale)
-        lamp  = LAMPS[self.idx]
+        lamp  = self.lamps[self.idx]
         color = self._sample_color(img_x, img_y)
         self.data[lamp] = {
             "x":     round(event.x / self.dw, 5),
             "y":     round(event.y / self.dh, 5),
             "color": color,
+            "image": self.location,
         }
         self.idx += 1
         self._autosave()
@@ -182,12 +191,12 @@ class LampMapper:
         if self.idx == 0:
             return
         self.idx -= 1
-        self.data.pop(LAMPS[self.idx], None)
+        self.data.pop(self.lamps[self.idx], None)
         self._autosave()
         self._refresh()
 
     def _skip(self):
-        if self.idx < len(LAMPS):
+        if self.idx < len(self.lamps):
             self.idx += 1
             self._refresh()
 
@@ -197,7 +206,7 @@ class LampMapper:
         self.canvas.delete("all")
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_img)
 
-        for i, lamp in enumerate(LAMPS):
+        for i, lamp in enumerate(self.lamps):
             if lamp not in self.data:
                 continue
             d   = self.data[lamp]
@@ -210,12 +219,12 @@ class LampMapper:
             self.canvas.create_text(cx, cy - r - 6, text=str(i+1),
                                     fill="white", font=("monospace", 7))
 
-        if self.idx < len(LAMPS):
-            self.v_lamp.set(f"▶  {LAMPS[self.idx]}")
-            self.v_progress.set(f"{self.idx + 1} / {len(LAMPS)}")
+        if self.idx < len(self.lamps):
+            self.v_lamp.set(f"▶  {self.lamps[self.idx]}")
+            self.v_progress.set(f"{self.idx + 1} / {len(self.lamps)}")
         else:
             self.v_lamp.set("✓  All lamps mapped — Save & Quit")
-            self.v_progress.set(f"{len(LAMPS)} / {len(LAMPS)}")
+            self.v_progress.set(f"{len(self.lamps)} / {len(self.lamps)}")
 
     # ── Persistence ───────────────────────────────────────────────────────────
 
@@ -234,11 +243,14 @@ class LampMapper:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(__doc__)
+    parser = argparse.ArgumentParser(description="Map lamp positions on a playfield or backbox image.")
+    parser.add_argument("image", help="Path to the playfield or backbox image")
+    parser.add_argument("--backbox", action="store_true", help="Map backbox lamps instead of playfield lamps")
+    args = parser.parse_args()
+
+    if not Path(args.image).exists():
+        print(f"File not found: {args.image}")
         sys.exit(1)
-    img = sys.argv[1]
-    if not Path(img).exists():
-        print(f"File not found: {img}")
-        sys.exit(1)
-    LampMapper(img).run()
+
+    location = "backbox" if args.backbox else "playfield"
+    LampMapper(args.image, location).run()

@@ -82,9 +82,8 @@ var _lamp_cells: Dictionary = {}
 const POSITIONS_PATH := "res://assets/lamp_positions.json"
 const LAMP_RADIUS     := 10   # half-size of each lamp circle on the playfield
 
-func _find_playfield_path() -> String:
-	for p in ["res://assets/playfield.png", "res://assets/playfield.jpg",
-	          "res://assets/playfield.jpeg", "res://assets/playfield.webp"]:
+func _find_asset_path(candidates: Array) -> String:
+	for p in candidates:
 		if FileAccess.file_exists(p):
 			return p
 	return ""
@@ -126,9 +125,22 @@ func _build_ui() -> void:
 	add_child(root_vbox)
 
 	root_vbox.add_child(_build_segment_row())
-	var _playfield_path := _find_playfield_path()
-	if FileAccess.file_exists(POSITIONS_PATH) and _playfield_path != "":
-		root_vbox.add_child(_build_playfield_view(_playfield_path))
+	var _playfield_path := _find_asset_path(["res://assets/playfield.png",
+		"res://assets/playfield.jpg", "res://assets/playfield.jpeg", "res://assets/playfield.webp"])
+	var _backbox_path := _find_asset_path(["res://assets/backbox.png",
+		"res://assets/backbox.jpg", "res://assets/backbox.jpeg", "res://assets/backbox.webp"])
+	var _has_positions := FileAccess.file_exists(POSITIONS_PATH)
+
+	if _has_positions and _backbox_path != "":
+		var bv := _build_image_view(_backbox_path, "backbox")
+		bv.size_flags_stretch_ratio = 0.25
+		root_vbox.add_child(bv)
+
+	if _has_positions and _playfield_path != "":
+		var pv := _build_image_view(_playfield_path, "playfield")
+		if _backbox_path != "":
+			pv.size_flags_stretch_ratio = 0.75
+		root_vbox.add_child(pv)
 	else:
 		root_vbox.add_child(_build_lamp_grid())
 
@@ -200,15 +212,13 @@ func _make_segment_col(header: String, initial: String) -> Dictionary:
 	return {"container": col, "value": val}
 
 
-func _build_playfield_view(playfield_path: String) -> Control:
-	# Outer wrapper expands to fill remaining vertical space
+func _build_image_view(image_path: String, location: String) -> Control:
 	var wrapper := Control.new()
 	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
 	wrapper.clip_contents = true
 
-	# Playfield image — loaded directly from disk to bypass Godot's importer
 	var img := Image.new()
-	img.load(playfield_path)
+	img.load(image_path)
 	var tex := ImageTexture.create_from_image(img)
 	var bg := TextureRect.new()
 	bg.texture = tex
@@ -217,17 +227,15 @@ func _build_playfield_view(playfield_path: String) -> Control:
 	bg.set_anchors_preset(PRESET_FULL_RECT)
 	wrapper.add_child(bg)
 
-	# Read positions JSON
 	var file := FileAccess.open(POSITIONS_PATH, FileAccess.READ)
 	var positions: Dictionary = JSON.parse_string(file.get_as_text())
 	file.close()
 
-	# Build a lamp for each entry in the JSON
-	# Positions are normalised (0-1) relative to the playfield image.
-	# We attach a deferred resize so lamps reposition when the wrapper resizes.
 	var r := LAMP_RADIUS
 	for lamp_name in positions:
 		var entry: Dictionary = positions[lamp_name]
+		if entry.get("image", "playfield") != location:
+			continue
 		var hex: String = entry.get("color", "ffaa00")
 		var on_color  := Color(hex.substr(0,2).hex_to_int()/255.0,
 		                       hex.substr(2,2).hex_to_int()/255.0,
@@ -255,11 +263,8 @@ func _build_playfield_view(playfield_path: String) -> Control:
 
 		_lamp_cells[lamp_name] = {"style": style, "on_color": on_color, "off_color": off_color}
 
-	# Reposition all bulbs whenever the wrapper is resized
 	wrapper.connect("resized", func(): _reposition_lamps(wrapper, tex.get_size()))
-	# Initial placement after layout settles
 	wrapper.call_deferred("emit_signal", "resized")
-
 	return wrapper
 
 

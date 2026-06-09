@@ -78,10 +78,16 @@ var _attract_label: Label
 var _attract_blink_timer: Timer
 # Maps lamp name → {"style": StyleBoxFlat, "on_color": Color, "off_color": Color}
 var _lamp_cells: Dictionary = {}
+# Switch hit areas: Array of {name, nx, ny, radius, wrapper, style}
+var _switch_areas: Array = []
+var _held_switch: String = ""
+var _held_style: StyleBoxFlat = null
 
-const POSITIONS_PATH   := "res://assets/lamp_positions.json"
-const LAMP_RADIUS      := 10   # default lamp circle radius
-const LAMP_RADIUS_LARGE := 12  # larger inserts (bonus, special, extra ball)
+const POSITIONS_PATH    := "res://assets/lamp_positions.json"
+const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
+const LAMP_RADIUS       := 10
+const LAMP_RADIUS_LARGE := 12
+const SWITCH_RADIUS     := 14
 
 func _find_asset_path(candidates: Array) -> String:
 	for p in candidates:
@@ -267,12 +273,48 @@ func _build_image_view(image_path: String, location: String) -> Control:
 		var bulb := Panel.new()
 		bulb.add_theme_stylebox_override("panel", style)
 		bulb.custom_minimum_size = Vector2(r * 2, r * 2)
+		bulb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bulb.set_meta("nx", entry.get("x", 0.5))
 		bulb.set_meta("ny", entry.get("y", 0.5))
 		wrapper.add_child(bulb)
 
 		_lamp_cells[lamp_name] = {"style": style, "on_color": on_color, "off_color": off_color}
 
+	# Build switch hit areas for this image
+	if FileAccess.file_exists(SWITCH_POSITIONS_PATH):
+		var sf := FileAccess.open(SWITCH_POSITIONS_PATH, FileAccess.READ)
+		var sw_data: Dictionary = JSON.parse_string(sf.get_as_text())
+		sf.close()
+		for sw_name in sw_data:
+			var se: Dictionary = sw_data[sw_name]
+			if se.get("image", "playfield") != location:
+				continue
+			var sr: int = se.get("radius", SWITCH_RADIUS)
+			var sw_style := StyleBoxFlat.new()
+			sw_style.bg_color            = Color(0, 0, 0, 0)
+			sw_style.border_color        = Color(0.2, 0.8, 1.0, 0.65)
+			sw_style.border_width_left   = 2
+			sw_style.border_width_right  = 2
+			sw_style.border_width_top    = 2
+			sw_style.border_width_bottom = 2
+			sw_style.corner_radius_top_left     = sr
+			sw_style.corner_radius_top_right    = sr
+			sw_style.corner_radius_bottom_left  = sr
+			sw_style.corner_radius_bottom_right = sr
+			var sw_panel := Panel.new()
+			sw_panel.add_theme_stylebox_override("panel", sw_style)
+			sw_panel.custom_minimum_size = Vector2(sr * 2, sr * 2)
+			sw_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			sw_panel.set_meta("nx", se.get("x", 0.5))
+			sw_panel.set_meta("ny", se.get("y", 0.5))
+			wrapper.add_child(sw_panel)
+			_switch_areas.append({
+				"name": sw_name, "nx": se.get("x", 0.5), "ny": se.get("y", 0.5),
+				"radius": sr, "wrapper": wrapper, "style": sw_style,
+			})
+
+	wrapper.mouse_filter = Control.MOUSE_FILTER_STOP
+	wrapper.connect("gui_input", func(e): _on_wrapper_input(e, wrapper, tex.get_size()))
 	wrapper.connect("resized", func(): _reposition_lamps(wrapper, tex.get_size()))
 	wrapper.call_deferred("emit_signal", "resized")
 	return wrapper
@@ -293,15 +335,63 @@ func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
 	var ox := (ww - drawn_w) * 0.5   # left offset of image inside wrapper
 	var oy := (wh - drawn_h) * 0.5   # top offset
 
-	var r := float(LAMP_RADIUS)
 	for child in wrapper.get_children():
 		if child is Panel and child.has_meta("nx"):
 			var nx: float = child.get_meta("nx")
 			var ny: float = child.get_meta("ny")
+			var r := child.custom_minimum_size.x * 0.5
 			child.set_position(Vector2(
 				ox + nx * drawn_w - r,
 				oy + ny * drawn_h - r
 			))
+
+
+func _on_wrapper_input(event: InputEvent, wrapper: Control, img_size: Vector2) -> void:
+	if not (event is InputEventMouseButton):
+		return
+	var mbe := event as InputEventMouseButton
+	if mbe.button_index != MOUSE_BUTTON_LEFT or not mbe.pressed:
+		return
+	# Convert click position to normalised image coordinates
+	var ww := wrapper.size.x
+	var wh := wrapper.size.y
+	var scale := minf(ww / img_size.x, wh / img_size.y)
+	var drawn_w := img_size.x * scale
+	var drawn_h := img_size.y * scale
+	var ox := (ww - drawn_w) * 0.5
+	var oy := (wh - drawn_h) * 0.5
+	var lx := mbe.position.x - ox
+	var ly := mbe.position.y - oy
+	if lx < 0 or ly < 0 or lx > drawn_w or ly > drawn_h:
+		return
+	var nx := lx / drawn_w
+	var ny := ly / drawn_h
+	# Hit-test switch areas
+	for area in _switch_areas:
+		if area["wrapper"] != wrapper:
+			continue
+		var dpx := (nx - float(area["nx"])) * drawn_w
+		var dpy := (ny - float(area["ny"])) * drawn_h
+		if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
+			_held_switch = area["name"]
+			_held_style  = area["style"]
+			area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
+			if MPF.server.has_method("force_switch"):
+				MPF.server.force_switch(area["name"], true)
+			break
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var mbe := event as InputEventMouseButton
+		if not mbe.pressed and mbe.button_index == MOUSE_BUTTON_LEFT:
+			if _held_switch != "":
+				if MPF.server.has_method("force_switch"):
+					MPF.server.force_switch(_held_switch, false)
+				if _held_style:
+					_held_style.bg_color = Color(0, 0, 0, 0)
+				_held_switch = ""
+				_held_style  = null
 
 
 func _build_lamp_grid() -> Control:

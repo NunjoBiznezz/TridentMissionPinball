@@ -39,6 +39,9 @@ func on_message(message: Dictionary):
 			return null
 	return message
 
+func force_switch(switch_name: String, active: bool) -> void:
+	_send("switch?name=%s&state=%d" % [switch_name, 1 if active else 0])
+
 func _rgb_to_color(v) -> Color:
 	if typeof(v) == TYPE_ARRAY and v.size() >= 3:
 		return Color(v[0] / 255.0, v[1] / 255.0, v[2] / 255.0)

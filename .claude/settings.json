@@ -54,7 +54,8 @@
       "Bash(xargs kill -9)",
       "Bash(echo \"exit:$?\")",
       "Bash(gtimeout 10 ./run_dev.sh)",
-      "Bash(kill -9 63328)"
+      "Bash(kill -9 63328)",
+      "Bash(awk '{print $1}')"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

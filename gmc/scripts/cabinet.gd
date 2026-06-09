@@ -246,6 +246,7 @@ func _build_image_view(image_path: String, location: String) -> Control:
 	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	bg.set_anchors_preset(PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	wrapper.add_child(bg)
 
 	var file := FileAccess.open(POSITIONS_PATH, FileAccess.READ)
@@ -316,10 +317,10 @@ func _build_image_view(image_path: String, location: String) -> Control:
 			_switch_areas.append({
 				"name": sw_name, "nx": se.get("x", 0.5), "ny": se.get("y", 0.5),
 				"radius": sr, "wrapper": wrapper, "style": sw_style,
+				"img_size": tex.get_size(),
 			})
 
-	wrapper.mouse_filter = Control.MOUSE_FILTER_STOP
-	wrapper.connect("gui_input", func(e): _on_wrapper_input(e, wrapper, tex.get_size()))
+	print("[Cabinet] _build_image_view('%s') done — switch_areas total: %d" % [location, _switch_areas.size()])
 	wrapper.connect("resized", func(): _reposition_lamps(wrapper, tex.get_size()))
 	wrapper.call_deferred("emit_signal", "resized")
 	return wrapper
@@ -351,58 +352,61 @@ func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
 			))
 
 
-func _on_wrapper_input(event: InputEvent, wrapper: Control, img_size: Vector2) -> void:
+func _input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton):
 		return
 	var mbe := event as InputEventMouseButton
-	if mbe.button_index != MOUSE_BUTTON_LEFT or not mbe.pressed:
+	if mbe.button_index != MOUSE_BUTTON_LEFT:
 		return
-	# Convert click position to normalised image coordinates
-	var ww := wrapper.size.x
-	var wh := wrapper.size.y
-	var scale := minf(ww / img_size.x, wh / img_size.y)
-	var drawn_w := img_size.x * scale
-	var drawn_h := img_size.y * scale
-	var ox := (ww - drawn_w) * 0.5
-	var oy := (wh - drawn_h) * 0.5
-	var lx := mbe.position.x - ox
-	var ly := mbe.position.y - oy
-	if lx < 0 or ly < 0 or lx > drawn_w or ly > drawn_h:
-		return
-	var nx := lx / drawn_w
-	var ny := ly / drawn_h
-	# Hit-test switch areas
-	for area in _switch_areas:
-		if area["wrapper"] != wrapper:
-			continue
-		var dpx := (nx - float(area["nx"])) * drawn_w
-		var dpy := (ny - float(area["ny"])) * drawn_h
-		if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
-			_held_switch    = area["name"]
-			_held_style     = area["style"]
-			_held_off_color = Color(0, 0, 0, 0)
-			_held_label     = null
-			area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
-			if MPF.server.has_method("force_switch"):
-				MPF.server.force_switch(area["name"], true)
-			break
 
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		var mbe := event as InputEventMouseButton
-		if not mbe.pressed and mbe.button_index == MOUSE_BUTTON_LEFT:
-			if _held_switch != "":
-				if MPF.server.has_method("force_switch"):
-					MPF.server.force_switch(_held_switch, false)
-				if _held_style:
-					_held_style.bg_color = _held_off_color
-				if _held_label:
-					_held_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
-					_held_label = null
-				_held_switch    = ""
-				_held_style     = null
+	if mbe.pressed:
+		for area in _switch_areas:
+			var wrapper: Control = area["wrapper"]
+			var img_size: Vector2 = area["img_size"]
+			var wr := wrapper.get_global_rect()
+			var lx := mbe.global_position.x - wr.position.x
+			var ly := mbe.global_position.y - wr.position.y
+			if lx < 0 or ly < 0 or lx > wr.size.x or ly > wr.size.y:
+				continue
+			var scale := minf(wr.size.x / img_size.x, wr.size.y / img_size.y)
+			var drawn_w := img_size.x * scale
+			var drawn_h := img_size.y * scale
+			var ox := (wr.size.x - drawn_w) * 0.5
+			var oy := (wr.size.y - drawn_h) * 0.5
+			var ix := lx - ox
+			var iy := ly - oy
+			if ix < 0 or iy < 0 or ix > drawn_w or iy > drawn_h:
+				continue
+			var nx := ix / drawn_w
+			var ny := iy / drawn_h
+			var dpx := (nx - float(area["nx"])) * drawn_w
+			var dpy := (ny - float(area["ny"])) * drawn_h
+			if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
+				print("[Cabinet] HIT: ", area["name"])
+				print("[Cabinet]   has_method force_switch: ", MPF.server.has_method("force_switch"))
+				print("[Cabinet]   server status: ", MPF.server.status)
+				_held_switch    = area["name"]
+				_held_style     = area["style"]
 				_held_off_color = Color(0, 0, 0, 0)
+				_held_label     = null
+				area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
+				if MPF.server.has_method("force_switch"):
+					MPF.server.force_switch(area["name"], true)
+				else:
+					print("[Cabinet]   ERROR: force_switch method not found on server")
+				break
+	else:
+		if _held_switch != "":
+			if MPF.server.has_method("force_switch"):
+				MPF.server.force_switch(_held_switch, false)
+			if _held_style:
+				_held_style.bg_color = _held_off_color
+			if _held_label:
+				_held_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+				_held_label = null
+			_held_switch    = ""
+			_held_style     = null
+			_held_off_color = Color(0, 0, 0, 0)
 
 
 func _build_cabinet_strip() -> Control:

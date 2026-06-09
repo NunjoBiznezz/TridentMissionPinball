@@ -40,7 +40,9 @@ func on_message(message: Dictionary):
 	return message
 
 func force_switch(switch_name: String, active: bool) -> void:
-	_send("switch?name=%s&state=%d" % [switch_name, 1 if active else 0])
+	var msg := "switch?name=%s&state=%d" % [switch_name, 1 if active else 0]
+	print("[TridentServer] force_switch sending: ", msg)
+	_send(msg)
 
 func _rgb_to_color(v) -> Color:
 	if typeof(v) == TYPE_ARRAY and v.size() >= 3:

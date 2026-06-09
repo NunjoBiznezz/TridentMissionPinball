@@ -1,0 +1,29 @@
+#config_version=6
+
+# Handles coin insertion and credit counting.
+# Runs at all times regardless of game state.
+
+mode:
+  start_events: machine_reset_phase_3
+  game_mode: false
+  priority: 5
+
+event_player:
+  s_coin_1_active: coin_inserted_chute_1
+  s_coin_2_active: coin_inserted_chute_2
+  s_coin_3_active: coin_inserted_chute_3
+
+variable_player:
+  coin_inserted_chute_1{machine.credits < machine.max_credits}:
+    credits: {int: 1, action: add_machine}
+
+  coin_inserted_chute_2{machine.credits < machine.max_credits}:
+    credits: {int: 1, action: add_machine}
+
+  coin_inserted_chute_3{machine.credits < machine.max_credits}:
+    credits: {int: 1, action: add_machine}
+
+  # Deduct 1 credit when a game starts (handled here so it works
+  # regardless of which ruleset mode is active).
+  game_started{machine.adj_free_play == 0 and machine.credits > 0}:
+    credits: {int: -1, action: add_machine}

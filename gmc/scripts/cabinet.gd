@@ -80,6 +80,8 @@ var _attract_blink_timer: Timer
 var _lamp_cells: Dictionary = {}
 # Switch hit areas: Array of {name, nx, ny, radius, wrapper, style}
 var _switch_areas: Array = []
+# Cabinet button hit areas: Array of {name, panel, style, label, off_color}
+var _cabinet_buttons: Array = []
 var _held_switch: String = ""
 var _held_style: StyleBoxFlat = null
 var _held_off_color: Color = Color(0, 0, 0, 0)
@@ -360,6 +362,20 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if mbe.pressed:
+		# Cabinet strip buttons
+		for btn in _cabinet_buttons:
+			var panel: Panel = btn["panel"]
+			if panel.get_global_rect().has_point(mbe.global_position):
+				_held_switch    = btn["name"]
+				_held_style     = btn["style"]
+				_held_off_color = btn["off_color"]
+				_held_label     = btn["label"]
+				btn["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
+				btn["label"].add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
+				MPF.server.send_switch(btn["name"], 1)
+				return
+
+		# Playfield / backbox switch circles
 		for area in _switch_areas:
 			var wrapper: Control = area["wrapper"]
 			var img_size: Vector2 = area["img_size"]
@@ -382,7 +398,6 @@ func _input(event: InputEvent) -> void:
 			var dpx := (nx - float(area["nx"])) * drawn_w
 			var dpy := (ny - float(area["ny"])) * drawn_h
 			if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
-				print("[Cabinet] HIT: ", area["name"])
 				_held_switch    = area["name"]
 				_held_style     = area["style"]
 				_held_off_color = Color(0, 0, 0, 0)
@@ -449,27 +464,15 @@ func _build_cabinet_strip() -> Control:
 		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(lbl)
 
-		btn.mouse_filter = Control.MOUSE_FILTER_STOP
-		var sw_name_cap: String = sw_name
-		btn.connect("gui_input", func(e): _on_cabinet_input(e, sw_name_cap, sw_style, lbl))
+		btn.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		hbox.add_child(btn)
+		_cabinet_buttons.append({
+			"name": sw_name, "panel": btn,
+			"style": sw_style, "label": lbl,
+			"off_color": Color(0.12, 0.12, 0.12)
+		})
 
 	return outer
-
-
-func _on_cabinet_input(event: InputEvent, sw_name: String, style: StyleBoxFlat, lbl: Label) -> void:
-	if not (event is InputEventMouseButton):
-		return
-	var mbe := event as InputEventMouseButton
-	if mbe.button_index != MOUSE_BUTTON_LEFT or not mbe.pressed:
-		return
-	_held_switch    = sw_name
-	_held_style     = style
-	_held_off_color = Color(0.12, 0.12, 0.12)
-	_held_label     = lbl
-	style.bg_color  = Color(0.2, 0.8, 1.0, 0.5)
-	lbl.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
-	MPF.server.send_switch(sw_name, 1)
 
 
 func _build_lamp_grid() -> Control:

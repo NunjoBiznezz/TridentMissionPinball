@@ -79,8 +79,9 @@ var _attract_blink_timer: Timer
 # Maps lamp name → {"style": StyleBoxFlat, "on_color": Color, "off_color": Color}
 var _lamp_cells: Dictionary = {}
 
-const POSITIONS_PATH := "res://assets/lamp_positions.json"
-const LAMP_RADIUS     := 10   # half-size of each lamp circle on the playfield
+const POSITIONS_PATH   := "res://assets/lamp_positions.json"
+const LAMP_RADIUS      := 10   # default lamp circle radius
+const LAMP_RADIUS_LARGE := 12  # larger inserts (bonus, special, extra ball)
 
 func _find_asset_path(candidates: Array) -> String:
 	for p in candidates:
@@ -240,11 +241,11 @@ func _build_image_view(image_path: String, location: String) -> Control:
 	var positions: Dictionary = JSON.parse_string(file.get_as_text())
 	file.close()
 
-	var r := LAMP_RADIUS
 	for lamp_name in positions:
 		var entry: Dictionary = positions[lamp_name]
 		if entry.get("image", "playfield") != location:
 			continue
+		var r: int = entry.get("radius", LAMP_RADIUS)
 		var hex: String = entry.get("color", "ffaa00")
 		var on_color  := Color(hex.substr(0,2).hex_to_int()/255.0,
 		                       hex.substr(2,2).hex_to_int()/255.0,

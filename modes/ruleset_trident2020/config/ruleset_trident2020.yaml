@@ -20,7 +20,7 @@ mode:
   start_events: ruleset_trident2020_selected
   stop_events: game_ending
   priority: 220
-  game_mode: false
+  game_mode: true
 
 timers:
   # Resets Feeding Frenzy progress if no qualifying spinner hit within 30 s

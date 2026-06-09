@@ -76,8 +76,18 @@ var _credits_label: Label
 var _status_label: Label
 var _attract_label: Label
 var _attract_blink_timer: Timer
-# Maps lamp name → {"rect": ColorRect, "on_color": Color}
+# Maps lamp name → {"style": StyleBoxFlat, "on_color": Color, "off_color": Color}
 var _lamp_cells: Dictionary = {}
+
+const POSITIONS_PATH := "res://assets/lamp_positions.json"
+const LAMP_RADIUS     := 10   # half-size of each lamp circle on the playfield
+
+func _find_playfield_path() -> String:
+	for p in ["res://assets/playfield.png", "res://assets/playfield.jpg",
+	          "res://assets/playfield.jpeg", "res://assets/playfield.webp"]:
+		if ResourceLoader.exists(p):
+			return p
+	return ""
 
 # ---------------------------------------------------------------------------
 # Entry point
@@ -116,7 +126,11 @@ func _build_ui() -> void:
 	add_child(root_vbox)
 
 	root_vbox.add_child(_build_segment_row())
-	root_vbox.add_child(_build_lamp_grid())
+	var _playfield_path := _find_playfield_path()
+	if ResourceLoader.exists(POSITIONS_PATH) and _playfield_path != "":
+		root_vbox.add_child(_build_playfield_view(_playfield_path))
+	else:
+		root_vbox.add_child(_build_lamp_grid())
 
 	_attract_label = Label.new()
 	_attract_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -186,6 +200,93 @@ func _make_segment_col(header: String, initial: String) -> Dictionary:
 	return {"container": col, "value": val}
 
 
+func _build_playfield_view(playfield_path: String) -> Control:
+	# Outer wrapper expands to fill remaining vertical space
+	var wrapper := Control.new()
+	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
+	wrapper.clip_contents = true
+
+	# Playfield image — fills the wrapper, preserving aspect ratio
+	var tex: Texture2D = load(playfield_path)
+	var bg := TextureRect.new()
+	bg.texture = tex
+	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	bg.set_anchors_preset(PRESET_FULL_RECT)
+	wrapper.add_child(bg)
+
+	# Read positions JSON
+	var file := FileAccess.open(POSITIONS_PATH, FileAccess.READ)
+	var positions: Dictionary = JSON.parse_string(file.get_as_text())
+	file.close()
+
+	# Build a lamp for each entry in the JSON
+	# Positions are normalised (0-1) relative to the playfield image.
+	# We attach a deferred resize so lamps reposition when the wrapper resizes.
+	var r := LAMP_RADIUS
+	for lamp_name in positions:
+		var entry: Dictionary = positions[lamp_name]
+		var hex: String = entry.get("color", "ffaa00")
+		var on_color  := Color(hex.substr(0,2).hex_to_int()/255.0,
+		                       hex.substr(2,2).hex_to_int()/255.0,
+		                       hex.substr(4,2).hex_to_int()/255.0)
+		var off_color := on_color * 0.12
+
+		var style := StyleBoxFlat.new()
+		style.bg_color = off_color
+		style.corner_radius_top_left    = r
+		style.corner_radius_top_right   = r
+		style.corner_radius_bottom_left = r
+		style.corner_radius_bottom_right = r
+		style.border_width_left   = 1
+		style.border_width_right  = 1
+		style.border_width_top    = 1
+		style.border_width_bottom = 1
+		style.border_color = on_color * 0.35
+
+		var bulb := Panel.new()
+		bulb.add_theme_stylebox_override("panel", style)
+		bulb.custom_minimum_size = Vector2(r * 2, r * 2)
+		bulb.set_meta("nx", entry.get("x", 0.5))
+		bulb.set_meta("ny", entry.get("y", 0.5))
+		wrapper.add_child(bulb)
+
+		_lamp_cells[lamp_name] = {"style": style, "on_color": on_color, "off_color": off_color}
+
+	# Reposition all bulbs whenever the wrapper is resized
+	wrapper.connect("resized", func(): _reposition_lamps(wrapper, tex.get_size()))
+	# Initial placement after layout settles
+	wrapper.call_deferred("emit_signal", "resized")
+
+	return wrapper
+
+
+func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
+	var ww := wrapper.size.x
+	var wh := wrapper.size.y
+	if ww == 0 or wh == 0:
+		return
+
+	# TextureRect KEEP_ASPECT_CENTERED: compute the actual drawn rect
+	var iw := img_size.x
+	var ih := img_size.y
+	var scale := minf(ww / iw, wh / ih)
+	var drawn_w := iw * scale
+	var drawn_h := ih * scale
+	var ox := (ww - drawn_w) * 0.5   # left offset of image inside wrapper
+	var oy := (wh - drawn_h) * 0.5   # top offset
+
+	var r := float(LAMP_RADIUS)
+	for child in wrapper.get_children():
+		if child is Panel and child.has_meta("nx"):
+			var nx: float = child.get_meta("nx")
+			var ny: float = child.get_meta("ny")
+			child.set_position(Vector2(
+				ox + nx * drawn_w - r,
+				oy + ny * drawn_h - r
+			))
+
+
 func _build_lamp_grid() -> Control:
 	var wrapper = Control.new()
 	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
@@ -203,25 +304,38 @@ func _build_lamp_grid() -> Control:
 		var off_color: Color = on_color * 0.12
 
 		var cell = VBoxContainer.new()
-		cell.custom_minimum_size = Vector2(118, 48)
+		cell.custom_minimum_size = Vector2(100, 52)
+		cell.alignment = BoxContainer.ALIGNMENT_CENTER
 
-		var rect = ColorRect.new()
-		rect.color = off_color
-		rect.custom_minimum_size = Vector2(118, 32)
-		cell.add_child(rect)
+		var style := StyleBoxFlat.new()
+		style.bg_color = off_color
+		style.corner_radius_top_left    = 18
+		style.corner_radius_top_right   = 18
+		style.corner_radius_bottom_left = 18
+		style.corner_radius_bottom_right = 18
+		style.border_width_left   = 1
+		style.border_width_right  = 1
+		style.border_width_top    = 1
+		style.border_width_bottom = 1
+		style.border_color = on_color * 0.25
 
-		var lbl = Label.new()
-		# Strip the "l_" prefix for compactness
+		var bulb := Panel.new()
+		bulb.add_theme_stylebox_override("panel", style)
+		bulb.custom_minimum_size = Vector2(36, 36)
+		bulb.size_flags_horizontal = SIZE_SHRINK_CENTER
+		cell.add_child(bulb)
+
+		var lbl := Label.new()
 		lbl.text = lamp_name.substr(2)
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lbl.add_theme_font_size_override("font_size", 8)
+		lbl.add_theme_font_size_override("font_size", 7)
 		lbl.add_theme_color_override("font_color", Color(0.38, 0.38, 0.38))
 		lbl.clip_text = true
-		lbl.custom_minimum_size = Vector2(118, 0)
+		lbl.custom_minimum_size = Vector2(100, 0)
 		cell.add_child(lbl)
 
 		grid.add_child(cell)
-		_lamp_cells[lamp_name] = {"rect": rect, "on_color": on_color, "off_color": off_color}
+		_lamp_cells[lamp_name] = {"style": style, "on_color": on_color, "off_color": off_color}
 
 	return wrapper
 
@@ -267,7 +381,7 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 		return
 	var cell = _lamp_cells[lamp_name]
 	var is_on := color.r > 0.05 or color.g > 0.05 or color.b > 0.05
-	cell["rect"].color = color if is_on else cell["off_color"]
+	cell["style"].bg_color = color if is_on else cell["off_color"]
 
 
 func _on_switch_changed(_switch_name: String, _state: bool) -> void:

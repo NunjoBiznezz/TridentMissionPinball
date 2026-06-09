@@ -253,7 +253,7 @@ func on_disconnect() -> void:
 func on_input(_event_payload: PackedStringArray) -> void:
 	pass
 
-func on_message(message: Dictionary) -> Dictionary:
+func on_message(message: Dictionary):
 	return message
 
 func on_mode_start(_mode_name: String) -> void:

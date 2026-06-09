@@ -143,34 +143,58 @@
     "radius": 12,
     "image": "playfield"
   },
-  "s_left_flipper": {
-    "x": 0.28,
-    "y": 0.93,
-    "radius": 16,
-    "image": "playfield"
-  },
-  "s_right_flipper": {
-    "x": 0.72,
-    "y": 0.93,
-    "radius": 16,
-    "image": "playfield"
-  },
   "s_outhole": {
     "x": 0.44907,
     "y": 0.90104,
     "radius": 14,
     "image": "playfield"
   },
+  "s_left_flipper": {
+    "x": 0.28,
+    "y": 0.93,
+    "radius": 16,
+    "image": "cabinet"
+  },
+  "s_right_flipper": {
+    "x": 0.72,
+    "y": 0.93,
+    "radius": 16,
+    "image": "cabinet"
+  },
   "s_start_button": {
     "x": 0.15,
     "y": 0.97,
     "radius": 16,
-    "image": "playfield"
+    "image": "cabinet"
   },
   "s_tilt": {
     "x": 0.85,
     "y": 0.97,
     "radius": 14,
-    "image": "playfield"
+    "image": "cabinet"
+  },
+  "s_service": {
+    "x": 0.0,
+    "y": 0.0,
+    "radius": 14,
+    "image": "cabinet"
+  },
+  "s_coin_1": {
+    "x": 0.0,
+    "y": 0.0,
+    "radius": 14,
+    "image": "cabinet"
+  },
+  "s_coin_2": {
+    "x": 0.0,
+    "y": 0.0,
+    "radius": 14,
+    "image": "cabinet"
+  },
+  "s_coin_3": {
+    "x": 0.0,
+    "y": 0.0,
+    "radius": 14,
+    "image": "cabinet"
   }
 }

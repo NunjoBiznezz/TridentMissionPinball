@@ -82,6 +82,8 @@ var _lamp_cells: Dictionary = {}
 var _switch_areas: Array = []
 var _held_switch: String = ""
 var _held_style: StyleBoxFlat = null
+var _held_off_color: Color = Color(0, 0, 0, 0)
+var _held_label: Label = null
 
 const POSITIONS_PATH    := "res://assets/lamp_positions.json"
 const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
@@ -158,6 +160,9 @@ func _build_ui() -> void:
 			root_vbox.add_child(_build_image_view(_playfield_path, "playfield"))
 	else:
 		root_vbox.add_child(_build_lamp_grid())
+
+	if FileAccess.file_exists(SWITCH_POSITIONS_PATH):
+		root_vbox.add_child(_build_cabinet_strip())
 
 	_attract_label = Label.new()
 	_attract_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -373,8 +378,10 @@ func _on_wrapper_input(event: InputEvent, wrapper: Control, img_size: Vector2) -
 		var dpx := (nx - float(area["nx"])) * drawn_w
 		var dpy := (ny - float(area["ny"])) * drawn_h
 		if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
-			_held_switch = area["name"]
-			_held_style  = area["style"]
+			_held_switch    = area["name"]
+			_held_style     = area["style"]
+			_held_off_color = Color(0, 0, 0, 0)
+			_held_label     = null
 			area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
 			if MPF.server.has_method("force_switch"):
 				MPF.server.force_switch(area["name"], true)
@@ -389,9 +396,83 @@ func _input(event: InputEvent) -> void:
 				if MPF.server.has_method("force_switch"):
 					MPF.server.force_switch(_held_switch, false)
 				if _held_style:
-					_held_style.bg_color = Color(0, 0, 0, 0)
-				_held_switch = ""
-				_held_style  = null
+					_held_style.bg_color = _held_off_color
+				if _held_label:
+					_held_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+					_held_label = null
+				_held_switch    = ""
+				_held_style     = null
+				_held_off_color = Color(0, 0, 0, 0)
+
+
+func _build_cabinet_strip() -> Control:
+	var outer := PanelContainer.new()
+	outer.custom_minimum_size = Vector2(0, 52)
+
+	var hbox := HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.add_theme_constant_override("separation", 8)
+	outer.add_child(hbox)
+
+	var file := FileAccess.open(SWITCH_POSITIONS_PATH, FileAccess.READ)
+	var sw_data: Dictionary = JSON.parse_string(file.get_as_text())
+	file.close()
+
+	for sw_name in sw_data:
+		var se: Dictionary = sw_data[sw_name]
+		if se.get("image", "playfield") != "cabinet":
+			continue
+
+		var label_text: String = sw_name.substr(2).replace("_", " ").to_upper()
+
+		var sw_style := StyleBoxFlat.new()
+		sw_style.bg_color            = Color(0.12, 0.12, 0.12)
+		sw_style.border_color        = Color(0.2, 0.8, 1.0, 0.65)
+		sw_style.border_width_left   = 2
+		sw_style.border_width_right  = 2
+		sw_style.border_width_top    = 2
+		sw_style.border_width_bottom = 2
+		sw_style.corner_radius_top_left     = 6
+		sw_style.corner_radius_top_right    = 6
+		sw_style.corner_radius_bottom_left  = 6
+		sw_style.corner_radius_bottom_right = 6
+
+		var btn := Panel.new()
+		btn.add_theme_stylebox_override("panel", sw_style)
+		btn.custom_minimum_size = Vector2(110, 36)
+
+		var lbl := Label.new()
+		lbl.text = label_text
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+		lbl.set_anchors_preset(PRESET_FULL_RECT)
+		lbl.add_theme_font_size_override("font_size", 11)
+		lbl.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		btn.add_child(lbl)
+
+		btn.mouse_filter = Control.MOUSE_FILTER_STOP
+		var sw_name_cap: String = sw_name
+		btn.connect("gui_input", func(e): _on_cabinet_input(e, sw_name_cap, sw_style, lbl))
+		hbox.add_child(btn)
+
+	return outer
+
+
+func _on_cabinet_input(event: InputEvent, sw_name: String, style: StyleBoxFlat, lbl: Label) -> void:
+	if not (event is InputEventMouseButton):
+		return
+	var mbe := event as InputEventMouseButton
+	if mbe.button_index != MOUSE_BUTTON_LEFT or not mbe.pressed:
+		return
+	_held_switch    = sw_name
+	_held_style     = style
+	_held_off_color = Color(0.12, 0.12, 0.12)
+	_held_label     = lbl
+	style.bg_color  = Color(0.2, 0.8, 1.0, 0.5)
+	lbl.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
+	if MPF.server.has_method("force_switch"):
+		MPF.server.force_switch(sw_name, true)
 
 
 func _build_lamp_grid() -> Control:

@@ -6,20 +6,20 @@
     "image": "playfield"
   },
   "s_10_pts": {
-    "x": 0.5,
-    "y": 0.08,
+    "x": 0.64167,
+    "y": 0.10885,
     "radius": 12,
     "image": "playfield"
   },
   "s_top_bumper": {
-    "x": 0.38,
-    "y": 0.28,
+    "x": 0.53519,
+    "y": 0.2526,
     "radius": 18,
     "image": "playfield"
   },
   "s_bottom_bumper": {
-    "x": 0.62,
-    "y": 0.33,
+    "x": 0.4713,
+    "y": 0.36667,
     "radius": 18,
     "image": "playfield"
   },
@@ -66,8 +66,8 @@
     "image": "playfield"
   },
   "s_standup_amber": {
-    "x": 0.72037,
-    "y": 0.025,
+    "x": 0.7213,
+    "y": 0.23073,
     "radius": 12,
     "image": "playfield"
   },
@@ -102,8 +102,8 @@
     "image": "playfield"
   },
   "s_ur_sling": {
-    "x": 0.11944,
-    "y": 0.47448,
+    "x": 0.76944,
+    "y": 0.4875,
     "radius": 14,
     "image": "playfield"
   },

@@ -131,16 +131,24 @@ func _build_ui() -> void:
 		"res://assets/backbox.jpg", "res://assets/backbox.jpeg", "res://assets/backbox.webp"])
 	var _has_positions := FileAccess.file_exists(POSITIONS_PATH)
 
-	if _has_positions and _backbox_path != "":
-		var bv := _build_image_view(_backbox_path, "backbox")
-		bv.size_flags_stretch_ratio = 0.25
-		root_vbox.add_child(bv)
-
 	if _has_positions and _playfield_path != "":
-		var pv := _build_image_view(_playfield_path, "playfield")
 		if _backbox_path != "":
-			pv.size_flags_stretch_ratio = 0.75
-		root_vbox.add_child(pv)
+			# Side-by-side: playfield left (65%), backbox right (35%)
+			var hbox := HBoxContainer.new()
+			hbox.size_flags_vertical = SIZE_EXPAND_FILL
+			hbox.add_theme_constant_override("separation", 4)
+
+			var pv := _build_image_view(_playfield_path, "playfield")
+			pv.size_flags_stretch_ratio = 0.5
+			hbox.add_child(pv)
+
+			var bv := _build_image_view(_backbox_path, "backbox")
+			bv.size_flags_stretch_ratio = 0.5
+			hbox.add_child(bv)
+
+			root_vbox.add_child(hbox)
+		else:
+			root_vbox.add_child(_build_image_view(_playfield_path, "playfield"))
 	else:
 		root_vbox.add_child(_build_lamp_grid())
 
@@ -215,6 +223,7 @@ func _make_segment_col(header: String, initial: String) -> Dictionary:
 func _build_image_view(image_path: String, location: String) -> Control:
 	var wrapper := Control.new()
 	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
+	wrapper.size_flags_horizontal = SIZE_EXPAND_FILL
 	wrapper.clip_contents = true
 
 	var img := Image.new()

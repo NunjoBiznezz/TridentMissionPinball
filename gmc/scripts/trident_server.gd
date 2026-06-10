@@ -16,6 +16,15 @@ func stop(is_exiting: bool = false) -> void:
 	if not is_exiting:
 		call_deferred("listen")
 
+# Guard against the double-listen bug: when MPF sends "goodbye" and then the
+# socket also closes, two deferred stop() calls are queued. The second listen()
+# would fail with "port in use", then call set_process(false) and break
+# reconnection. Bail out early if the server is already listening.
+func listen() -> void:
+	if _server.is_listening():
+		return
+	super.listen()
+
 # Return null to swallow the message (prevent the base-class match from
 # logging a spurious "No handler" warning).
 func on_message(message: Dictionary):

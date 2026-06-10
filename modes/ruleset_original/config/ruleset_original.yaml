@@ -695,6 +695,11 @@ light_player:
     l_bonus_8: off
     l_bonus_9: off
     l_bonus_10: off
+    l_standup_white: off
+    l_standup_amber: off
+    l_standup_green: off
+    l_standup_yellow: off
+    l_standup_purple: off
 
   # Phase A complete: 2X earned, 3X feature lit, saucer 10K
   dt_phase_a_complete:
@@ -770,6 +775,11 @@ light_player:
     l_bonus_8: off
     l_bonus_9: off
     l_bonus_10: off
+    l_standup_white: off
+    l_standup_amber: off
+    l_standup_green: off
+    l_standup_yellow: off
+    l_standup_purple: off
 
   # Single-step bonus lamp advances (left inlane)
   bonus_step_to_1:
@@ -925,18 +935,31 @@ light_player:
   right_special_awarded:
     l_right_outlane_special: off
 
-  # Standup targets light their respective spinner lamp
+  # Standup targets light their respective spinner lamp and standup lamp
   s_standup_white_active:
     l_left_spinner_white: on
+    l_standup_white: on
   s_standup_amber_active:
     l_left_spinner_amber: on
+    l_standup_amber: on
   s_standup_green_active:
     l_right_spinner_green: on
+    l_standup_green: on
   s_standup_yellow_active:
     l_right_spinner_yellow: on
+    l_standup_yellow: on
   s_standup_purple_active:
     l_left_spinner_purple: on
     l_right_spinner_purple: off
+    l_standup_purple: on
+
+  # All 5 standup targets hit: turn off standup lamps for next cycle
+  standup_all_hit:
+    l_standup_white: off
+    l_standup_amber: off
+    l_standup_green: off
+    l_standup_yellow: off
+    l_standup_purple: off
 
   # Purple bonus lamp follows the side it's on
   purple_to_right:

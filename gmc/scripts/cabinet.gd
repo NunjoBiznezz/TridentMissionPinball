@@ -109,6 +109,7 @@ func _find_asset_path(candidates: Array) -> String:
 func _ready() -> void:
 	MPF.server.listen()
 	_build_ui()
+	_init_assumed_switch_states()
 
 	MPF.server.connect("status_changed", _on_status_changed)
 	_on_status_changed(MPF.server.status)
@@ -603,6 +604,16 @@ func _build_lamp_grid() -> Control:
 # ---------------------------------------------------------------------------
 # Signal handlers
 # ---------------------------------------------------------------------------
+func _init_assumed_switch_states() -> void:
+	var assumed := ["s_drop_target_1", "s_drop_target_2", "s_drop_target_3",
+	                "s_drop_target_4", "s_drop_target_5", "s_outhole"]
+	for sw_name in assumed:
+		if sw_name in _switch_area_map and sw_name not in _latched_switches:
+			var area = _switch_area_map[sw_name]
+			area["style"].bg_color = Color(1.0, 0.15, 0.15, 0.7)
+			_latched_switches[sw_name] = area["style"]
+
+
 func _on_status_changed(status) -> void:
 	var msgs = {
 		0: "Idle",
@@ -613,6 +624,13 @@ func _on_status_changed(status) -> void:
 	}
 	if _status_label:
 		_status_label.text = msgs.get(status, "")
+	if status == 3:
+		call_deferred("_send_latched_switch_states")
+
+
+func _send_latched_switch_states() -> void:
+	for sw_name in _latched_switches:
+		MPF.server.send_switch(sw_name, 1)
 
 
 func _on_game_started() -> void:

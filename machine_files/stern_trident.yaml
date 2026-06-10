@@ -59,10 +59,10 @@ switches:
   s_right_outlane:
     number: 16
     type: NO
-  s_right_inlane:
+  s_right_return_lane:
     number: 17
     type: NO
-  s_left_inlane:
+  s_left_return_lane:
     number: 18
     type: NO
   s_standup_purple:

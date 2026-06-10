@@ -125,13 +125,13 @@
     "radius": 14,
     "image": "playfield"
   },
-  "s_left_inlane": {
+  "s_left_return_lane": {
     "x": 0.05185,
     "y": 0.70417,
     "radius": 12,
     "image": "playfield"
   },
-  "s_right_inlane": {
+  "s_right_return_lane": {
     "x": 0.78056,
     "y": 0.7151,
     "radius": 12,

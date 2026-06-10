@@ -31,25 +31,25 @@ class TestBonusAdvancement(RulesetTestBase):
 
         # ── Right inlane: +3 each time ───────────────────────────────
         # 1 → 4 → 7 → 10
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(4, 'bonus_steps')
 
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(7, 'bonus_steps')
 
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(10, 'bonus_steps')
 
         # ── Left inlane: +1 step ─────────────────────────────────────
         # 10 → 11 → 12
-        self.hit_and_release_switch('s_left_inlane')
+        self.hit_and_release_switch('s_left_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(11, 'bonus_steps')
 
-        self.hit_and_release_switch('s_left_inlane')
+        self.hit_and_release_switch('s_left_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(12, 'bonus_steps')
 
@@ -61,20 +61,20 @@ class TestBonusAdvancement(RulesetTestBase):
 
         # ── Right inlane: +3 again ───────────────────────────────────
         # 13 → 16 → 19  (max)
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(16, 'bonus_steps')
 
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
         # ── Cap: no source should advance past 19 ────────────────────
-        self.hit_and_release_switch('s_left_inlane')
+        self.hit_and_release_switch('s_left_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
-        self.hit_and_release_switch('s_right_inlane')
+        self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 

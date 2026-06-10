@@ -72,7 +72,7 @@ class TestStandupTargets(RulesetTestBase):
         # ── Extra ball collection ────────────────────────────────────
         # Right inlane with extra_ball_lit collects the extra ball and
         # clears the lamp.
-        self.hit_switch_and_run('s_right_inlane', 0)
+        self.hit_switch_and_run('s_right_return_lane', 0)
         self.advance_time_and_run(0.1)
         self.assertEventCalled('collect_standup_extra_ball')
         self.assertPlayerVarEqual(0, 'extra_ball_lit')

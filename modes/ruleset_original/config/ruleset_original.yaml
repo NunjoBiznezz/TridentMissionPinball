@@ -114,8 +114,8 @@ event_player:
   standup_second_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # Right inlane collects extra ball when lit (or scores points in tournament mode)
-  s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 0}: collect_standup_extra_ball
-  s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 1}: tournament_extra_ball_collect
+  s_right_return_lane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 0}: collect_standup_extra_ball
+  s_right_return_lane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 1}: tournament_extra_ball_collect
 
   # Right outlane collects right special when lit
   s_right_outlane_active{current_player.right_special_lit == 1}: right_special_awarded
@@ -127,46 +127,46 @@ event_player:
   right_special_awarded{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
   # Left inlane bonus advance: 1 step, max 19 (no handler at 19 = natural cap)
-  s_left_inlane_active{current_player.bonus_steps == 0}: bonus_step_to_1
-  s_left_inlane_active{current_player.bonus_steps == 1}: bonus_step_to_2
-  s_left_inlane_active{current_player.bonus_steps == 2}: bonus_step_to_3
-  s_left_inlane_active{current_player.bonus_steps == 3}: bonus_step_to_4
-  s_left_inlane_active{current_player.bonus_steps == 4}: bonus_step_to_5
-  s_left_inlane_active{current_player.bonus_steps == 5}: bonus_step_to_6
-  s_left_inlane_active{current_player.bonus_steps == 6}: bonus_step_to_7
-  s_left_inlane_active{current_player.bonus_steps == 7}: bonus_step_to_8
-  s_left_inlane_active{current_player.bonus_steps == 8}: bonus_step_to_9
-  s_left_inlane_active{current_player.bonus_steps == 9}: bonus_9_to_10
-  s_left_inlane_active{current_player.bonus_steps == 10}: bonus_step_to_11
-  s_left_inlane_active{current_player.bonus_steps == 11}: bonus_step_to_12
-  s_left_inlane_active{current_player.bonus_steps == 12}: bonus_step_to_13
-  s_left_inlane_active{current_player.bonus_steps == 13}: bonus_step_to_14
-  s_left_inlane_active{current_player.bonus_steps == 14}: bonus_step_to_15
-  s_left_inlane_active{current_player.bonus_steps == 15}: bonus_step_to_16
-  s_left_inlane_active{current_player.bonus_steps == 16}: bonus_step_to_17
-  s_left_inlane_active{current_player.bonus_steps == 17}: bonus_step_to_18
-  s_left_inlane_active{current_player.bonus_steps == 18}: bonus_step_to_19
+  s_left_return_lane_active{current_player.bonus_steps == 0}: bonus_step_to_1
+  s_left_return_lane_active{current_player.bonus_steps == 1}: bonus_step_to_2
+  s_left_return_lane_active{current_player.bonus_steps == 2}: bonus_step_to_3
+  s_left_return_lane_active{current_player.bonus_steps == 3}: bonus_step_to_4
+  s_left_return_lane_active{current_player.bonus_steps == 4}: bonus_step_to_5
+  s_left_return_lane_active{current_player.bonus_steps == 5}: bonus_step_to_6
+  s_left_return_lane_active{current_player.bonus_steps == 6}: bonus_step_to_7
+  s_left_return_lane_active{current_player.bonus_steps == 7}: bonus_step_to_8
+  s_left_return_lane_active{current_player.bonus_steps == 8}: bonus_step_to_9
+  s_left_return_lane_active{current_player.bonus_steps == 9}: bonus_9_to_10
+  s_left_return_lane_active{current_player.bonus_steps == 10}: bonus_step_to_11
+  s_left_return_lane_active{current_player.bonus_steps == 11}: bonus_step_to_12
+  s_left_return_lane_active{current_player.bonus_steps == 12}: bonus_step_to_13
+  s_left_return_lane_active{current_player.bonus_steps == 13}: bonus_step_to_14
+  s_left_return_lane_active{current_player.bonus_steps == 14}: bonus_step_to_15
+  s_left_return_lane_active{current_player.bonus_steps == 15}: bonus_step_to_16
+  s_left_return_lane_active{current_player.bonus_steps == 16}: bonus_step_to_17
+  s_left_return_lane_active{current_player.bonus_steps == 17}: bonus_step_to_18
+  s_left_return_lane_active{current_player.bonus_steps == 18}: bonus_step_to_19
 
   # Right inlane bonus advance: +3 steps, max 19
-  s_right_inlane_active{current_player.bonus_steps == 0}: bonus_0_to_3
-  s_right_inlane_active{current_player.bonus_steps == 1}: bonus_1_to_4
-  s_right_inlane_active{current_player.bonus_steps == 2}: bonus_2_to_5
-  s_right_inlane_active{current_player.bonus_steps == 3}: bonus_3_to_6
-  s_right_inlane_active{current_player.bonus_steps == 4}: bonus_4_to_7
-  s_right_inlane_active{current_player.bonus_steps == 5}: bonus_5_to_8
-  s_right_inlane_active{current_player.bonus_steps == 6}: bonus_6_to_9
-  s_right_inlane_active{current_player.bonus_steps == 7}: bonus_7_to_10
-  s_right_inlane_active{current_player.bonus_steps == 8}: bonus_8_to_10
-  s_right_inlane_active{current_player.bonus_steps == 9}: bonus_9_to_10
-  s_right_inlane_active{current_player.bonus_steps == 10}: bonus_10_to_13
-  s_right_inlane_active{current_player.bonus_steps == 11}: bonus_11_to_14
-  s_right_inlane_active{current_player.bonus_steps == 12}: bonus_12_to_15
-  s_right_inlane_active{current_player.bonus_steps == 13}: bonus_13_to_16
-  s_right_inlane_active{current_player.bonus_steps == 14}: bonus_14_to_17
-  s_right_inlane_active{current_player.bonus_steps == 15}: bonus_15_to_18
-  s_right_inlane_active{current_player.bonus_steps == 16}: bonus_16_to_19
-  s_right_inlane_active{current_player.bonus_steps == 17}: bonus_17_to_19
-  s_right_inlane_active{current_player.bonus_steps == 18}: bonus_18_to_19
+  s_right_return_lane_active{current_player.bonus_steps == 0}: bonus_0_to_3
+  s_right_return_lane_active{current_player.bonus_steps == 1}: bonus_1_to_4
+  s_right_return_lane_active{current_player.bonus_steps == 2}: bonus_2_to_5
+  s_right_return_lane_active{current_player.bonus_steps == 3}: bonus_3_to_6
+  s_right_return_lane_active{current_player.bonus_steps == 4}: bonus_4_to_7
+  s_right_return_lane_active{current_player.bonus_steps == 5}: bonus_5_to_8
+  s_right_return_lane_active{current_player.bonus_steps == 6}: bonus_6_to_9
+  s_right_return_lane_active{current_player.bonus_steps == 7}: bonus_7_to_10
+  s_right_return_lane_active{current_player.bonus_steps == 8}: bonus_8_to_10
+  s_right_return_lane_active{current_player.bonus_steps == 9}: bonus_9_to_10
+  s_right_return_lane_active{current_player.bonus_steps == 10}: bonus_10_to_13
+  s_right_return_lane_active{current_player.bonus_steps == 11}: bonus_11_to_14
+  s_right_return_lane_active{current_player.bonus_steps == 12}: bonus_12_to_15
+  s_right_return_lane_active{current_player.bonus_steps == 13}: bonus_13_to_16
+  s_right_return_lane_active{current_player.bonus_steps == 14}: bonus_14_to_17
+  s_right_return_lane_active{current_player.bonus_steps == 15}: bonus_15_to_18
+  s_right_return_lane_active{current_player.bonus_steps == 16}: bonus_16_to_19
+  s_right_return_lane_active{current_player.bonus_steps == 17}: bonus_17_to_19
+  s_right_return_lane_active{current_player.bonus_steps == 18}: bonus_18_to_19
 
   # Upper left rollover: advance left lane award (caps at 8,000)
   s_rollover_active{current_player.left_lane_value == 2000}: advance_lane_to_4k
@@ -364,11 +364,11 @@ variable_player:
       action: set
 
   # Lower left return lane scores current award value
-  s_left_inlane_active:
+  s_left_return_lane_active:
     score: current_player.left_lane_value
 
   # Right return lane: 3000 points + bonus advance (handled via event_player dispatch)
-  s_right_inlane_active:
+  s_right_return_lane_active:
     score: 3000
 
   # Bonus counter step events: update bonus_steps and light only the new lamps

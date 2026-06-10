@@ -59,7 +59,7 @@ event_player:
   ball_drain: t2020_ball_reset
 
   # --- Ball save (Rescue from the Deep) ---
-  s_right_inlane_active{current_player.ball_save_used == 0 and machine.adj_ball_save == 1}: rescue_from_deep_activate
+  s_right_return_lane_active{current_player.ball_save_used == 0 and machine.adj_ball_save == 1}: rescue_from_deep_activate
 
   # --- Feeding Frenzy qualification ---
   s_left_spinner_active{current_player.ff_active == 0 and current_player.ff_qualified == 0 and current_player.ff_last_spinner != 1}: ff_qualifying_hit_left

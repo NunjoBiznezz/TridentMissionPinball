@@ -460,9 +460,9 @@ segment_display_player:
     player1_score: {text: "15"}
   s_right_outlane_active{machine.self_test_number == 4}:
     player1_score: {text: "16"}
-  s_right_inlane_active{machine.self_test_number == 4}:
+  s_right_return_lane_active{machine.self_test_number == 4}:
     player1_score: {text: "17"}
-  s_left_inlane_active{machine.self_test_number == 4}:
+  s_left_return_lane_active{machine.self_test_number == 4}:
     player1_score: {text: "18"}
   s_standup_purple_active{machine.self_test_number == 4}:
     player1_score: {text: "19"}

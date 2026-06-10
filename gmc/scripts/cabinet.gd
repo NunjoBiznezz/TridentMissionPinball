@@ -340,12 +340,12 @@ func _build_backbox_displays(wrapper: Control) -> void:
 	#   is_score=true → stored in _score_labels[player_index]
 	#   is_score=false, key="credits" or "ball" → stored in _credits_label / _ball_label
 	var displays := [
-		["p1",      0.067, 0.157, "000000", true,  0],
-		["p2",      0.725, 0.157, "------", true,  1],
-		["p3",      0.067, 0.800, "------", true,  2],
-		["p4",      0.725, 0.800, "------", true,  3],
-		["credits", 0.192, 0.543, "0",      false, -1],
-		["ball",    0.104, 0.543, "-",      false, -1],
+		["p1",      0.067, 0.142, "000000", true,  0],
+		["p2",      0.725, 0.142, "------", true,  1],
+		["p3",      0.067, 0.775, "------", true,  2],
+		["p4",      0.725, 0.775, "------", true,  3],
+		["credits", 0.192, 0.517, "0",      false, -1],
+		["ball",    0.104, 0.517, "-",      false, -1],
 	]
 
 	_score_labels = []

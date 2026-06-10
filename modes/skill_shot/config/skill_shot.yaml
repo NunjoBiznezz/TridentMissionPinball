@@ -13,7 +13,10 @@
 #   Rollover       8K + advance left lane to 6K
 
 mode:
-  start_events: ball_started
+  # Trident 2020 feature only — must not run under the original (1) or
+  # tournament (3) rulesets, where the first saucer hit would otherwise
+  # stack the roving skill shot award on top of the base saucer value.
+  start_events: ball_started{machine.current_ruleset == 2}
   stop_events: skill_shot_awarded, ball_drain
   priority: 230
   game_mode: true

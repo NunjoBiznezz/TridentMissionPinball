@@ -1,30 +1,40 @@
 ; Engine configuration file.
-; Generated for Mission Pinball Framework — Stern Trident
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="TridentGMC"
 config/description="GMC project for Stern Trident"
 run/main_scene="res://Main.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 
-[display]
+[audio]
 
-window/size/viewport_width=1200
-window/size/viewport_height=1100
-window/size/resizable=true
-window/size/maximized=true
-window/stretch/mode="canvas_items"
+default_bus_layout="res://default_bus_layout.tres"
 
 [autoload]
 
 MPF="*res://addons/mpf-gmc/mpf_gmc.gd"
 
-[audio]
+[display]
 
-default_bus_layout="res://default_bus_layout.tres"
+window/size/viewport_width=1200
+window/size/viewport_height=1100
+window/size/window_width_override=2400
+window/size/window_height_override=2200
+window/stretch/mode="canvas_items"
+window/size/maximized=true
 
 [editor_plugins]
 

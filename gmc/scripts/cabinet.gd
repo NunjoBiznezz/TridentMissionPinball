@@ -122,6 +122,7 @@ func _ready() -> void:
 	if MPF.server.has_signal("hardware_light_changed"):
 		MPF.server.connect("hardware_light_changed", _on_light_changed)
 		MPF.server.connect("hardware_switch_changed", _on_switch_changed)
+		MPF.server.connect("hardware_coil_fired", _on_coil_fired)
 
 	MPF.server.add_event_handler("start_attract_mode", _on_attract_start)
 	MPF.server.add_event_handler("stop_attract_mode", _on_attract_stop)
@@ -665,6 +666,21 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 	var cell = _lamp_cells[lamp_name]
 	var is_on := color.r > 0.05 or color.g > 0.05 or color.b > 0.05
 	cell["style"].bg_color = cell["on_color"] if is_on else cell["off_color"]
+
+
+const COIL_SWITCH_MAP := {
+	"c_outhole":        "s_outhole",
+	"c_saucer":         "s_saucer",
+	"c_drop_target_1":  "s_drop_target_1",
+	"c_drop_target_2":  "s_drop_target_2",
+	"c_drop_target_3":  "s_drop_target_3",
+	"c_drop_target_4":  "s_drop_target_4",
+	"c_drop_target_5":  "s_drop_target_5",
+}
+
+func _on_coil_fired(coil_name: String) -> void:
+	if coil_name in COIL_SWITCH_MAP:
+		_on_switch_changed(COIL_SWITCH_MAP[coil_name], false)
 
 
 func _on_switch_changed(switch_name: String, state: bool) -> void:

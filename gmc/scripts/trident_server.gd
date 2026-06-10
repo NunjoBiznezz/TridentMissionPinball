@@ -2,6 +2,7 @@ extends GMCServer
 
 signal hardware_light_changed(light_name: String, color: Color)
 signal hardware_switch_changed(switch_name: String, state: bool)
+signal hardware_coil_fired(coil_name: String)
 
 func on_connect() -> void:
 	# "devices" is the correct MPF category for light + all device state changes.
@@ -30,14 +31,17 @@ func listen() -> void:
 func on_message(message: Dictionary):
 	match message.get("cmd", ""):
 		"device":
-			if message.get("type", "") == "light":
-				var st = message.get("state", {})
-				var raw = st.get("color", null) if typeof(st) == TYPE_DICTIONARY else null
-				if raw != null:
-					hardware_light_changed.emit.call_deferred(
-						message.get("name", ""),
-						_rgb_to_color(raw)
-					)
+			match message.get("type", ""):
+				"light":
+					var st = message.get("state", {})
+					var raw = st.get("color", null) if typeof(st) == TYPE_DICTIONARY else null
+					if raw != null:
+						hardware_light_changed.emit.call_deferred(
+							message.get("name", ""),
+							_rgb_to_color(raw)
+						)
+				"coil":
+					hardware_coil_fired.emit.call_deferred(message.get("name", ""))
 			return null
 		"switch":
 			var v = message.get("state", 0)

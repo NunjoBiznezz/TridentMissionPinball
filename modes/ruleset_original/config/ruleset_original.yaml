@@ -104,6 +104,15 @@ event_player:
   standup_all_hit{current_player.standup_completions == 0}: standup_first_complete
   standup_all_hit{current_player.standup_completions == 1}: standup_second_complete
 
+  # Second standup completion awards the special directly (the lit
+  # l_standup_special announced it after the first completion).
+  # Same award dispatch as the other specials:
+  # 1=100K pts  2=Free ball  3=Free game  4=Free ball+game
+  standup_second_complete{machine.special_award_setting == 1}: special_award_points
+  standup_second_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
+  standup_second_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
+  standup_second_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
+
   # Right inlane collects extra ball when lit (or scores points in tournament mode)
   s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 0}: collect_standup_extra_ball
   s_right_inlane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 1}: tournament_extra_ball_collect
@@ -490,12 +499,11 @@ variable_player:
     extra_ball_lit:
       int: 1
       action: set
+  # Second completion: the special is awarded immediately (event_player
+  # dispatch above) — nothing is lit for later collection.
   standup_second_complete:
     standup_completions:
       int: 2
-      action: set
-    right_special_lit:
-      int: 1
       action: set
   outlane_special_earned:
     right_special_lit:
@@ -661,6 +669,7 @@ light_player:
     l_right_spinner_purple: off
     l_extra_ball: off
     l_right_outlane_special: off
+    l_standup_special: off
     l_bonus_1: on
     l_bonus_2: off
     l_bonus_3: off
@@ -746,6 +755,7 @@ light_player:
     l_right_spinner_purple: off
     l_extra_ball: off
     l_right_outlane_special: off
+    l_standup_special: off
     l_bonus_1: on
     l_bonus_2: off
     l_bonus_3: off
@@ -910,10 +920,14 @@ light_player:
     l_right_outlane_special: on
 
   # Standup target completions
+  # First completion: extra ball collectable at the right return lane,
+  # and the standup special lamp announces the next completion's award.
   standup_first_complete:
     l_extra_ball: on
+    l_standup_special: on
+  # Second completion: special awarded immediately, lamp goes out.
   standup_second_complete:
-    l_right_outlane_special: on
+    l_standup_special: off
   collect_standup_extra_ball:
     l_extra_ball: off
   tournament_extra_ball_collect:

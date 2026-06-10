@@ -69,7 +69,8 @@
       "Bash(echo \"rc=$?\")",
       "Bash(grep -n -B3 -A25 'is_muted\\\\|muted' __TRACKED_VAR__/core/switch_controller.py)",
       "Bash(godot --headless --check-only --script scripts/trident_server.gd --path .)",
-      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_credits)"
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_credits)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original tests.test_credits)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

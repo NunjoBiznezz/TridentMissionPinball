@@ -135,7 +135,6 @@ func _build_ui() -> void:
 	root_vbox.add_theme_constant_override("separation", 6)
 	add_child(root_vbox)
 
-	root_vbox.add_child(_build_segment_row())
 	var _playfield_path := _find_asset_path(["res://assets/playfield.png",
 		"res://assets/playfield.jpg", "res://assets/playfield.jpeg", "res://assets/playfield.webp"])
 	var _backbox_path := _find_asset_path(["res://assets/backbox.png",
@@ -144,7 +143,8 @@ func _build_ui() -> void:
 
 	if _has_positions and _playfield_path != "":
 		if _backbox_path != "":
-			# Side-by-side: playfield left (65%), backbox right (35%)
+			# Side-by-side: playfield left, backbox right.
+			# Displays are overlaid on the backbox; no separate header row.
 			var hbox := HBoxContainer.new()
 			hbox.size_flags_vertical = SIZE_EXPAND_FILL
 			hbox.add_theme_constant_override("separation", 4)
@@ -159,8 +159,11 @@ func _build_ui() -> void:
 
 			root_vbox.add_child(hbox)
 		else:
+			# No backbox: show traditional header row above playfield.
+			root_vbox.add_child(_build_segment_row())
 			root_vbox.add_child(_build_image_view(_playfield_path, "playfield"))
 	else:
+		root_vbox.add_child(_build_segment_row())
 		root_vbox.add_child(_build_lamp_grid())
 
 	if FileAccess.file_exists(SWITCH_POSITIONS_PATH):
@@ -322,10 +325,51 @@ func _build_image_view(image_path: String, location: String) -> Control:
 				"img_size": tex.get_size(),
 			})
 
-	print("[Cabinet] _build_image_view('%s') done — switch_areas total: %d" % [location, _switch_areas.size()])
+	# Score / credits / ball display overlays (backbox only)
+	if location == "backbox":
+		_build_backbox_displays(wrapper)
+
 	wrapper.connect("resized", func(): _reposition_lamps(wrapper, tex.get_size()))
 	wrapper.call_deferred("emit_signal", "resized")
 	return wrapper
+
+
+func _build_backbox_displays(wrapper: Control) -> void:
+	# Normalized positions on a 240×210 backbox image (pixel / image_dim).
+	# Each entry: [key, nx, ny, initial_text, is_score, player_index]
+	#   is_score=true → stored in _score_labels[player_index]
+	#   is_score=false, key="credits" or "ball" → stored in _credits_label / _ball_label
+	var displays := [
+		["p1",      0.067, 0.157, "000000", true,  0],
+		["p2",      0.725, 0.157, "------", true,  1],
+		["p3",      0.067, 0.800, "------", true,  2],
+		["p4",      0.725, 0.800, "------", true,  3],
+		["credits", 0.192, 0.543, "0",      false, -1],
+		["ball",    0.104, 0.543, "-",      false, -1],
+	]
+
+	_score_labels = []
+	for _i in range(4):
+		_score_labels.append(null)
+
+	for d in displays:
+		var lbl := Label.new()
+		lbl.text = d[3]
+		lbl.add_theme_font_size_override("font_size", 18)
+		lbl.add_theme_color_override("font_color", Color(1.0, 0.65, 0.0))
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		lbl.set_meta("nx", float(d[1]))
+		lbl.set_meta("ny", float(d[2]))
+		lbl.set_meta("is_display", true)
+		lbl.set_meta("base_font_size", 14.0)
+		wrapper.add_child(lbl)
+
+		if bool(d[4]):
+			_score_labels[int(d[5])] = lbl
+		elif d[0] == "credits":
+			_credits_label = lbl
+		else:
+			_ball_label = lbl
 
 
 func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
@@ -344,9 +388,17 @@ func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
 	var oy := (wh - drawn_h) * 0.5   # top offset
 
 	for child in wrapper.get_children():
-		if child is Panel and child.has_meta("nx"):
-			var nx: float = child.get_meta("nx")
-			var ny: float = child.get_meta("ny")
+		if not child.has_meta("nx"):
+			continue
+		var nx: float = child.get_meta("nx")
+		var ny: float = child.get_meta("ny")
+		if child.has_meta("is_display"):
+			# Display labels: top-left anchor, font scaled with image
+			var font_size := int(child.get_meta("base_font_size") * scale)
+			child.add_theme_font_size_override("font_size", max(font_size, 8))
+			child.set_position(Vector2(ox + nx * drawn_w, oy + ny * drawn_h))
+		elif child is Panel:
+			# Lamp / switch circles: center anchor
 			var r: float = child.custom_minimum_size.x * 0.5
 			child.set_position(Vector2(
 				ox + nx * drawn_w - r,
@@ -544,9 +596,11 @@ func _on_status_changed(status) -> void:
 
 func _on_game_started() -> void:
 	for lbl in _score_labels:
-		lbl.text = "000000"
-		lbl.add_theme_color_override("font_color", Color(0.25, 0.18, 0.00))
-	_ball_label.text = "-"
+		if lbl:
+			lbl.text = "000000"
+			lbl.add_theme_color_override("font_color", Color(0.25, 0.18, 0.00))
+	if _ball_label:
+		_ball_label.text = "-"
 
 
 func _on_player_added(_total: int) -> void:
@@ -556,11 +610,13 @@ func _on_player_added(_total: int) -> void:
 func _on_player_update(var_name: String, value) -> void:
 	match var_name:
 		"score": _refresh_scores()
-		"ball":  _ball_label.text = str(value)
+		"ball":
+			if _ball_label:
+				_ball_label.text = str(value)
 
 
 func _on_machine_update(var_name: String, value) -> void:
-	if var_name == "credits":
+	if var_name == "credits" and _credits_label:
 		_credits_label.text = str(value)
 
 
@@ -600,14 +656,17 @@ func _on_attract_blink() -> void:
 func _refresh_scores() -> void:
 	var current = MPF.game.player.get("number", 1) - 1
 	for i in range(_score_labels.size()):
+		var lbl: Label = _score_labels[i]
+		if not lbl:
+			continue
 		if i < MPF.game.players.size():
 			var score = MPF.game.players[i].get("score", 0)
-			_score_labels[i].text = "%06d" % int(score)
+			lbl.text = "%06d" % int(score)
 			var active = i == current
-			_score_labels[i].add_theme_color_override(
+			lbl.add_theme_color_override(
 				"font_color",
 				Color(1.00, 0.65, 0.00) if active else Color(0.35, 0.25, 0.00)
 			)
 		else:
-			_score_labels[i].text = "------"
-			_score_labels[i].add_theme_color_override("font_color", Color(0.15, 0.10, 0.00))
+			lbl.text = "------"
+			lbl.add_theme_color_override("font_color", Color(0.15, 0.10, 0.00))

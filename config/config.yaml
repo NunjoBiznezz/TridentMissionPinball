@@ -35,6 +35,8 @@ modes:
 game:
   balls_per_game: (machine.balls_per_game_setting)
   max_players: 4
+  start_game_event: s_start_button_active
+  add_player_event: s_start_button_active
 
 segment_displays:
   player1_score:

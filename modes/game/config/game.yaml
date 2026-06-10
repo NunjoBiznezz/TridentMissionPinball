@@ -3,3 +3,59 @@
 # Intentionally minimal — MPF's built-in game mode (game_start → Game class)
 # handles ball management and game lifecycle.  Any machine-level game logic
 # that must run during a game belongs in the base mode or a separate game mode.
+
+light_player:
+  # ── Player-in-game indicators ─────────────────────────────────────────────
+  # player_added fires for every added player (num = 1..4).
+  player_added{num == 1}:
+    l_player_1:
+      color: white
+  player_added{num == 2}:
+    l_player_2:
+      color: white
+  player_added{num == 3}:
+    l_player_3:
+      color: white
+  player_added{num == 4}:
+    l_player_4:
+      color: white
+
+  # ── Active-player indicators ──────────────────────────────────────────────
+  # player_turn_started fires once per player turn (number = current player).
+  # All four lamps are set on each event so the previous player's lamp turns off.
+  player_turn_started{number == 1}:
+    l_player_1_up:
+      color: white
+    l_player_2_up:
+      color: off
+    l_player_3_up:
+      color: off
+    l_player_4_up:
+      color: off
+  player_turn_started{number == 2}:
+    l_player_1_up:
+      color: off
+    l_player_2_up:
+      color: white
+    l_player_3_up:
+      color: off
+    l_player_4_up:
+      color: off
+  player_turn_started{number == 3}:
+    l_player_1_up:
+      color: off
+    l_player_2_up:
+      color: off
+    l_player_3_up:
+      color: white
+    l_player_4_up:
+      color: off
+  player_turn_started{number == 4}:
+    l_player_1_up:
+      color: off
+    l_player_2_up:
+      color: off
+    l_player_3_up:
+      color: off
+    l_player_4_up:
+      color: white

@@ -344,8 +344,8 @@ func _build_backbox_displays(wrapper: Control) -> void:
 		["p2",      0.725, 0.142, "------", true,  1],
 		["p3",      0.067, 0.775, "------", true,  2],
 		["p4",      0.725, 0.775, "------", true,  3],
-		["credits", 0.192, 0.517, "0",      false, -1],
-		["ball",    0.104, 0.517, "-",      false, -1],
+		["credits",    0.104, 0.517, "-",      false, -1],
+		["ball", 0.192, 0.517, "0",      false, -1],
 	]
 
 	_score_labels = []

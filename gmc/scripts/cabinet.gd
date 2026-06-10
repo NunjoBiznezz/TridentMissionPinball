@@ -88,6 +88,8 @@ var _held_off_color: Color = Color(0, 0, 0, 0)
 var _held_label: Label = null
 # Latching switches (drop targets): stay active until MPF sends the inactive state
 var _latched_switches: Dictionary = {}
+# Quick-lookup for switch properties keyed by switch name
+var _switch_area_map: Dictionary = {}
 
 const POSITIONS_PATH    := "res://assets/lamp_positions.json"
 const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
@@ -321,12 +323,15 @@ func _build_image_view(image_path: String, location: String) -> Control:
 			sw_panel.set_meta("nx", se.get("x", 0.5))
 			sw_panel.set_meta("ny", se.get("y", 0.5))
 			wrapper.add_child(sw_panel)
-			_switch_areas.append({
+			var area_entry := {
 				"name": sw_name, "nx": se.get("x", 0.5), "ny": se.get("y", 0.5),
 				"radius": sr, "wrapper": wrapper, "style": sw_style,
 				"img_size": tex.get_size(),
 				"latching": se.get("latching", false),
-			})
+				"ball_trap": se.get("ball_trap", false),
+			}
+			_switch_areas.append(area_entry)
+			_switch_area_map[sw_name] = area_entry
 
 	# Score / credits / ball display overlays (backbox only)
 	if location == "backbox":
@@ -453,15 +458,25 @@ func _input(event: InputEvent) -> void:
 			var dpx := (nx - float(area["nx"])) * drawn_w
 			var dpy := (ny - float(area["ny"])) * drawn_h
 			if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
-				area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
-				MPF.server.send_switch(area["name"], 1)
-				if area.get("latching", false):
-					_latched_switches[area["name"]] = area["style"]
+				var sw_name: String = area["name"]
+				if sw_name in _latched_switches:
+					if area.get("ball_trap", false):
+						# Ball is here — click to release without firing the solenoid
+						MPF.server.send_switch(sw_name, 0)
+						_latched_switches[sw_name].bg_color = Color(0, 0, 0, 0)
+						_latched_switches.erase(sw_name)
+					# Drop target while down: clicks are disabled
 				else:
-					_held_switch    = area["name"]
-					_held_style     = area["style"]
-					_held_off_color = Color(0, 0, 0, 0)
-					_held_label     = null
+					MPF.server.send_switch(sw_name, 1)
+					if area.get("latching", false) or area.get("ball_trap", false):
+						area["style"].bg_color = Color(1.0, 0.15, 0.15, 0.7)
+						_latched_switches[sw_name] = area["style"]
+					else:
+						area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
+						_held_switch    = sw_name
+						_held_style     = area["style"]
+						_held_off_color = Color(0, 0, 0, 0)
+						_held_label     = null
 				break
 	else:
 		if _held_switch != "":
@@ -635,9 +650,16 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 
 
 func _on_switch_changed(switch_name: String, state: bool) -> void:
-	if not state and switch_name in _latched_switches:
-		_latched_switches[switch_name].bg_color = Color(0, 0, 0, 0)
-		_latched_switches.erase(switch_name)
+	if state:
+		if switch_name in _switch_area_map and switch_name not in _latched_switches:
+			var area = _switch_area_map[switch_name]
+			if area.get("latching", false) or area.get("ball_trap", false):
+				area["style"].bg_color = Color(1.0, 0.15, 0.15, 0.7)
+				_latched_switches[switch_name] = area["style"]
+	else:
+		if switch_name in _latched_switches:
+			_latched_switches[switch_name].bg_color = Color(0, 0, 0, 0)
+			_latched_switches.erase(switch_name)
 
 func _on_attract_start(_payload = null) -> void:
 	_attract_label.text = "GAME OVER"

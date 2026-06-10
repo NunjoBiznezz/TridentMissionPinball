@@ -70,7 +70,9 @@
       "Bash(grep -n -B3 -A25 'is_muted\\\\|muted' __TRACKED_VAR__/core/switch_controller.py)",
       "Bash(godot --headless --check-only --script scripts/trident_server.gd --path .)",
       "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_credits)",
-      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original tests.test_credits)"
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original tests.test_credits)",
+      "Bash(awk '/^tilt:/{f=1} f{print; c++} c>14{exit}' /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_spec.yaml)",
+      "Bash(sed -n 1,30p /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/tilt/config/tilt.yaml)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

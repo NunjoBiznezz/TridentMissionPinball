@@ -588,9 +588,11 @@ variable_player:
       int: 1
       action: set
 
-  # Ball drain: award bonus then reset all per-ball state to initial values
-  ball_drain:
+  # Ball drain: award bonus — unless the ball was tilted — then reset all
+  # per-ball state to initial values (the reset below runs either way)
+  ball_drain{not game.tilted}:
     score: current_player.bonus_steps * 1000 * current_player.bonus_multiplier
+  ball_drain:
     drop_phase:
       int: 1
       action: set

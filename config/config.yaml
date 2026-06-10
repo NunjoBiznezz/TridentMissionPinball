@@ -18,6 +18,7 @@ modes:
   - base
   - attract
   - credits
+  - tilt
   - game
   - service_menu
   - self_test

@@ -18,10 +18,11 @@ switches:
     number: 5 
     type: NO
     tags: start
+  # Plumb bob: each closure is a warning; exceeding adj_tilt_warnings tilts
   s_tilt:
     number: 6
     type: NO
-    tags: tilt
+    tags: tilt_warning
   s_slam:
     number: 7
     type: NO
@@ -359,25 +360,34 @@ playfields:
     default_source_device: bd_trough
     tags: default
 
+# Slings and bumpers go dead on tilt (the real tilt relay does this in
+# hardware). The saucer kicker stays enabled so a captive ball can still
+# be ejected and drain to end the tilted ball.
 autofire_coils:
   ac_ul_sling:
     coil: c_ul_sling
     switch: s_ul_sling
+    disable_events: ball_will_end, tilt
   ac_ur_sling:
     coil: c_ur_sling
     switch: s_ur_sling
+    disable_events: ball_will_end, tilt
   ac_ll_sling:
     coil: c_ll_sling
     switch: s_ll_sling
+    disable_events: ball_will_end, tilt
   ac_lr_sling:
     coil: c_lr_sling
     switch: s_lr_sling
+    disable_events: ball_will_end, tilt
   ac_top_bumper:
     coil: c_top_bumper
     switch: s_top_bumper
+    disable_events: ball_will_end, tilt
   ac_bottom_bumper:
     coil: c_bottom_bumper
     switch: s_bottom_bumper
+    disable_events: ball_will_end, tilt
   ac_saucer:
     coil: c_saucer
     switch: s_saucer

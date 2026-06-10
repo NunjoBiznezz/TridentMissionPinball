@@ -1,7 +1,7 @@
 #config_version=6
 
 mode:
-  start_events: machine_reset_phase_3, game_ended, ball_will_end{device.ball_devices.trough.balls > 0}
+  start_events: machine_reset_phase_3, game_ended
   stop_events: game_start
   priority: 10
   game_mode: false

@@ -86,7 +86,7 @@ machine_vars:
     value_type: int
     persist: true
   max_credits:
-    initial_value: 25
+    initial_value: 40
     value_type: int
     persist: true
   display_credits_attract:

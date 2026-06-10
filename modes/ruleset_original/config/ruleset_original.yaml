@@ -513,10 +513,9 @@ variable_player:
     extra_ball_lit:
       int: 0
       action: set
-  right_special_awarded:
-    right_special_lit:
-      int: 0
-      action: set
+  # right_special_awarded intentionally does NOT clear right_special_lit:
+  # once earned, the outlane special (and its lamp) stay lit for the rest
+  # of the ball and award again on another lit outlane drain.
 
   # Standup targets: 1000 points every hit; spinner increase only on first hit per ball
   s_standup_white_active:
@@ -932,8 +931,8 @@ light_player:
     l_extra_ball: off
   tournament_extra_ball_collect:
     l_extra_ball: off
-  right_special_awarded:
-    l_right_outlane_special: off
+  # l_right_outlane_special is not cleared on award — it stays lit for the
+  # remainder of the ball and resets with everything else at ball_drain.
 
   # Standup targets light their respective spinner lamp and standup lamp
   s_standup_white_active:

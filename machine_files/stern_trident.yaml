@@ -306,22 +306,44 @@ lights:
   l_player_4_up:
     number: 59
 
+# Memory drop targets: c_drop_target_reset raises the whole bank; the
+# individual c_drop_target_N coils knock their target back DOWN. The game
+# sets up a phase's target combination by firing the reset bar and then
+# knocking down the targets that should not be standing (the ruleset posts
+# the knockdown_dt_N events). Going through the device (rather than pulsing
+# coils via coil_player) gets the ignore_switch_ms mute window, so a
+# game-initiated knockdown does not look like a player hit.
 drop_targets:
   dt_1:
     switch: s_drop_target_1
-    reset_coil: c_drop_target_1
+    knockdown_coil: c_drop_target_1
+    knockdown_events: knockdown_dt_1
   dt_2:
     switch: s_drop_target_2
-    reset_coil: c_drop_target_2
+    knockdown_coil: c_drop_target_2
+    knockdown_events: knockdown_dt_2
   dt_3:
     switch: s_drop_target_3
-    reset_coil: c_drop_target_3
+    knockdown_coil: c_drop_target_3
+    knockdown_events: knockdown_dt_3
   dt_4:
     switch: s_drop_target_4
-    reset_coil: c_drop_target_4
+    knockdown_coil: c_drop_target_4
+    knockdown_events: knockdown_dt_4
   dt_5:
     switch: s_drop_target_5
-    reset_coil: c_drop_target_5
+    knockdown_coil: c_drop_target_5
+    knockdown_events: knockdown_dt_5
+
+# The reset bar belongs to the bank, not the individual targets (one coil
+# raises all five). Raised at boot and at the start of every ball; the
+# ruleset raises it mid-game by posting raise_drop_targets, then knocks
+# down targets to form the current phase combination.
+drop_target_banks:
+  dt_bank:
+    drop_targets: dt_1, dt_2, dt_3, dt_4, dt_5
+    reset_coil: c_drop_target_reset
+    reset_events: machine_reset_phase_3, ball_starting, raise_drop_targets
 
 ball_devices:
   bd_trough:

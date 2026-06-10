@@ -6,13 +6,16 @@ from tests.base import RulesetTestBase
 class TestDropTargetPhases(RulesetTestBase):
     """Drop target phase progression for Trident Classic (ruleset_original).
 
-    Phase layout
+    Phase layout (standing targets; the game raises the bank with
+    c_drop_target_reset and knocks the rest down with the individual
+    knockdown coils)
     ------------
-    Phase 1 → A (start): targets 2, 4 raised
-    Phase 2 → B:         all 5 raised after completion
-    Phase 3 → C:         all 5 raised after completion
-    Phase 4 → D:         all 5 raised after completion
-    Phase 5 → E:         special award, then saucer resets to Phase A
+    Phase 1 → A (start): targets 2, 4 standing
+    Phase 2 → B:         targets 1, 3, 5 standing
+    Phase 3 → C:         targets 1, 2, 4, 5 standing
+    Phase 4 → D:         all 5 standing
+    Phase 5 → E:         all 5 standing; special award, then saucer
+                         resets to Phase A
     """
 
     def setUp(self):
@@ -24,7 +27,13 @@ class TestDropTargetPhases(RulesetTestBase):
             self.mock_event(event)
 
     def _hit(self, *target_nums):
-        """Knock down one or more drop targets by number."""
+        """Knock down one or more drop targets by number.
+
+        First waits out any repositioning in progress (reset bar at +0ms,
+        knockdown coils at +400ms, switch mute windows up to +900ms) so the
+        hits land on settled, standing targets — like a real ball would.
+        """
+        self.advance_time_and_run(1)
         for n in target_nums:
             self.hit_switch_and_run(f's_drop_target_{n}', 0)
         self.advance_time_and_run(0.2)

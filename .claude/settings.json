@@ -55,7 +55,20 @@
       "Bash(echo \"exit:$?\")",
       "Bash(gtimeout 10 ./run_dev.sh)",
       "Bash(kill -9 63328)",
-      "Bash(awk '{print $1}')"
+      "Bash(awk '{print $1}')",
+      "Bash(python3 -c \"import mpf; print\\(mpf.__version__, mpf.__file__\\)\")",
+      "Bash(awk '/^drop_targets:/,/^[a-z_]+:$/{print}' /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_drop_targets)",
+      "Read(//tmp/**)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_drop_targets -v)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original)",
+      "Bash(command -v godot)",
+      "Read(//Applications/**)",
+      "Bash(godot --headless --check-only --script scripts/cabinet.gd --path .)",
+      "Bash(grep -vE 'Godot Engine|^$')",
+      "Bash(echo \"rc=$?\")",
+      "Bash(grep -n -B3 -A25 'is_muted\\\\|muted' __TRACKED_VAR__/core/switch_controller.py)",
+      "Bash(godot --headless --check-only --script scripts/trident_server.gd --path .)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

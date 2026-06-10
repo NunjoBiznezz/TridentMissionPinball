@@ -9,8 +9,13 @@ func on_connect() -> void:
 	# "switches" gives us dedicated switch messages on every state transition.
 	_send("monitor_start?category=devices")
 	_send("monitor_start?category=switches")
-	_send("register_trigger?event=start_attract_mode")
-	_send("register_trigger?event=stop_attract_mode")
+	# Re-register every event handler added via add_event_handler(). Those
+	# calls happen in _ready(), before MPF has connected, and _send() drops
+	# messages when there is no client — so the registrations must be
+	# replayed on every (re)connect or MPF never sends the triggers.
+	for event in registered_handlers:
+		print("[trident_server] registering MPF trigger '%s'" % event)
+		_send("register_trigger?event=%s" % event)
 
 func stop(is_exiting: bool = false) -> void:
 	super.stop(true)

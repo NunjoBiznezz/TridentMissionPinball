@@ -99,7 +99,10 @@ const SWITCH_RADIUS     := 14
 
 func _find_asset_path(candidates: Array) -> String:
 	for p in candidates:
-		if FileAccess.file_exists(p):
+		# ResourceLoader sees imported resources in exported builds (where
+		# the raw file does not exist); FileAccess covers un-imported files
+		# when running from the editor or command line.
+		if ResourceLoader.exists(p) or FileAccess.file_exists(p):
 			return p
 	return ""
 
@@ -126,6 +129,17 @@ func _ready() -> void:
 
 	MPF.server.add_event_handler("start_attract_mode", _on_attract_start)
 	MPF.server.add_event_handler("stop_attract_mode", _on_attract_stop)
+
+	# Coil pulses are NOT sent over the BCP device monitor (MPF's Driver has
+	# no DeviceMonitor), so subscribe to the intent events instead:
+	# ball_starting / raise_drop_targets fire the reset bar (dt_bank),
+	# knockdown_dt_N fires that target's knockdown coil, and the trough
+	# eject attempt fires c_outhole.
+	MPF.server.add_event_handler("ball_starting", _on_drop_targets_raise)
+	MPF.server.add_event_handler("raise_drop_targets", _on_drop_targets_raise)
+	for n in range(1, 6):
+		MPF.server.add_event_handler("knockdown_dt_%d" % n, _on_drop_target_knockdown)
+	MPF.server.add_event_handler("balldevice_bd_trough_ball_eject_attempt", _on_outhole_eject)
 
 # ---------------------------------------------------------------------------
 # UI construction
@@ -249,9 +263,18 @@ func _build_image_view(image_path: String, location: String) -> Control:
 	wrapper.size_flags_horizontal = SIZE_EXPAND_FILL
 	wrapper.clip_contents = true
 
-	var img := Image.new()
-	img.load(image_path)
-	var tex := ImageTexture.create_from_image(img)
+	# Load through the import system (required for exported builds; the raw
+	# .png is not packaged, only the imported texture resource is).
+	var tex: Texture2D = load(image_path) if ResourceLoader.exists(image_path) else null
+	if tex == null:
+		# Fallback for files the editor has not imported (e.g. dropped in
+		# while running from the command line).
+		var img := Image.new()
+		if img.load(image_path) == OK:
+			tex = ImageTexture.create_from_image(img)
+	if tex == null:
+		printerr("[cabinet] failed to load image '%s'" % image_path)
+		return wrapper
 	var bg := TextureRect.new()
 	bg.texture = tex
 	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -668,19 +691,76 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 	cell["style"].bg_color = cell["on_color"] if is_on else cell["off_color"]
 
 
-const COIL_SWITCH_MAP := {
-	"c_outhole":        "s_outhole",
-	"c_saucer":         "s_saucer",
-	"c_drop_target_1":  "s_drop_target_1",
-	"c_drop_target_2":  "s_drop_target_2",
-	"c_drop_target_3":  "s_drop_target_3",
-	"c_drop_target_4":  "s_drop_target_4",
-	"c_drop_target_5":  "s_drop_target_5",
+# Coils that kick the ball out of a trap: the switch goes inactive
+# (c_outhole sends the ball to the shooter lane).
+const EJECT_COIL_MAP := {
+	"c_outhole": "s_outhole",
+	"c_saucer":  "s_saucer",
+}
+
+# Coils that knock an individual drop target DOWN: the switch goes active.
+# The bank reset bar (c_drop_target_reset) raises all 5 targets.
+const KNOCKDOWN_COIL_MAP := {
+	"c_drop_target_1": "s_drop_target_1",
+	"c_drop_target_2": "s_drop_target_2",
+	"c_drop_target_3": "s_drop_target_3",
+	"c_drop_target_4": "s_drop_target_4",
+	"c_drop_target_5": "s_drop_target_5",
 }
 
 func _on_coil_fired(coil_name: String) -> void:
-	if coil_name in COIL_SWITCH_MAP:
-		_on_switch_changed(COIL_SWITCH_MAP[coil_name], false)
+	print("[cabinet] coil fired (device monitor): %s" % coil_name)
+	if coil_name == "c_drop_target_reset":
+		for sw_name in KNOCKDOWN_COIL_MAP.values():
+			_set_assumed_switch(sw_name, false)
+	elif coil_name in KNOCKDOWN_COIL_MAP:
+		_set_assumed_switch(KNOCKDOWN_COIL_MAP[coil_name], true)
+	elif coil_name in EJECT_COIL_MAP:
+		_set_assumed_switch(EJECT_COIL_MAP[coil_name], false)
+
+
+# Reset bar fired (dt_bank reset on ball_starting / raise_drop_targets):
+# all 5 drop targets are raised, their switches open.
+func _on_drop_targets_raise(payload = null) -> void:
+	var trigger: String = payload.get("name", "?") if typeof(payload) == TYPE_DICTIONARY else "?"
+	print("[cabinet] drop target RESET (trigger '%s'): raising all 5 targets" % trigger)
+	for sw_name in KNOCKDOWN_COIL_MAP.values():
+		_set_assumed_switch(sw_name, false)
+
+
+# knockdown_dt_N fired: that target's knockdown coil pulls it down,
+# closing its switch.
+func _on_drop_target_knockdown(payload = null) -> void:
+	var trigger: String = payload.get("name", "") if typeof(payload) == TYPE_DICTIONARY else ""
+	var n := trigger.trim_prefix("knockdown_dt_")
+	var sw_name := "s_drop_target_%s" % n
+	print("[cabinet] drop target KNOCKDOWN (trigger '%s'): lowering %s" % [trigger, sw_name])
+	if sw_name in _switch_area_map:
+		_set_assumed_switch(sw_name, true)
+	else:
+		print("[cabinet]   ! no switch area found for '%s'" % sw_name)
+
+
+# Trough eject attempt: c_outhole kicks the ball to the shooter lane,
+# the outhole switch opens.
+func _on_outhole_eject(_payload = null) -> void:
+	print("[cabinet] outhole eject: ball to shooter lane, clearing s_outhole")
+	_set_assumed_switch("s_outhole", false)
+
+
+# Apply the switch state implied by a coil firing: report it to MPF (the
+# virtual platform has no playfield to do it) and update the latched visual.
+# Skips the send when the state is already correct, since the virtual
+# platform logs a warning on duplicate switch states.
+func _set_assumed_switch(switch_name: String, state: bool) -> void:
+	if state == (switch_name in _latched_switches):
+		print("[cabinet]   switch %s already %s — skipping send" %
+			[switch_name, "active" if state else "inactive"])
+		return
+	print("[cabinet]   switch %s -> %s (sent to MPF)" %
+		[switch_name, "active" if state else "inactive"])
+	MPF.server.send_switch(switch_name, 1 if state else 0)
+	_on_switch_changed(switch_name, state)
 
 
 func _on_switch_changed(switch_name: String, state: bool) -> void:

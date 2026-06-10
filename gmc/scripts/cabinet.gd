@@ -78,7 +78,7 @@ var _attract_label: Label
 var _attract_blink_timer: Timer
 # Maps lamp name → {"style": StyleBoxFlat, "on_color": Color, "off_color": Color}
 var _lamp_cells: Dictionary = {}
-# Switch hit areas: Array of {name, nx, ny, radius, wrapper, style}
+# Switch hit areas: Array of {name, nx, ny, radius, wrapper, style, latching}
 var _switch_areas: Array = []
 # Cabinet button hit areas: Array of {name, panel, style, label, off_color}
 var _cabinet_buttons: Array = []
@@ -86,6 +86,8 @@ var _held_switch: String = ""
 var _held_style: StyleBoxFlat = null
 var _held_off_color: Color = Color(0, 0, 0, 0)
 var _held_label: Label = null
+# Latching switches (drop targets): stay active until MPF sends the inactive state
+var _latched_switches: Dictionary = {}
 
 const POSITIONS_PATH    := "res://assets/lamp_positions.json"
 const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
@@ -323,6 +325,7 @@ func _build_image_view(image_path: String, location: String) -> Control:
 				"name": sw_name, "nx": se.get("x", 0.5), "ny": se.get("y", 0.5),
 				"radius": sr, "wrapper": wrapper, "style": sw_style,
 				"img_size": tex.get_size(),
+				"latching": se.get("latching", false),
 			})
 
 	# Score / credits / ball display overlays (backbox only)
@@ -450,12 +453,15 @@ func _input(event: InputEvent) -> void:
 			var dpx := (nx - float(area["nx"])) * drawn_w
 			var dpy := (ny - float(area["ny"])) * drawn_h
 			if sqrt(dpx * dpx + dpy * dpy) <= float(area["radius"]):
-				_held_switch    = area["name"]
-				_held_style     = area["style"]
-				_held_off_color = Color(0, 0, 0, 0)
-				_held_label     = null
 				area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
 				MPF.server.send_switch(area["name"], 1)
+				if area.get("latching", false):
+					_latched_switches[area["name"]] = area["style"]
+				else:
+					_held_switch    = area["name"]
+					_held_style     = area["style"]
+					_held_off_color = Color(0, 0, 0, 0)
+					_held_label     = null
 				break
 	else:
 		if _held_switch != "":
@@ -628,8 +634,10 @@ func _on_light_changed(lamp_name: String, color: Color) -> void:
 	cell["style"].bg_color = cell["on_color"] if is_on else cell["off_color"]
 
 
-func _on_switch_changed(_switch_name: String, _state: bool) -> void:
-	pass  # Switch panel not yet implemented
+func _on_switch_changed(switch_name: String, state: bool) -> void:
+	if not state and switch_name in _latched_switches:
+		_latched_switches[switch_name].bg_color = Color(0, 0, 0, 0)
+		_latched_switches.erase(switch_name)
 
 func _on_attract_start(_payload = null) -> void:
 	_attract_label.text = "GAME OVER"

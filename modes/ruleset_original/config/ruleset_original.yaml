@@ -700,6 +700,11 @@ light_player:
     l_standup_green: off
     l_standup_yellow: off
     l_standup_purple: off
+    l_drop_target_1: off
+    l_drop_target_2: off
+    l_drop_target_3: off
+    l_drop_target_4: off
+    l_drop_target_5: off
 
   # Phase A complete: 2X earned, 3X feature lit, saucer 10K
   dt_phase_a_complete:
@@ -780,6 +785,11 @@ light_player:
     l_standup_green: off
     l_standup_yellow: off
     l_standup_purple: off
+    l_drop_target_1: off
+    l_drop_target_2: off
+    l_drop_target_3: off
+    l_drop_target_4: off
+    l_drop_target_5: off
 
   # Single-step bonus lamp advances (left inlane)
   bonus_step_to_1:
@@ -960,6 +970,28 @@ light_player:
     l_standup_green: off
     l_standup_yellow: off
     l_standup_purple: off
+
+  # Drop target lamps: on when target is down, off when raised back up
+  drop_target_dt_1_down:
+    l_drop_target_1: on
+  drop_target_dt_2_down:
+    l_drop_target_2: on
+  drop_target_dt_3_down:
+    l_drop_target_3: on
+  drop_target_dt_4_down:
+    l_drop_target_4: on
+  drop_target_dt_5_down:
+    l_drop_target_5: on
+  drop_target_dt_1_up:
+    l_drop_target_1: off
+  drop_target_dt_2_up:
+    l_drop_target_2: off
+  drop_target_dt_3_up:
+    l_drop_target_3: off
+  drop_target_dt_4_up:
+    l_drop_target_4: off
+  drop_target_dt_5_up:
+    l_drop_target_5: off
 
   # Purple bonus lamp follows the side it's on
   purple_to_right:

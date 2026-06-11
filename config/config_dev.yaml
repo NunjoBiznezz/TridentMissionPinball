@@ -47,3 +47,9 @@ bcp:
       type: mpf.core.bcp.bcp_socket_client.BCPClientSocket
       host: localhost
       port: 5050
+
+# Forward segment display text to GMC over BCP (update_segment_display
+# triggers). Dev-only: on real hardware LISY drives the physical displays.
+virtual_segment_display_connector:
+  bcp_connection: local_display
+  segment_displays: player1_score, player2_score, player3_score, player4_score, credits_display, ball_display

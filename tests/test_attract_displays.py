@@ -7,7 +7,7 @@ class TestAttractDisplays(RulesetTestBase):
     """Attract-mode score display cycle.
 
     All four player displays alternate: high score to date → blank → 00,
-    2 seconds per step, repeating until a game starts.
+    1 second per step, repeating until a game starts.
     """
 
     def _texts(self):
@@ -20,10 +20,11 @@ class TestAttractDisplays(RulesetTestBase):
         self.assertTrue(self.machine.mode_controller.is_active('attract'))
         high_score = str(self.machine.variables.get_machine_var('high_game_to_date'))
 
-        # Sample the displays across one full 6s cycle (steps are 2s each).
+        # Sample the displays across one full 3s cycle (steps are 1s each),
+        # off the step boundary so every state is observed.
         seen = set()
-        for _ in range(7):
-            self.advance_time_and_run(1)
+        for _ in range(9):
+            self.advance_time_and_run(0.4)
             texts = self._texts()
             # all four displays always show the same thing
             self.assertEqual(1, len(set(texts)), texts)

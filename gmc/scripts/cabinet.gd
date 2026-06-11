@@ -141,6 +141,10 @@ func _ready() -> void:
 	for n in range(1, 6):
 		MPF.server.add_event_handler("knockdown_dt_%d" % n, _on_drop_target_knockdown)
 	MPF.server.add_event_handler("balldevice_bd_trough_ball_eject_attempt", _on_outhole_eject)
+	# Segment display text (attract score cycle etc.) arrives as
+	# update_segment_display triggers from MPF's
+	# virtual_segment_display_connector (config_dev.yaml).
+	MPF.server.add_event_handler("update_segment_display", _on_segment_display_update)
 
 # ---------------------------------------------------------------------------
 # UI construction
@@ -747,6 +751,26 @@ func _on_drop_target_knockdown(payload = null) -> void:
 func _on_outhole_eject(_payload = null) -> void:
 	print("[cabinet] outhole eject: ball to shooter lane, clearing s_outhole")
 	_set_assumed_switch("s_outhole", false)
+
+
+# Mirror MPF's segment displays onto the backbox labels (attract score
+# cycle, etc.). In-game score updates still come from player variables.
+func _on_segment_display_update(payload = null) -> void:
+	if typeof(payload) != TYPE_DICTIONARY:
+		return
+	var disp_name: String = str(payload.get("segment_display_name", ""))
+	var text: String = str(payload.get("text", ""))
+	match disp_name:
+		"player1_score", "player2_score", "player3_score", "player4_score":
+			var idx := int(disp_name.substr(6, 1)) - 1
+			if idx < _score_labels.size() and _score_labels[idx]:
+				_score_labels[idx].text = text
+		"credits_display":
+			if _credits_label:
+				_credits_label.text = text
+		"ball_display":
+			if _ball_label:
+				_ball_label.text = text
 
 
 # Apply the switch state implied by a coil firing: report it to MPF (the

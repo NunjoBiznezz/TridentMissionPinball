@@ -35,6 +35,12 @@ class TestBonusAdvancement(RulesetTestBase):
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(4, 'bonus_steps')
 
+        # Lamp display: exactly one units lamp lit (4), 10K lamp off
+        self.assertLightColor('l_bonus_4', 'white')
+        self.assertLightColor('l_bonus_1', 'off')
+        self.assertLightColor('l_bonus_3', 'off')
+        self.assertLightColor('l_bonus_10', 'off')
+
         self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(7, 'bonus_steps')
@@ -42,6 +48,11 @@ class TestBonusAdvancement(RulesetTestBase):
         self.hit_and_release_switch('s_right_return_lane')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(10, 'bonus_steps')
+
+        # At exactly 10: only the 10K lamp is lit
+        self.assertLightColor('l_bonus_10', 'white')
+        self.assertLightColor('l_bonus_4', 'off')
+        self.assertLightColor('l_bonus_7', 'off')
 
         # ── Left inlane: +1 step ─────────────────────────────────────
         # 10 → 11 → 12
@@ -58,6 +69,11 @@ class TestBonusAdvancement(RulesetTestBase):
         self.hit_and_release_switch('s_ul_sling')
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(13, 'bonus_steps')
+
+        # 13,000 = units lamp 3 + the 10K lamp
+        self.assertLightColor('l_bonus_3', 'white')
+        self.assertLightColor('l_bonus_10', 'white')
+        self.assertLightColor('l_bonus_2', 'off')
 
         # ── Right inlane: +3 again ───────────────────────────────────
         # 13 → 16 → 19  (max)

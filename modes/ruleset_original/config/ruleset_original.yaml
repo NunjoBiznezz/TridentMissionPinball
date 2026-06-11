@@ -288,7 +288,7 @@ variable_player:
   upper_sling_hit:
     score: 1000
 
-  # Lower slingshots: 1,000 on 3-ball game; 100 on 5-ball game
+  # Lower slingshots: 10 points flat
   lower_sling_hit:
     score: 10
 
@@ -628,49 +628,49 @@ light_player:
     l_standup_purple: off
 
   # Bonus counter lamps, driven by the bonus_steps value itself so the
-  # full lamp state is correct after any change (advances, ball-start
-  # reset, multi-step jumps). 1K-9K lamps count up to 9; at 10 they
-  # clear and the 10K lamp lights; past 10 they count the second pass
-  # (value - 10) with the 10K lamp staying on. Hard cap is 19.
+  # full lamp state is correct after any change. Exactly ONE of the
+  # 1K-9K lamps is lit — the units digit of the bonus — and the 10K
+  # lamp lights for 10 and above: 11,000 = l_bonus_1 + l_bonus_10.
+  # At exactly 10, only the 10K lamp is lit. Hard cap is 19.
   player_bonus_steps{value >= 10}:
     l_bonus_10: on
   player_bonus_steps{value < 10}:
     l_bonus_10: off
-  player_bonus_steps{(value >= 1 and value <= 9) or value >= 11}:
+  player_bonus_steps{value == 1 or value == 11}:
     l_bonus_1: on
-  player_bonus_steps{value < 1 or (value >= 10 and value < 11)}:
+  player_bonus_steps{value != 1 and value != 11}:
     l_bonus_1: off
-  player_bonus_steps{(value >= 2 and value <= 9) or value >= 12}:
+  player_bonus_steps{value == 2 or value == 12}:
     l_bonus_2: on
-  player_bonus_steps{value < 2 or (value >= 10 and value < 12)}:
+  player_bonus_steps{value != 2 and value != 12}:
     l_bonus_2: off
-  player_bonus_steps{(value >= 3 and value <= 9) or value >= 13}:
+  player_bonus_steps{value == 3 or value == 13}:
     l_bonus_3: on
-  player_bonus_steps{value < 3 or (value >= 10 and value < 13)}:
+  player_bonus_steps{value != 3 and value != 13}:
     l_bonus_3: off
-  player_bonus_steps{(value >= 4 and value <= 9) or value >= 14}:
+  player_bonus_steps{value == 4 or value == 14}:
     l_bonus_4: on
-  player_bonus_steps{value < 4 or (value >= 10 and value < 14)}:
+  player_bonus_steps{value != 4 and value != 14}:
     l_bonus_4: off
-  player_bonus_steps{(value >= 5 and value <= 9) or value >= 15}:
+  player_bonus_steps{value == 5 or value == 15}:
     l_bonus_5: on
-  player_bonus_steps{value < 5 or (value >= 10 and value < 15)}:
+  player_bonus_steps{value != 5 and value != 15}:
     l_bonus_5: off
-  player_bonus_steps{(value >= 6 and value <= 9) or value >= 16}:
+  player_bonus_steps{value == 6 or value == 16}:
     l_bonus_6: on
-  player_bonus_steps{value < 6 or (value >= 10 and value < 16)}:
+  player_bonus_steps{value != 6 and value != 16}:
     l_bonus_6: off
-  player_bonus_steps{(value >= 7 and value <= 9) or value >= 17}:
+  player_bonus_steps{value == 7 or value == 17}:
     l_bonus_7: on
-  player_bonus_steps{value < 7 or (value >= 10 and value < 17)}:
+  player_bonus_steps{value != 7 and value != 17}:
     l_bonus_7: off
-  player_bonus_steps{(value >= 8 and value <= 9) or value >= 18}:
+  player_bonus_steps{value == 8 or value == 18}:
     l_bonus_8: on
-  player_bonus_steps{value < 8 or (value >= 10 and value < 18)}:
+  player_bonus_steps{value != 8 and value != 18}:
     l_bonus_8: off
-  player_bonus_steps{(value >= 9 and value <= 9) or value >= 19}:
+  player_bonus_steps{value == 9 or value == 19}:
     l_bonus_9: on
-  player_bonus_steps{value < 9 or (value >= 10 and value < 19)}:
+  player_bonus_steps{value != 9 and value != 19}:
     l_bonus_9: off
 
   # Outlane special lit by drop target phase

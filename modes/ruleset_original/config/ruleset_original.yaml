@@ -289,10 +289,8 @@ variable_player:
     score: 1000
 
   # Lower slingshots: 1,000 on 3-ball game; 100 on 5-ball game
-  lower_sling_hit{machine.balls_per_game_setting == 3}:
-    score: 1000
-  lower_sling_hit{machine.balls_per_game_setting == 5}:
-    score: 100
+  lower_sling_hit:
+    score: 10
 
   # Pop bumpers: 1,000 on 3-ball game; 100 on 5-ball game
   pop_bumper_hit{machine.balls_per_game_setting == 3}:

@@ -33,6 +33,13 @@ modes:
   - explore_the_depths
   - deep_blue_sea
 
+# Power-on drop target setup: dt_bank raises all 5 at machine_reset_phase_3
+# (machine file); 400ms later — once the reset bar has released — knock down
+# 1, 3 and 5 so attract presents the Phase A combination (targets 2 & 4
+# standing), the same setup a ball starts with.
+event_player:
+  machine_reset_phase_3: knockdown_dt_1|400ms, knockdown_dt_3|400ms, knockdown_dt_5|400ms
+
 game:
   balls_per_game: (machine.balls_per_game_setting)
   max_players: 4

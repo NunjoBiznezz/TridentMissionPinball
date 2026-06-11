@@ -38,6 +38,17 @@ class TestDropTargetPhases(RulesetTestBase):
             self.hit_switch_and_run(f's_drop_target_{n}', 0)
         self.advance_time_and_run(0.2)
 
+    def test_power_on_presents_phase_a(self):
+        """At power-on (attract), the bank is raised and targets 1, 3, 5
+        are knocked back down — the same Phase A setup a ball starts with."""
+        self.advance_time_and_run(2)
+        dt = self.machine.drop_targets
+        self.assertFalse(dt['dt_2'].complete, 'target 2 should be standing')
+        self.assertFalse(dt['dt_4'].complete, 'target 4 should be standing')
+        self.assertTrue(dt['dt_1'].complete, 'target 1 should be down')
+        self.assertTrue(dt['dt_3'].complete, 'target 3 should be down')
+        self.assertTrue(dt['dt_5'].complete, 'target 5 should be down')
+
     def test_drop_target_phase_sequence(self):
         """Completing phases A → E raises drop_phase and bonus_multiplier;
         saucer hit during Phase E resets to Phase A with 5× preserved."""
@@ -48,6 +59,14 @@ class TestDropTargetPhases(RulesetTestBase):
         self.assertPlayerVarEqual(1, 'bonus_multiplier')
         self.assertPlayerVarEqual(5000, 'saucer_value')
 
+        # Lamps show the Phase A combination: 2 & 4 standing
+        self.advance_time_and_run(1)
+        self.assertLightColor('l_drop_target_2', 'white')
+        self.assertLightColor('l_drop_target_4', 'white')
+        self.assertLightColor('l_drop_target_1', 'off')
+        self.assertLightColor('l_drop_target_3', 'off')
+        self.assertLightColor('l_drop_target_5', 'off')
+
         # ── Phase A ──────────────────────────────────────────────────
         self._hit(2, 4)
 
@@ -55,6 +74,14 @@ class TestDropTargetPhases(RulesetTestBase):
         self.assertPlayerVarEqual(2, 'drop_phase')
         self.assertPlayerVarEqual(2, 'bonus_multiplier')
         self.assertPlayerVarEqual(10000, 'saucer_value')
+
+        # Lamps show the Phase B combination: 1, 3, 5 standing
+        self.advance_time_and_run(1)
+        self.assertLightColor('l_drop_target_1', 'white')
+        self.assertLightColor('l_drop_target_3', 'white')
+        self.assertLightColor('l_drop_target_5', 'white')
+        self.assertLightColor('l_drop_target_2', 'off')
+        self.assertLightColor('l_drop_target_4', 'off')
 
         # ── Phase B ──────────────────────────────────────────────────
         self._hit(1, 3, 5)

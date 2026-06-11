@@ -137,6 +137,7 @@ func _ready() -> void:
 	# eject attempt fires c_outhole.
 	MPF.server.add_event_handler("ball_starting", _on_drop_targets_raise)
 	MPF.server.add_event_handler("raise_drop_targets", _on_drop_targets_raise)
+	MPF.server.add_event_handler("machine_reset_phase_3", _on_drop_targets_raise)
 	for n in range(1, 6):
 		MPF.server.add_event_handler("knockdown_dt_%d" % n, _on_drop_target_knockdown)
 	MPF.server.add_event_handler("balldevice_bd_trough_ball_eject_attempt", _on_outhole_eject)

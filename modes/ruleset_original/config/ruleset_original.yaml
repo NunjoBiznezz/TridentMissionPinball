@@ -181,11 +181,15 @@ event_player:
   s_ll_sling_active: lower_sling_hit
   s_lr_sling_active: lower_sling_hit
 
-  # Upper slings move purple bonus to opposite spinner
+  # Upper and lower slings move purple bonus to opposite spinner
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
   s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_ur_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
+  s_ll_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
+  s_ll_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
+  s_lr_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
+  s_lr_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
 
   # Upper sling bonus advance: +1 step, max 19
   upper_sling_hit{current_player.bonus_steps == 0}: bonus_step_to_1
@@ -692,11 +696,6 @@ light_player:
     l_standup_green: off
     l_standup_yellow: off
     l_standup_purple: off
-    l_drop_target_1: off
-    l_drop_target_2: off
-    l_drop_target_3: off
-    l_drop_target_4: off
-    l_drop_target_5: off
 
   # Phase A complete: 2X earned, 3X feature lit, saucer 10K
   dt_phase_a_complete:
@@ -778,11 +777,6 @@ light_player:
     l_standup_green: off
     l_standup_yellow: off
     l_standup_purple: off
-    l_drop_target_1: off
-    l_drop_target_2: off
-    l_drop_target_3: off
-    l_drop_target_4: off
-    l_drop_target_5: off
 
   # Single-step bonus lamp advances (left inlane)
   bonus_step_to_1:
@@ -968,26 +962,49 @@ light_player:
     l_standup_yellow: off
     l_standup_purple: off
 
-  # Drop target lamps: on when target is down, off when raised back up
-  drop_target_dt_1_down:
-    l_drop_target_1: on
-  drop_target_dt_2_down:
-    l_drop_target_2: on
-  drop_target_dt_3_down:
-    l_drop_target_3: on
-  drop_target_dt_4_down:
-    l_drop_target_4: on
-  drop_target_dt_5_down:
-    l_drop_target_5: on
-  drop_target_dt_1_up:
+  # Drop target lamps show which targets need to be hit. They are set as a
+  # group when the phase combination is positioned (not from the mechanical
+  # raise, which would flash all 5 during the reset bar stroke), and each
+  # lamp goes out when its target is knocked down.
+  position_drop_targets{current_player.drop_phase == 1}:
     l_drop_target_1: off
-  drop_target_dt_2_up:
-    l_drop_target_2: off
-  drop_target_dt_3_up:
+    l_drop_target_2: on
     l_drop_target_3: off
-  drop_target_dt_4_up:
+    l_drop_target_4: on
+    l_drop_target_5: off
+  position_drop_targets{current_player.drop_phase == 2}:
+    l_drop_target_1: on
+    l_drop_target_2: off
+    l_drop_target_3: on
     l_drop_target_4: off
-  drop_target_dt_5_up:
+    l_drop_target_5: on
+  position_drop_targets{current_player.drop_phase == 3}:
+    l_drop_target_1: on
+    l_drop_target_2: on
+    l_drop_target_3: off
+    l_drop_target_4: on
+    l_drop_target_5: on
+  position_drop_targets{current_player.drop_phase == 4}:
+    l_drop_target_1: on
+    l_drop_target_2: on
+    l_drop_target_3: on
+    l_drop_target_4: on
+    l_drop_target_5: on
+  position_drop_targets{current_player.drop_phase == 5}:
+    l_drop_target_1: on
+    l_drop_target_2: on
+    l_drop_target_3: on
+    l_drop_target_4: on
+    l_drop_target_5: on
+  drop_target_dt_1_down:
+    l_drop_target_1: off
+  drop_target_dt_2_down:
+    l_drop_target_2: off
+  drop_target_dt_3_down:
+    l_drop_target_3: off
+  drop_target_dt_4_down:
+    l_drop_target_4: off
+  drop_target_dt_5_down:
     l_drop_target_5: off
 
   # Purple bonus lamp follows the side it's on

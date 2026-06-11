@@ -1,0 +1,35 @@
+#show_version=6
+
+# Attract-mode score display cycle (original Stern attract behavior):
+# all four player displays show the high score to date, then go blank,
+# then show 00, repeating. 2 seconds per step.
+- duration: 2s
+  segment_displays:
+    player1_score:
+      text: "{machine.high_game_to_date:6d}"
+    player2_score:
+      text: "{machine.high_game_to_date:6d}"
+    player3_score:
+      text: "{machine.high_game_to_date:6d}"
+    player4_score:
+      text: "{machine.high_game_to_date:6d}"
+- duration: 2s
+  segment_displays:
+    player1_score:
+      text: "      "
+    player2_score:
+      text: "      "
+    player3_score:
+      text: "      "
+    player4_score:
+      text: "      "
+- duration: 2s
+  segment_displays:
+    player1_score:
+      text: "    00"
+    player2_score:
+      text: "    00"
+    player3_score:
+      text: "    00"
+    player4_score:
+      text: "    00"

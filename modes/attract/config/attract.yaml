@@ -13,6 +13,9 @@ show_player:
     attract_radar_sweep:
       loops: 2
       events_when_completed: attract_next_center_out
+    # Score displays: high score → blank → 00 on all four, forever
+    attract_score_cycle:
+      loops: -1
   attract_next_center_out:
     attract_center_out:
       loops: 2
@@ -26,16 +29,10 @@ show_player:
       loops: 2
       events_when_completed: attract_next_center_out
 
+# The four player displays are driven by the attract_score_cycle show
+# (high score → blank → 00); "GAME OVER" is the backbox lamp, not text.
 segment_display_player:
   start_attract_mode:
-    player1_score:
-      text: "GAME"
-    player2_score:
-      text: "OVER"
-    player3_score:
-      text: "      "
-    player4_score:
-      text: "      "
     credits_display:
       text: "{machine.credits:02d}"
     ball_display:

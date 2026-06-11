@@ -139,6 +139,10 @@ event_player:
   s_ll_sling_active: lower_sling_hit
   s_lr_sling_active: lower_sling_hit
 
+  # Pop bumpers: score via common event
+  s_top_bumper_active: pop_bumper_hit
+  s_bottom_bumper_active: pop_bumper_hit
+
   # Upper and lower slings and 10 pt switch move purple bonus to opposite spinner
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_ul_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
@@ -148,6 +152,8 @@ event_player:
   s_ll_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
   s_lr_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_lr_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
+
+  # 10 point and change switches: same effect as slings, but only if purple bonus is active (otherwise they just score 10 points with no bonus advance, so no need to swap).
   s_10_pts_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_10_pts_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
 
@@ -293,6 +299,10 @@ variable_player:
     score: 1000
   pop_bumper_hit{machine.balls_per_game_setting == 5}:
     score: 100
+
+  # 10 point switch (also swaps the purple lane — see event_player)
+  s_10_pts_active:
+    score: 10
 
   # Upper left rollover: 100 points
   s_rollover_active:

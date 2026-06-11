@@ -345,6 +345,12 @@ variable_player:
   lower_sling_hit{machine.balls_per_game_setting == 5}:
     score: 100
 
+  # Pop bumpers: 1,000 on 3-ball game; 100 on 5-ball game
+  pop_bumper_hit{machine.balls_per_game_setting == 3}:
+    score: 1000
+  pop_bumper_hit{machine.balls_per_game_setting == 5}:
+    score: 100
+
   # Upper left rollover: 100 points
   s_rollover_active:
     score: 100

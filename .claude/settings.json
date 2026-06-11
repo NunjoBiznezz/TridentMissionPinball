@@ -72,7 +72,9 @@
       "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_credits)",
       "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original tests.test_credits)",
       "Bash(awk '/^tilt:/{f=1} f{print; c++} c>14{exit}' /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_spec.yaml)",
-      "Bash(sed -n 1,30p /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/tilt/config/tilt.yaml)"
+      "Bash(sed -n 1,30p /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/modes/tilt/config/tilt.yaml)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_tilt)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest tests.test_ruleset_original tests.test_credits tests.test_tilt)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

@@ -256,9 +256,9 @@ player_vars:
   score:
     initial_value: 0
     value_type: int
-  ball:
-    initial_value: 1
-    value_type: int
+  # NOTE: do not define a custom 'ball' player var here. MPF owns player.ball
+  # and increments it at every ball start; seeding it to 1 made games start
+  # on "ball 2" and end a ball early (game over check is ball >= balls_per_game).
   drop_phase:
     initial_value: 1
     value_type: int

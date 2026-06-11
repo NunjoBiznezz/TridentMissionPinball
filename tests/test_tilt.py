@@ -21,7 +21,18 @@ class TestTilt(RulesetTestBase):
         # multiple_hit_window is 300ms — space the closures apart
         self.advance_time_and_run(0.5)
 
+    def _settle_serve(self):
+        """Wait out the trough eject confirmation.
+
+        No switches are tagged playfield_active, so an eject to the
+        playfield self-confirms only after the 3s eject timeout. Closing
+        the outhole before that looks like the ball returning to the
+        trough and fails the eject.
+        """
+        self.advance_time_and_run(3.5)
+
     def _drain(self):
+        self._settle_serve()
         self.hit_switch_and_run('s_outhole', 1)
         self.advance_time_and_run(2)
 

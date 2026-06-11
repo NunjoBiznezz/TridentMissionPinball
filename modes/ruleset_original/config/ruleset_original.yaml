@@ -126,48 +126,6 @@ event_player:
   right_special_awarded{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
   right_special_awarded{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
 
-  # Left inlane bonus advance: 1 step, max 19 (no handler at 19 = natural cap)
-  s_left_return_lane_active{current_player.bonus_steps == 0}: bonus_step_to_1
-  s_left_return_lane_active{current_player.bonus_steps == 1}: bonus_step_to_2
-  s_left_return_lane_active{current_player.bonus_steps == 2}: bonus_step_to_3
-  s_left_return_lane_active{current_player.bonus_steps == 3}: bonus_step_to_4
-  s_left_return_lane_active{current_player.bonus_steps == 4}: bonus_step_to_5
-  s_left_return_lane_active{current_player.bonus_steps == 5}: bonus_step_to_6
-  s_left_return_lane_active{current_player.bonus_steps == 6}: bonus_step_to_7
-  s_left_return_lane_active{current_player.bonus_steps == 7}: bonus_step_to_8
-  s_left_return_lane_active{current_player.bonus_steps == 8}: bonus_step_to_9
-  s_left_return_lane_active{current_player.bonus_steps == 9}: bonus_9_to_10
-  s_left_return_lane_active{current_player.bonus_steps == 10}: bonus_step_to_11
-  s_left_return_lane_active{current_player.bonus_steps == 11}: bonus_step_to_12
-  s_left_return_lane_active{current_player.bonus_steps == 12}: bonus_step_to_13
-  s_left_return_lane_active{current_player.bonus_steps == 13}: bonus_step_to_14
-  s_left_return_lane_active{current_player.bonus_steps == 14}: bonus_step_to_15
-  s_left_return_lane_active{current_player.bonus_steps == 15}: bonus_step_to_16
-  s_left_return_lane_active{current_player.bonus_steps == 16}: bonus_step_to_17
-  s_left_return_lane_active{current_player.bonus_steps == 17}: bonus_step_to_18
-  s_left_return_lane_active{current_player.bonus_steps == 18}: bonus_step_to_19
-
-  # Right inlane bonus advance: +3 steps, max 19
-  s_right_return_lane_active{current_player.bonus_steps == 0}: bonus_0_to_3
-  s_right_return_lane_active{current_player.bonus_steps == 1}: bonus_1_to_4
-  s_right_return_lane_active{current_player.bonus_steps == 2}: bonus_2_to_5
-  s_right_return_lane_active{current_player.bonus_steps == 3}: bonus_3_to_6
-  s_right_return_lane_active{current_player.bonus_steps == 4}: bonus_4_to_7
-  s_right_return_lane_active{current_player.bonus_steps == 5}: bonus_5_to_8
-  s_right_return_lane_active{current_player.bonus_steps == 6}: bonus_6_to_9
-  s_right_return_lane_active{current_player.bonus_steps == 7}: bonus_7_to_10
-  s_right_return_lane_active{current_player.bonus_steps == 8}: bonus_8_to_10
-  s_right_return_lane_active{current_player.bonus_steps == 9}: bonus_9_to_10
-  s_right_return_lane_active{current_player.bonus_steps == 10}: bonus_10_to_13
-  s_right_return_lane_active{current_player.bonus_steps == 11}: bonus_11_to_14
-  s_right_return_lane_active{current_player.bonus_steps == 12}: bonus_12_to_15
-  s_right_return_lane_active{current_player.bonus_steps == 13}: bonus_13_to_16
-  s_right_return_lane_active{current_player.bonus_steps == 14}: bonus_14_to_17
-  s_right_return_lane_active{current_player.bonus_steps == 15}: bonus_15_to_18
-  s_right_return_lane_active{current_player.bonus_steps == 16}: bonus_16_to_19
-  s_right_return_lane_active{current_player.bonus_steps == 17}: bonus_17_to_19
-  s_right_return_lane_active{current_player.bonus_steps == 18}: bonus_18_to_19
-
   # Upper left rollover: advance left lane award (caps at 8,000)
   s_rollover_active{current_player.left_lane_value == 2000}: advance_lane_to_4k
   s_rollover_active{current_player.left_lane_value == 4000}: advance_lane_to_6k
@@ -192,27 +150,6 @@ event_player:
   s_lr_sling_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
   s_10_pts_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 1}: purple_to_right
   s_10_pts_active{current_player.purple_bonus > 0 and current_player.purple_on_left == 0}: purple_to_left
-
-  # Upper sling bonus advance: +1 step, max 19
-  upper_sling_hit{current_player.bonus_steps == 0}: bonus_step_to_1
-  upper_sling_hit{current_player.bonus_steps == 1}: bonus_step_to_2
-  upper_sling_hit{current_player.bonus_steps == 2}: bonus_step_to_3
-  upper_sling_hit{current_player.bonus_steps == 3}: bonus_step_to_4
-  upper_sling_hit{current_player.bonus_steps == 4}: bonus_step_to_5
-  upper_sling_hit{current_player.bonus_steps == 5}: bonus_step_to_6
-  upper_sling_hit{current_player.bonus_steps == 6}: bonus_step_to_7
-  upper_sling_hit{current_player.bonus_steps == 7}: bonus_step_to_8
-  upper_sling_hit{current_player.bonus_steps == 8}: bonus_step_to_9
-  upper_sling_hit{current_player.bonus_steps == 9}: bonus_9_to_10
-  upper_sling_hit{current_player.bonus_steps == 10}: bonus_step_to_11
-  upper_sling_hit{current_player.bonus_steps == 11}: bonus_step_to_12
-  upper_sling_hit{current_player.bonus_steps == 12}: bonus_step_to_13
-  upper_sling_hit{current_player.bonus_steps == 13}: bonus_step_to_14
-  upper_sling_hit{current_player.bonus_steps == 14}: bonus_step_to_15
-  upper_sling_hit{current_player.bonus_steps == 15}: bonus_step_to_16
-  upper_sling_hit{current_player.bonus_steps == 16}: bonus_step_to_17
-  upper_sling_hit{current_player.bonus_steps == 17}: bonus_step_to_18
-  upper_sling_hit{current_player.bonus_steps == 18}: bonus_step_to_19
 
 variable_player:
   # Initialize on mode start
@@ -383,125 +320,27 @@ variable_player:
   s_right_return_lane_active:
     score: 3000
 
-  # Bonus counter step events: update bonus_steps and light only the new lamps
-  bonus_0_to_3:
-    bonus_steps:
-      int: 3
-      action: set
-  bonus_1_to_4:
-    bonus_steps:
-      int: 4
-      action: set
-  bonus_2_to_5:
-    bonus_steps:
-      int: 5
-      action: set
-  bonus_3_to_6:
-    bonus_steps:
-      int: 6
-      action: set
-  bonus_4_to_7:
-    bonus_steps:
-      int: 7
-      action: set
-  bonus_5_to_8:
-    bonus_steps:
-      int: 8
-      action: set
-  bonus_6_to_9:
-    bonus_steps:
-      int: 9
-      action: set
-  bonus_7_to_10:
-    bonus_steps:
-      int: 10
-      action: set
-  bonus_8_to_10:
-    bonus_steps:
-      int: 10
-      action: set
-  bonus_9_to_10:
-    bonus_steps:
-      int: 10
-      action: set
-
-  # Single-step bonus advances (left inlane)
-  bonus_step_to_1:
-    bonus_steps:
-      int: 1
-      action: set
-  bonus_step_to_2:
-    bonus_steps:
-      int: 2
-      action: set
-  bonus_step_to_3:
-    bonus_steps:
-      int: 3
-      action: set
-  bonus_step_to_4:
-    bonus_steps:
-      int: 4
-      action: set
-  bonus_step_to_5:
-    bonus_steps:
-      int: 5
-      action: set
-  bonus_step_to_6:
-    bonus_steps:
-      int: 6
-      action: set
-  bonus_step_to_7:
-    bonus_steps:
-      int: 7
-      action: set
-  bonus_step_to_8:
-    bonus_steps:
-      int: 8
-      action: set
-  bonus_step_to_9:
-    bonus_steps:
-      int: 9
-      action: set
-
-  # Second-pass single-step advances (11–19); l_bonus_10 stays lit
-  bonus_step_to_11:
-    bonus_steps: {int: 11, action: set}
-  bonus_step_to_12:
-    bonus_steps: {int: 12, action: set}
-  bonus_step_to_13:
-    bonus_steps: {int: 13, action: set}
-  bonus_step_to_14:
-    bonus_steps: {int: 14, action: set}
-  bonus_step_to_15:
-    bonus_steps: {int: 15, action: set}
-  bonus_step_to_16:
-    bonus_steps: {int: 16, action: set}
-  bonus_step_to_17:
-    bonus_steps: {int: 17, action: set}
-  bonus_step_to_18:
-    bonus_steps: {int: 18, action: set}
-  bonus_step_to_19:
+  # Bonus counter advances, capped at 19 (19,000). Lamps are driven from
+  # the player_bonus_steps value change in light_player below.
+  # +1 sources: left return lane and upper slings.
+  s_left_return_lane_active{current_player.bonus_steps < 19}:
+    bonus_steps: {int: 1, action: add}
+  upper_sling_hit{current_player.bonus_steps < 19}:
+    bonus_steps: {int: 1, action: add}
+  # Right return lane: +3, but the counter pauses at the 10K boundary on
+  # the way up (7, 8 and 9 all land on exactly 10, as the original game
+  # does), then advances +3 again to a hard cap of 19.
+  # NOTE: entries run in order and re-evaluate their condition against the
+  # already-updated value, so these brackets are ordered DESCENDING — an
+  # increase can never fall into a later (lower) bracket and cascade.
+  s_right_return_lane_active{current_player.bonus_steps >= 17 and current_player.bonus_steps < 19}:
     bonus_steps: {int: 19, action: set}
-
-  # Right inlane multi-step advances for the second pass (+3, caps at 19)
-  bonus_10_to_13:
-    bonus_steps: {int: 13, action: set}
-  bonus_11_to_14:
-    bonus_steps: {int: 14, action: set}
-  bonus_12_to_15:
-    bonus_steps: {int: 15, action: set}
-  bonus_13_to_16:
-    bonus_steps: {int: 16, action: set}
-  bonus_14_to_17:
-    bonus_steps: {int: 17, action: set}
-  bonus_15_to_18:
-    bonus_steps: {int: 18, action: set}
-  bonus_16_to_19:
-    bonus_steps: {int: 19, action: set}
-  bonus_17_to_19:
-    bonus_steps: {int: 19, action: set}
-  bonus_18_to_19:
-    bonus_steps: {int: 19, action: set}
+  s_right_return_lane_active{current_player.bonus_steps >= 10 and current_player.bonus_steps < 17}:
+    bonus_steps: {int: 3, action: add}
+  s_right_return_lane_active{current_player.bonus_steps >= 7 and current_player.bonus_steps < 10}:
+    bonus_steps: {int: 10, action: set}
+  s_right_return_lane_active{current_player.bonus_steps < 7}:
+    bonus_steps: {int: 3, action: add}
 
   # Standup target completions
   standup_first_complete:
@@ -780,143 +619,51 @@ light_player:
     l_standup_yellow: off
     l_standup_purple: off
 
-  # Single-step bonus lamp advances (left inlane)
-  bonus_step_to_1:
-    l_bonus_1: on
-  bonus_step_to_2:
-    l_bonus_2: on
-  bonus_step_to_3:
-    l_bonus_3: on
-  bonus_step_to_4:
-    l_bonus_4: on
-  bonus_step_to_5:
-    l_bonus_5: on
-  bonus_step_to_6:
-    l_bonus_6: on
-  bonus_step_to_7:
-    l_bonus_7: on
-  bonus_step_to_8:
-    l_bonus_8: on
-  bonus_step_to_9:
-    l_bonus_9: on
-
-  # Bonus counter lamp transitions (only new lamps lit per advance)
-  bonus_0_to_3:
-    l_bonus_1: on
-    l_bonus_2: on
-    l_bonus_3: on
-  bonus_1_to_4:
-    l_bonus_2: on
-    l_bonus_3: on
-    l_bonus_4: on
-  bonus_2_to_5:
-    l_bonus_3: on
-    l_bonus_4: on
-    l_bonus_5: on
-  bonus_3_to_6:
-    l_bonus_4: on
-    l_bonus_5: on
-    l_bonus_6: on
-  bonus_4_to_7:
-    l_bonus_5: on
-    l_bonus_6: on
-    l_bonus_7: on
-  bonus_5_to_8:
-    l_bonus_6: on
-    l_bonus_7: on
-    l_bonus_8: on
-  bonus_6_to_9:
-    l_bonus_7: on
-    l_bonus_8: on
-    l_bonus_9: on
-  # When reaching 10K: light the 10K lamp and clear 1K–9K so they are free
-  # to represent 11K–19K in the second pass (l_bonus_10 stays lit throughout).
-  bonus_7_to_10:
-    l_bonus_1: off
-    l_bonus_2: off
-    l_bonus_3: off
-    l_bonus_4: off
-    l_bonus_5: off
-    l_bonus_6: off
-    l_bonus_7: off
-    l_bonus_8: off
-    l_bonus_9: off
+  # Bonus counter lamps, driven by the bonus_steps value itself so the
+  # full lamp state is correct after any change (advances, ball-start
+  # reset, multi-step jumps). 1K-9K lamps count up to 9; at 10 they
+  # clear and the 10K lamp lights; past 10 they count the second pass
+  # (value - 10) with the 10K lamp staying on. Hard cap is 19.
+  player_bonus_steps{value >= 10}:
     l_bonus_10: on
-  bonus_8_to_10:
-    l_bonus_1: off
-    l_bonus_2: off
-    l_bonus_3: off
-    l_bonus_4: off
-    l_bonus_5: off
-    l_bonus_6: off
-    l_bonus_7: off
-    l_bonus_8: off
-    l_bonus_9: off
-    l_bonus_10: on
-  bonus_9_to_10:
-    l_bonus_1: off
-    l_bonus_2: off
-    l_bonus_3: off
-    l_bonus_4: off
-    l_bonus_5: off
-    l_bonus_6: off
-    l_bonus_7: off
-    l_bonus_8: off
-    l_bonus_9: off
-    l_bonus_10: on
-
-  # Second pass (11K–19K): l_bonus_10 stays on; 1K–9K lamps reused
-  bonus_step_to_11:
+  player_bonus_steps{value < 10}:
+    l_bonus_10: off
+  player_bonus_steps{(value >= 1 and value <= 9) or value >= 11}:
     l_bonus_1: on
-  bonus_step_to_12:
+  player_bonus_steps{value < 1 or (value >= 10 and value < 11)}:
+    l_bonus_1: off
+  player_bonus_steps{(value >= 2 and value <= 9) or value >= 12}:
     l_bonus_2: on
-  bonus_step_to_13:
+  player_bonus_steps{value < 2 or (value >= 10 and value < 12)}:
+    l_bonus_2: off
+  player_bonus_steps{(value >= 3 and value <= 9) or value >= 13}:
     l_bonus_3: on
-  bonus_step_to_14:
+  player_bonus_steps{value < 3 or (value >= 10 and value < 13)}:
+    l_bonus_3: off
+  player_bonus_steps{(value >= 4 and value <= 9) or value >= 14}:
     l_bonus_4: on
-  bonus_step_to_15:
+  player_bonus_steps{value < 4 or (value >= 10 and value < 14)}:
+    l_bonus_4: off
+  player_bonus_steps{(value >= 5 and value <= 9) or value >= 15}:
     l_bonus_5: on
-  bonus_step_to_16:
+  player_bonus_steps{value < 5 or (value >= 10 and value < 15)}:
+    l_bonus_5: off
+  player_bonus_steps{(value >= 6 and value <= 9) or value >= 16}:
     l_bonus_6: on
-  bonus_step_to_17:
+  player_bonus_steps{value < 6 or (value >= 10 and value < 16)}:
+    l_bonus_6: off
+  player_bonus_steps{(value >= 7 and value <= 9) or value >= 17}:
     l_bonus_7: on
-  bonus_step_to_18:
+  player_bonus_steps{value < 7 or (value >= 10 and value < 17)}:
+    l_bonus_7: off
+  player_bonus_steps{(value >= 8 and value <= 9) or value >= 18}:
     l_bonus_8: on
-  bonus_step_to_19:
+  player_bonus_steps{value < 8 or (value >= 10 and value < 18)}:
+    l_bonus_8: off
+  player_bonus_steps{(value >= 9 and value <= 9) or value >= 19}:
     l_bonus_9: on
-  bonus_10_to_13:
-    l_bonus_1: on
-    l_bonus_2: on
-    l_bonus_3: on
-  bonus_11_to_14:
-    l_bonus_2: on
-    l_bonus_3: on
-    l_bonus_4: on
-  bonus_12_to_15:
-    l_bonus_3: on
-    l_bonus_4: on
-    l_bonus_5: on
-  bonus_13_to_16:
-    l_bonus_4: on
-    l_bonus_5: on
-    l_bonus_6: on
-  bonus_14_to_17:
-    l_bonus_5: on
-    l_bonus_6: on
-    l_bonus_7: on
-  bonus_15_to_18:
-    l_bonus_6: on
-    l_bonus_7: on
-    l_bonus_8: on
-  bonus_16_to_19:
-    l_bonus_7: on
-    l_bonus_8: on
-    l_bonus_9: on
-  bonus_17_to_19:
-    l_bonus_8: on
-    l_bonus_9: on
-  bonus_18_to_19:
-    l_bonus_9: on
+  player_bonus_steps{value < 9 or (value >= 10 and value < 19)}:
+    l_bonus_9: off
 
   # Outlane special lit by drop target phase
   outlane_special_earned:

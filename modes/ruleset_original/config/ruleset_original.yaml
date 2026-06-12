@@ -65,45 +65,16 @@ timers:
         action: stop
 
 sound_player:
-  # End-of-ball bonus countdown chime (one per counted step)
-  bonus_count_step: 104_AddBonus
-
-  # Playfield switch sounds. Drop target sounds only fire on PLAYER hits:
-  # game-positioned knockdowns mute the switches, so no event, no sound.
-  s_drop_target_1_active: 101_OneHundredPoint
-  s_drop_target_2_active: 101_OneHundredPoint
-  s_drop_target_3_active: 101_OneHundredPoint
-  s_drop_target_4_active: 101_OneHundredPoint
-  s_drop_target_5_active: 101_OneHundredPoint
-  s_left_spinner_active: 100_TenPoint
-  s_right_spinner_active: 100_TenPoint
-  s_rollover_active: 101_OneHundredPoint
-  s_left_return_lane_active: 102_OneThousandPoint
-  s_right_return_lane_active: 102_OneThousandPoint
-  s_right_outlane_active: 102_OneThousandPoint
-  s_top_bumper_active: 105_PopBumper
-  s_bottom_bumper_active: 105_PopBumper
-  s_10_pts_active: 100_TenPoint
-  upper_sling_hit: 100_TenPoint
-  lower_sling_hit: 102_OneThousandPoint
-
-  # Saucer: sound matches the current award value
-  s_saucer_active{current_player.saucer_value == 5000}: 102_OneThousandPoint
-  s_saucer_active{current_player.saucer_value == 10000}: 102_OneThousandPoint
-  s_saucer_active{current_player.saucer_value == 20000}: 102_OneThousandPoint
-  s_saucer_active{current_player.saucer_value == 30000}: 102_OneThousandPoint
-
-  # Drop target phase completions
-  # dt_phase_a_complete: 050_DropTargetClear1
-  # dt_phase_b_complete: 051_DropTargetClear2
-  # dt_phase_c_complete: 052_DropTargetClear3
-  # dt_phase_d_complete: 053_DropTargetClear4
-  # dt_phase_e_complete: 054_DropTargetClear5
-
-  # Standups and awards
-  # standup_all_hit: 061_StandupsCleared
-  # special_award_extra_ball: 037_ExtraBall
-  # collect_standup_extra_ball: 037_ExtraBall
+  # Original Stern sound board behavior: sounds are tied to the POINTS
+  # awarded, not to specific switches. Every score change plays the sound
+  # for its magnitude — 10-point awards play 100_TenPoint, hundreds play
+  # 101, thousands 102, ten-thousands and up 103. This automatically
+  # covers every switch, every award, and the end-of-ball bonus countdown
+  # (each counted 1,000 plays the thousand-point sound).
+  player_score{change == 10}: 100_TenPoint
+  player_score{change >= 100 and change < 1000}: 101_OneHundredPoint
+  player_score{change >= 1000 and change < 10000}: 102_OneThousandPoint
+  player_score{change >= 10000}: 103_TenThousandPoint
 
 event_player:
   # Bonus countdown ticks: count a step while any remain; at zero either

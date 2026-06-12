@@ -13,6 +13,12 @@ event_player:
   s_coin_2_active: coin_inserted_chute_2
   s_coin_3_active: coin_inserted_chute_3
 
+# Chime only when a credit is actually added (not at max)
+sound_player:
+  coin_inserted_chute_1{machine.credits < machine.max_credits}: 013_AddCredit
+  coin_inserted_chute_2{machine.credits < machine.max_credits}: 013_AddCredit
+  coin_inserted_chute_3{machine.credits < machine.max_credits}: 013_AddCredit
+
 variable_player:
   coin_inserted_chute_1{machine.credits < machine.max_credits}:
     credits: {int: 1, action: add_machine}

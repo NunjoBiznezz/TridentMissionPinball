@@ -35,7 +35,6 @@
       "Bash(kill %1)",
       "Bash(wait %1)",
       "Bash(wait)",
-      "Bash(git -C :* status)",
       "Bash(git -C /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball check-ignore -v gmc/.godot gmc/.godot/global_script_class_cache.cfg gmc/gmc.local.cfg)",
       "Bash(pkill -f \"godot\")",
       "Bash(grep -v \"^$\")",
@@ -61,9 +60,11 @@
       "Bash(echo \"rc=$?\")",
       "Bash(grep :*)",
       "Bash(godot :*)",
-      "Bash(awk :*",
       "Bash(sed -n :*)",
-      "Bash(~/mpf/venv/bin/python3.11 -m unittest :*)"
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest :*)",
+      "Bash(sed -n 1,60p /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/sound_player.py)",
+      "Bash(awk '/^sound_player:/{f=1} f{print; c++} c>14{exit}' /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_spec.yaml)",
+      "Bash(godot --headless --import --path .)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

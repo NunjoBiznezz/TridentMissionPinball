@@ -299,8 +299,8 @@ func _build_image_view(image_path: String, location: String) -> Control:
 		var r: int = entry.get("radius", LAMP_RADIUS)
 		var hex: String = entry.get("color", "ffaa00")
 		var on_color  := Color(hex.substr(0,2).hex_to_int()/255.0,
-		                       hex.substr(2,2).hex_to_int()/255.0,
-		                       hex.substr(4,2).hex_to_int()/255.0)
+							   hex.substr(2,2).hex_to_int()/255.0,
+							   hex.substr(4,2).hex_to_int()/255.0)
 		var off_color := on_color * 0.12
 
 		var style := StyleBoxFlat.new()
@@ -635,7 +635,7 @@ func _build_lamp_grid() -> Control:
 # ---------------------------------------------------------------------------
 func _init_assumed_switch_states() -> void:
 	var assumed := ["s_drop_target_1", "s_drop_target_2", "s_drop_target_3",
-	                "s_drop_target_4", "s_drop_target_5", "s_outhole"]
+					"s_drop_target_4", "s_drop_target_5", "s_outhole"]
 	for sw_name in assumed:
 		if sw_name in _switch_area_map and sw_name not in _latched_switches:
 			var area = _switch_area_map[sw_name]

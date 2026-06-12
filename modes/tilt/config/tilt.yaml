@@ -26,3 +26,6 @@ tilt:
   multiple_hit_window: 300ms
   settle_time: 2s
   tilt_warnings_player_var: tilt_warnings
+
+sound_player:
+  tilt_warning: 039_TiltWarning

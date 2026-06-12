@@ -2,20 +2,14 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(mkdir -p /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config)",
       "Bash(pip show *)",
       "Bash(python3 -m mpf --version)",
-      "Bash(*/mpf . -c config_dev.yaml)",
       "Read(/*/venv/lib/python3.11/site-packages/mpf/platforms/lisy/**)",
       "Bash(grep -n \"^lisy:\" */venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml 2>/dev/null | head -5; grep -A 30 \"^lisy:\" */venv/lib/python3.11/site-packages/mpf/mpfconfig.yaml 2>/dev/null | head -30)",
       "Read(/*/venv/lib/python3.11/site-packages/mpf/**)",
       "Bash(find */venv -name \"device_str.yaml\" -o -name \"lisy.yaml\" 2>/dev/null | head -5; grep -rn \"flow_control\\\\|hw_rule_coil\" */venv/lib/python3.11/site-packages/mpf/platforms/lisy/ 2>/dev/null | head -10)",
       "Read(/*/venv/**)",
-      "Bash(*/mpf . -c config_dev.yaml -t)",
-      "Bash(*/mpf . -c config_dev.yaml -t -X virtual)",
-      "Bash(*/mpf . -c config_dev.yaml -t -x)",
-      "Bash(*/mpf . -c config_dev.yaml -t -x --no-load-cache)",
-      "Bash(*/mpf . -c config_dev.yaml -t -x -a)",
+      "Bash(*/mpf . :*)",
       "Bash(grep -n \"action: set$\" /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/adjustments/config/adjustments.yaml)",
       "Bash(grep -n \"action: set$\\\\|action: add$\" /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/adjustments/config/adjustments.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/service_menu/config/service_menu.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test/config/self_test.yaml /Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/attract/config/attract.yaml)",
       "Bash(python3 -c ' *)",
@@ -28,7 +22,6 @@
       "Read(//Users/douglasbercot/mpf/venv/**)",
       "Bash(ls ~/Projects/NunjoBiznezz/TridentRedux/Sounds/ 2>/dev/null | head -30 && echo \"---\" && which godot 2>/dev/null || echo \"godot not in PATH\")",
       "Read(//Users/douglasbercot/Projects/NunjoBiznezz/TridentRedux/Sounds/**)",
-      "Bash(godot --version)",
       "Bash(which git *)",
       "Read(//Users/douglasbercot/Projects/NunjoBiznezz/**)",
       "Bash(cp -r addons/mpf-gmc/addons/mpf-gmc /tmp/mpf-gmc-addon)",
@@ -70,7 +63,7 @@
       "Bash(godot :*)",
       "Bash(awk :*",
       "Bash(sed -n :*)",
-      "Bash(~/mpf/venv/bin/python3.11 -m unittest :*)",
+      "Bash(~/mpf/venv/bin/python3.11 -m unittest :*)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

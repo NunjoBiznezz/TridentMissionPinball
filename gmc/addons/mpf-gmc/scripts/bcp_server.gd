@@ -305,6 +305,12 @@ func _thread_poll(_userdata=null) -> void:
 
 		var bytes = _client.get_available_bytes()
 		if not bytes:
+			# Release the mutex before idling — Godot mutexes are recursive,
+			# so skipping this unlock leaves the lock held (one level deeper
+			# per idle tick) when the thread exits on disconnect, and the
+			# next connection's poll thread can never acquire it (breaking
+			# MPF reconnection until GMC is fully restarted).
+			_mutex.unlock()
 			OS.delay_msec(delay)
 			continue
 

@@ -70,40 +70,40 @@ sound_player:
 
   # Playfield switch sounds. Drop target sounds only fire on PLAYER hits:
   # game-positioned knockdowns mute the switches, so no event, no sound.
-  s_drop_target_1_active: 012_DropTarget
-  s_drop_target_2_active: 012_DropTarget
-  s_drop_target_3_active: 012_DropTarget
-  s_drop_target_4_active: 012_DropTarget
-  s_drop_target_5_active: 012_DropTarget
-  s_left_spinner_active: 004_LeftSpinner
-  s_right_spinner_active: 005_RightSpinner
-  s_rollover_active: 006_Rollover
-  s_left_return_lane_active: 007_LeftInlane
-  s_right_return_lane_active: 008_RightInlane
-  s_right_outlane_active: 009_RightOutlane
-  s_top_bumper_active: 010_TopBumper
-  s_bottom_bumper_active: 011_BottomBumper
-  s_10_pts_active: 043_TenPoint
-  upper_sling_hit: 042_UpperSling
-  lower_sling_hit: 041_LowerSling
+  s_drop_target_1_active: 101_OneHundredPoint
+  s_drop_target_2_active: 101_OneHundredPoint
+  s_drop_target_3_active: 101_OneHundredPoint
+  s_drop_target_4_active: 101_OneHundredPoint
+  s_drop_target_5_active: 101_OneHundredPoint
+  s_left_spinner_active: 100_TenPoint
+  s_right_spinner_active: 100_TenPoint
+  s_rollover_active: 101_OneHundredPoint
+  s_left_return_lane_active: 102_OneThousandPoint
+  s_right_return_lane_active: 102_OneThousandPoint
+  s_right_outlane_active: 102_OneThousandPoint
+  s_top_bumper_active: 105_PopBumper
+  s_bottom_bumper_active: 105_PopBumper
+  s_10_pts_active: 100_TenPoint
+  upper_sling_hit: 100_TenPoint
+  lower_sling_hit: 102_OneThousandPoint
 
   # Saucer: sound matches the current award value
-  s_saucer_active{current_player.saucer_value == 5000}: 044_Saucer5
-  s_saucer_active{current_player.saucer_value == 10000}: 045_Saucer10
-  s_saucer_active{current_player.saucer_value == 20000}: 046_Saucer20
-  s_saucer_active{current_player.saucer_value == 30000}: 047_Saucer30
+  s_saucer_active{current_player.saucer_value == 5000}: 102_OneThousandPoint
+  s_saucer_active{current_player.saucer_value == 10000}: 102_OneThousandPoint
+  s_saucer_active{current_player.saucer_value == 20000}: 102_OneThousandPoint
+  s_saucer_active{current_player.saucer_value == 30000}: 102_OneThousandPoint
 
   # Drop target phase completions
-  dt_phase_a_complete: 050_DropTargetClear1
-  dt_phase_b_complete: 051_DropTargetClear2
-  dt_phase_c_complete: 052_DropTargetClear3
-  dt_phase_d_complete: 053_DropTargetClear4
-  dt_phase_e_complete: 054_DropTargetClear5
+  # dt_phase_a_complete: 050_DropTargetClear1
+  # dt_phase_b_complete: 051_DropTargetClear2
+  # dt_phase_c_complete: 052_DropTargetClear3
+  # dt_phase_d_complete: 053_DropTargetClear4
+  # dt_phase_e_complete: 054_DropTargetClear5
 
   # Standups and awards
-  standup_all_hit: 061_StandupsCleared
-  special_award_extra_ball: 037_ExtraBall
-  collect_standup_extra_ball: 037_ExtraBall
+  # standup_all_hit: 061_StandupsCleared
+  # special_award_extra_ball: 037_ExtraBall
+  # collect_standup_extra_ball: 037_ExtraBall
 
 event_player:
   # Bonus countdown ticks: count a step while any remain; at zero either

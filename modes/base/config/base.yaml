@@ -5,11 +5,18 @@ mode:
   priority: 100
   game_mode: false
 
+# Ball save is NOT part of the original 1979 game — it only arms when the
+# operator turns on adjustment 17 (adj_ball_save). With it always armed,
+# every drain inside the first 10s was silently re-served and the ball
+# never ended (no bonus countdown, no ball advance).
 ball_saves:
   default:
     active_time: 10s
     hurry_up_time: 2s
     grace_period: 2s
-    early_ball_save_events: ball_started
+    # Without explicit enable_events a mode device auto-enables when its
+    # mode starts — and base starts at boot, making the save always-on.
+    enable_events: ball_started{machine.adj_ball_save == 1}
+    early_ball_save_events: ball_started{machine.adj_ball_save == 1}
     auto_launch: true
     balls_to_save: 1

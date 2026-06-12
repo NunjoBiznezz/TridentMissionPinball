@@ -98,6 +98,38 @@ class TestBonusAdvancement(RulesetTestBase):
         self.advance_time_and_run(0.1)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
+    def test_bonus_countdown_with_multiplier(self):
+        """End-of-ball countdown scores 1,000 per step and repeats the
+        full count once per earned multiplier level (2X = twice)."""
+        self._start_game_original()
+        # Let the serve confirm (3s eject timeout) before draining later
+        self.advance_time_and_run(3.5)
+
+        # Earn 2X: complete Phase A (targets 2 & 4, +500 each)
+        self.hit_switch_and_run('s_drop_target_2', 0)
+        self.advance_time_and_run(0.2)
+        self.hit_switch_and_run('s_drop_target_4', 0)
+        self.advance_time_and_run(1.5)
+        self.assertPlayerVarEqual(2, 'bonus_multiplier')
+
+        # Advance bonus to 3 steps (left return lane +1, twice)
+        self.hit_and_release_switch('s_left_return_lane')
+        self.advance_time_and_run(0.1)
+        self.hit_and_release_switch('s_left_return_lane')
+        self.advance_time_and_run(0.1)
+        self.assertPlayerVarEqual(3, 'bonus_steps')
+
+        score_before = self.machine.game.player['score']
+
+        # Drain: countdown = 3 steps x 1,000 x 2 passes = 6,000
+        self.hit_switch_and_run('s_outhole', 1)
+        self.advance_time_and_run(3)
+
+        self.assertEqual(score_before + 6000, self.machine.game.player['score'])
+        # Counter consumed and reset for the next ball
+        self.assertPlayerVarEqual(1, 'bonus_steps')
+        self.assertPlayerVarEqual(1, 'bonus_multiplier')
+
 
 if __name__ == '__main__':
     unittest.main()

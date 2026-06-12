@@ -6,7 +6,14 @@ mode:
   priority: 190
   game_mode: false
 
+# The ruleset modes are game modes and stop at every ball end, so the
+# selection must be re-posted for every ball. mode_*_started covers ball 1
+# (this mode starts ON that ball's ball_started, too late to hear it);
+# the ball_started entries cover all later balls.
 event_player:
   mode_ruleset_selector_started{machine.current_ruleset == 1}: ruleset_original_selected
   mode_ruleset_selector_started{machine.current_ruleset == 2}: ruleset_trident2020_selected
   mode_ruleset_selector_started{machine.current_ruleset == 3}: ruleset_tournament_selected
+  ball_started{machine.current_ruleset == 1}: ruleset_original_selected
+  ball_started{machine.current_ruleset == 2}: ruleset_trident2020_selected
+  ball_started{machine.current_ruleset == 3}: ruleset_tournament_selected

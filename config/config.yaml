@@ -317,6 +317,13 @@ player_vars:
   bonus_steps:
     initial_value: 1
     value_type: int
+  # End-of-ball bonus countdown bookkeeping (ruleset_original)
+  bonus_steps_saved:
+    initial_value: 0
+    value_type: int
+  bonus_repeats_left:
+    initial_value: 0
+    value_type: int
   # Trident 2020 skill shot
   skill_shot_active:
     initial_value: 0

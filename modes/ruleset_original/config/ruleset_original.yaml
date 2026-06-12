@@ -3,6 +3,10 @@
 # Rule set 1: Original Stern Trident (1979) rules
 
 mode:
+  # Started fresh for EVERY ball: the selector posts ruleset_*_selected on
+  # each ball_started, and like all game modes this one stops at ball end.
+  # The per-ball restart is what resets all features between balls — the
+  # mode_ruleset_original_started init below runs at every ball start.
   start_events: ruleset_original_selected, ruleset_trident2020_selected
   stop_events: game_ending
   priority: 210
@@ -42,7 +46,34 @@ extra_balls:
   standup_extra_ball:
     award_events: collect_standup_extra_ball
 
+# End-of-ball bonus countdown: hold the ball_ending queue until the
+# count (including multiplier repeats) finishes. Tilted balls skip it.
+queue_relay_player:
+  ball_ending{not game.tilted}:
+    post: bonus_countdown_start
+    wait_for: bonus_countdown_complete
+
+timers:
+  bonus_count:
+    start_value: 0
+    direction: up
+    tick_interval: 150ms
+    control_events:
+      - event: bonus_countdown_start
+        action: restart
+      - event: bonus_countdown_complete
+        action: stop
+
+sound_player:
+  bonus_count_step: 104_AddBonus
+
 event_player:
+  # Bonus countdown ticks: count a step while any remain; at zero either
+  # restart the count (multiplier repeats left) or finish.
+  timer_bonus_count_tick{current_player.bonus_steps > 0}: bonus_count_step
+  timer_bonus_count_tick{current_player.bonus_steps == 0 and current_player.bonus_repeats_left > 1}: bonus_count_restart
+  timer_bonus_count_tick{current_player.bonus_steps == 0 and current_player.bonus_repeats_left <= 1}: bonus_countdown_complete
+
   # Phase completions — only act when in the matching phase.
   # The completion is posted with a 100ms delay so that every bank _down
   # event from the same ball hit is evaluated against the OLD drop_phase
@@ -68,15 +99,13 @@ event_player:
   # going through the devices mutes the switches so the game's own coil
   # fire never looks like a player hit (no skill shot / scoring triggers).
   #
-  # Ball start is the memory feature: dt_bank already raises on
-  # ball_starting, and the positioning below restores the current player's
-  # phase. mode_ruleset_original_started covers ball 1, which is underway
-  # before this mode starts; ball_started covers the rest.
+  # The mode (re)starts on every ball, so mode_ruleset_original_started
+  # fires each ball start: dt_bank has already raised on ball_starting,
+  # and the delayed positioning below sets the phase combination.
   # Phase transitions reposition immediately; drop_phase is already updated
   # by variable_player, and the conditions below are evaluated when the
   # delayed event fires.
   mode_ruleset_original_started: position_drop_targets|400ms
-  ball_started: position_drop_targets|400ms
   dt_phase_a_complete: raise_drop_targets, position_drop_targets|400ms
   dt_phase_b_complete: raise_drop_targets, position_drop_targets|400ms
   dt_phase_c_complete: raise_drop_targets, position_drop_targets|400ms
@@ -463,10 +492,40 @@ variable_player:
       int: 1
       action: set
 
-  # Ball drain: award bonus — unless the ball was tilted — then reset all
-  # per-ball state to initial values (the reset below runs either way)
-  ball_drain{not game.tilted}:
-    score: current_player.bonus_steps * 1000 * current_player.bonus_multiplier
+  # ── End-of-ball bonus countdown ───────────────────────────────────────
+  # The queue_relay_player below holds ball_ending while the bonus_count
+  # timer ticks the bonus down to zero, scoring 1,000 and stepping the
+  # lamps (value-driven, above) per tick. When the count reaches zero and
+  # a multiplier is earned, the count restarts from the saved value: 2X
+  # counts twice, 3X three times, 5X five times (max 5 × 19,000).
+  # bonus_steps and bonus_multiplier reset at ball_started — NOT at
+  # ball_drain — because the countdown runs after the drain. Tilted balls
+  # skip the countdown entirely (no relay, no award).
+  bonus_countdown_start:
+    bonus_steps_saved:
+      int: current_player.bonus_steps
+      action: set
+    bonus_repeats_left:
+      int: current_player.bonus_multiplier
+      action: set
+  bonus_count_step:
+    score: 1000
+    bonus_steps:
+      int: -1
+      action: add
+  bonus_count_restart:
+    bonus_repeats_left:
+      int: -1
+      action: add
+    bonus_steps:
+      int: current_player.bonus_steps_saved
+      action: set
+
+  # (bonus_steps and bonus_multiplier re-initialize with the mode itself
+  # at every ball start — see the mode_ruleset_original_started block.)
+
+  # Ball drain: reset all per-ball state to initial values (bonus vars
+  # excepted — see countdown above)
   ball_drain:
     drop_phase:
       int: 1
@@ -512,9 +571,6 @@ variable_player:
       action: set
     right_special_lit:
       int: 0
-      action: set
-    bonus_steps:
-      int: 1
       action: set
 
 light_player:
@@ -603,12 +659,19 @@ light_player:
     l_left_lane_6k: off
     l_left_lane_8k: on
 
-  # Ball drain: reset lamps to initial Phase A state
+  # Ball drain: reset lamps to initial Phase A state. The bonus counter
+  # lamps (l_bonus_1..10) are NOT touched here — they keep displaying
+  # bonus_steps through the end-of-ball countdown and reset with the
+  # variable at ball_started.
   ball_drain:
     l_bonus_2x_feature: on
     l_bonus_3x_feature: off
     l_bonus_4x_feature: off
     l_bonus_5x_feature: off
+    l_bonus_2x: off
+    l_bonus_3x: off
+    l_bonus_4x: off
+    l_bonus_5x: off
     l_top_eject_5k: on
     l_top_eject_10k: off
     l_top_eject_20k: off
@@ -627,16 +690,6 @@ light_player:
     l_extra_ball: off
     l_right_outlane_special: off
     l_standup_special: off
-    l_bonus_1: on
-    l_bonus_2: off
-    l_bonus_3: off
-    l_bonus_4: off
-    l_bonus_5: off
-    l_bonus_6: off
-    l_bonus_7: off
-    l_bonus_8: off
-    l_bonus_9: off
-    l_bonus_10: off
     l_standup_white: off
     l_standup_amber: off
     l_standup_green: off

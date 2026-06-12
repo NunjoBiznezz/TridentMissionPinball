@@ -67,6 +67,10 @@ class TestDropTargetPhases(RulesetTestBase):
         self.assertLightColor('l_drop_target_3', 'off')
         self.assertLightColor('l_drop_target_5', 'off')
 
+        # Game-knocked targets (1, 3, 5 positioning) must not score
+        self.assertEqual(0, self.machine.game.player['score'],
+                         'phase positioning must not score')
+
         # ── Phase A ──────────────────────────────────────────────────
         self._hit(2, 4)
 
@@ -74,6 +78,9 @@ class TestDropTargetPhases(RulesetTestBase):
         self.assertPlayerVarEqual(2, 'drop_phase')
         self.assertPlayerVarEqual(2, 'bonus_multiplier')
         self.assertPlayerVarEqual(10000, 'saucer_value')
+
+        # Player knocked down 2 targets at 500 each
+        self.assertEqual(1000, self.machine.game.player['score'])
 
         # Lamps show the Phase B combination: 1, 3, 5 standing
         self.advance_time_and_run(1)
@@ -90,6 +97,10 @@ class TestDropTargetPhases(RulesetTestBase):
         self.assertPlayerVarEqual(3, 'drop_phase')
         self.assertPlayerVarEqual(3, 'bonus_multiplier')
         self.assertPlayerVarEqual(20000, 'saucer_value')
+
+        # 3 more player knockdowns (the phase B positioning that knocked
+        # 2 & 4 back down scored nothing): 1000 + 3 × 500
+        self.assertEqual(2500, self.machine.game.player['score'])
 
         # ── Phase C ──────────────────────────────────────────────────
         self._hit(1, 2, 4, 5)

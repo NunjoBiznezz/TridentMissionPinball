@@ -284,6 +284,22 @@ variable_player:
       int: 5000
       action: set
 
+  # Drop targets: 500 points per target knocked down by the player.
+  # Game-initiated knockdowns (phase positioning for phases with 2, 3 and
+  # 4 standing targets) go through the device's knockdown coil, which
+  # mutes the switch — no s_drop_target_N_active event posts, so they
+  # score nothing.
+  s_drop_target_1_active:
+    score: 500
+  s_drop_target_2_active:
+    score: 500
+  s_drop_target_3_active:
+    score: 500
+  s_drop_target_4_active:
+    score: 500
+  s_drop_target_5_active:
+    score: 500
+
   # Upper slingshots: 1,000 points
   upper_sling_hit:
     score: 1000

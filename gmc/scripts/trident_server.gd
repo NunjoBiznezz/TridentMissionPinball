@@ -48,7 +48,6 @@ func on_message(message: Dictionary):
 				"drop_target":
 					var dst = message.get("state", {})
 					var complete = bool(dst.get("complete", false)) if typeof(dst) == TYPE_DICTIONARY else false
-					print("[trident_server] DEBUG drop_target name=%s state=%s complete=%s" % [message.get("name", ""), str(dst), complete])
 					hardware_drop_target_changed.emit.call_deferred(
 						message.get("name", ""),
 						complete

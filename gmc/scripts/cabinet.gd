@@ -625,7 +625,6 @@ func _on_switch_changed(switch_name: String, state: bool) -> void:
 
 func _on_drop_target_changed(target_name: String, complete: bool) -> void:
 	var sw_name := "s_drop_target_" + target_name.trim_prefix("dt_")
-	print("[cabinet] DEBUG _on_drop_target_changed target_name=%s complete=%s sw_name=%s in_map=%s" % [target_name, complete, sw_name, sw_name in _switch_area_map])
 	if sw_name not in _switch_area_map:
 		return
 	var area = _switch_area_map[sw_name]

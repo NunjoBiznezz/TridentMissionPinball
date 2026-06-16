@@ -64,7 +64,12 @@
       "Bash(~/mpf/venv/bin/python3.11 -m unittest :*)",
       "Bash(sed -n 1,60p /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_players/sound_player.py)",
       "Bash(awk '/^sound_player:/{f=1} f{print; c++} c>14{exit}' /Users/douglasbercot/mpf/venv/lib/python3.11/site-packages/mpf/config_spec.yaml)",
-      "Bash(godot --headless --import --path .)"
+      "Bash(godot --headless --import --path .)",
+      "Bash(pip3 show *)",
+      "Bash(pip3 list *)",
+      "Bash(mpf --version)",
+      "Bash(find /usr /opt /Users/douglasbercot -name \"mpf*\" -type f 2>/dev/null | grep -v \".pyc\" | head -20)",
+      "Read(//usr/**)"
     ],
     "additionalDirectories": [
       "/Users/douglasbercot/Projects/NunjoBiznezz/MissionPinball/modes/self_test",

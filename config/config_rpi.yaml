@@ -8,6 +8,13 @@ config:
   - ../machine_files/stern_trident.yaml
   - ../display_config.yaml
 
+hardware:
+  platform: lisy
+  driverboards: lisy
+  switches: lisy
+  coils: lisy
+  lights: lisy
+
 # LISY hardware configuration for Pi
 lisy:
   connection: serial

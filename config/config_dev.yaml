@@ -8,10 +8,10 @@ config:
   - ../machine_files/stern_trident.yaml
 
 hardware:
-  platform: virtual
+  platform: smart_virtual
   driverboards: virtual
-  switches: virtual
-  coils: virtual
+  switches: smart_virtual
+  coils: smart_virtual
   lights: virtual
 
 # Virtual hardware for testing

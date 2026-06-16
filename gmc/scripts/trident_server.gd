@@ -2,7 +2,6 @@ extends GMCServer
 
 signal hardware_light_changed(light_name: String, color: Color)
 signal hardware_switch_changed(switch_name: String, state: bool)
-signal hardware_coil_fired(coil_name: String)
 
 func on_connect() -> void:
 	# "devices" is the correct MPF category for light + all device state changes.
@@ -45,8 +44,6 @@ func on_message(message: Dictionary):
 							message.get("name", ""),
 							_rgb_to_color(raw)
 						)
-				"coil":
-					hardware_coil_fired.emit.call_deferred(message.get("name", ""))
 			return null
 		"switch":
 			var v = message.get("state", 0)

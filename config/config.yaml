@@ -7,12 +7,10 @@ machine:
   balls_installed: 3
   min_balls: 1
 
-hardware:
-  platform: lisy
-  driverboards: lisy
-  switches: lisy
-  coils: lisy
-  lights: lisy
+# Hardware platform is set in the environment-specific config (config_dev.yaml
+# or config_rpi.yaml), not here: MPF's config-include merge has included files
+# (config.yaml) win over the includer for matching keys, so defining hardware:
+# here would clobber any override in config_dev.yaml/config_rpi.yaml.
 
 modes:
   - base

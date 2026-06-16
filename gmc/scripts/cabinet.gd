@@ -1,70 +1,77 @@
 extends Control
 
+const whiteColor: Color = Color(1.00, 1.00, 1.00)
+const amberColor: Color = Color(1.00, 0.67, 0.00)
+const yellowColor: Color = Color(1.00, 1.00, 0.00)
+const greenColor: Color = Color(0.00, 1.00, 0.20)
+const purpleColor: Color = Color(0.60, 0.00, 1.00)
+const redColor: Color = Color(1.00, 0.10, 0.10)
+
 # ---------------------------------------------------------------------------
 # Lamp definitions: [mpf_name, color_when_on]
 # Colors approximate the physical lamp colors on the Stern Trident.
 # ---------------------------------------------------------------------------
 const LAMPS: Array = [
-	["l_bonus_1",            Color(1.00, 0.67, 0.00)],  # amber
-	["l_bonus_2",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_3",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_4",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_5",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_6",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_7",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_8",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_9",            Color(1.00, 0.67, 0.00)],
-	["l_bonus_10",           Color(1.00, 0.67, 0.00)],
-	["l_drop_target_5",      Color(1.00, 0.40, 0.00)],  # orange
-	["l_standup_special",    Color(1.00, 1.00, 1.00)],  # white
-	["l_left_spinner_amber", Color(1.00, 0.67, 0.00)],
-	["l_left_spinner_white", Color(1.00, 1.00, 1.00)],
-	["l_standup_amber",      Color(1.00, 0.67, 0.00)],
-	["l_standup_white",      Color(1.00, 1.00, 1.00)],
-	["l_right_spinner_yellow",Color(1.00, 1.00, 0.00)],  # yellow
-	["l_right_spinner_green", Color(0.00, 1.00, 0.20)],  # green
-	["l_standup_yellow",     Color(1.00, 1.00, 0.00)],
-	["l_standup_green",      Color(0.00, 1.00, 0.20)],
-	["l_drop_target_4",      Color(1.00, 0.40, 0.00)],
-	["l_drop_target_3",      Color(1.00, 0.40, 0.00)],
-	["l_drop_target_2",      Color(1.00, 0.40, 0.00)],
-	["l_drop_target_1",      Color(1.00, 0.40, 0.00)],
-	["l_top_eject_30k",      Color(1.00, 1.00, 1.00)],
-	["l_top_eject_20k",      Color(1.00, 1.00, 1.00)],
-	["l_top_eject_10k",      Color(1.00, 1.00, 1.00)],
-	["l_top_eject_5k",       Color(1.00, 1.00, 1.00)],
-	["l_bonus_5x_feature",   Color(0.00, 1.00, 1.00)],  # cyan
-	["l_bonus_4x_feature",   Color(0.00, 1.00, 1.00)],
-	["l_bonus_3x_feature",   Color(0.00, 1.00, 1.00)],
-	["l_bonus_2x_feature",   Color(0.00, 1.00, 1.00)],
-	["l_bonus_5x",           Color(0.00, 1.00, 1.00)],
-	["l_bonus_4x",           Color(0.00, 1.00, 1.00)],
-	["l_bonus_3x",           Color(0.00, 1.00, 1.00)],
-	["l_bonus_2x",           Color(0.00, 1.00, 1.00)],
-	["l_left_lane_8k",       Color(0.00, 1.00, 0.20)],
-	["l_left_lane_6k",       Color(0.00, 1.00, 0.20)],
-	["l_left_lane_4k",       Color(0.00, 1.00, 0.20)],
-	["l_left_lane_2k",       Color(0.00, 1.00, 0.20)],
-	["l_shoot_again",        Color(1.00, 1.00, 1.00)],
-	["l_match",              Color(1.00, 1.00, 1.00)],
-	["l_standup_purple",     Color(0.60, 0.00, 1.00)],  # purple
-	["l_drop_target_special",Color(1.00, 0.40, 0.00)],
-	["l_right_spinner_purple",Color(0.60, 0.00, 1.00)],
-	["l_right_outlane_special",Color(1.00, 0.10, 0.10)],  # red
-	["l_left_spinner_purple",Color(0.60, 0.00, 1.00)],
-	["l_extra_ball",         Color(1.00, 0.10, 0.10)],
-	["l_ball_in_play",       Color(1.00, 1.00, 1.00)],
-	["l_high_score_to_date", Color(1.00, 1.00, 0.00)],
-	["l_game_over",          Color(1.00, 0.10, 0.10)],
-	["l_tilt",               Color(1.00, 0.10, 0.10)],
-	["l_player_1",           Color(1.00, 1.00, 1.00)],
-	["l_player_2",           Color(1.00, 1.00, 1.00)],
-	["l_player_3",           Color(1.00, 1.00, 1.00)],
-	["l_player_4",           Color(1.00, 1.00, 1.00)],
-	["l_player_1_up",        Color(1.00, 1.00, 1.00)],
-	["l_player_2_up",        Color(1.00, 1.00, 1.00)],
-	["l_player_3_up",        Color(1.00, 1.00, 1.00)],
-	["l_player_4_up",        Color(1.00, 1.00, 1.00)],
+	["l_bonus_1", amberColor], # amber
+	["l_bonus_2", amberColor],
+	["l_bonus_3", amberColor],
+	["l_bonus_4", amberColor],
+	["l_bonus_5", amberColor],
+	["l_bonus_6", amberColor],
+	["l_bonus_7", amberColor],
+	["l_bonus_8", amberColor],
+	["l_bonus_9", amberColor],
+	["l_bonus_10", amberColor],
+	["l_drop_target_5", yellowColor], # orange
+	["l_standup_special", whiteColor], # white
+	["l_left_spinner_amber", amberColor],
+	["l_left_spinner_white", whiteColor],
+	["l_standup_amber", amberColor],
+	["l_standup_white", whiteColor],
+	["l_right_spinner_yellow", yellowColor], # yellow
+	["l_right_spinner_green", greenColor], # green
+	["l_standup_yellow", yellowColor],
+	["l_standup_green", greenColor],
+	["l_drop_target_4", yellowColor],
+	["l_drop_target_3", yellowColor],
+	["l_drop_target_2", yellowColor],
+	["l_drop_target_1", yellowColor],
+	["l_top_eject_30k", whiteColor],
+	["l_top_eject_20k", whiteColor],
+	["l_top_eject_10k", whiteColor],
+	["l_top_eject_5k", whiteColor],
+	["l_bonus_5x_feature", yellowColor],
+	["l_bonus_4x_feature", whiteColor],
+	["l_bonus_3x_feature", purpleColor],
+	["l_bonus_2x_feature", greenColor],
+	["l_bonus_5x", yellowColor],
+	["l_bonus_4x", whiteColor],
+	["l_bonus_3x", purpleColor],
+	["l_bonus_2x", greenColor],
+	["l_left_lane_8k", yellowColor],
+	["l_left_lane_6k", yellowColor],
+	["l_left_lane_4k", yellowColor],
+	["l_left_lane_2k", yellowColor],
+	["l_shoot_again", whiteColor],
+	["l_match", whiteColor],
+	["l_standup_purple", purpleColor], # purple
+	["l_drop_target_special", redColor],
+	["l_right_spinner_purple", purpleColor],
+	["l_right_outlane_special", redColor], # red
+	["l_left_spinner_purple", purpleColor],
+	["l_extra_ball", amberColor],
+	["l_ball_in_play", whiteColor],
+	["l_high_score_to_date", whiteColor],
+	["l_game_over", whiteColor],
+	["l_tilt", whiteColor],
+	["l_player_1", whiteColor],
+	["l_player_2", whiteColor],
+	["l_player_3", whiteColor],
+	["l_player_4", whiteColor],
+	["l_player_1_up", whiteColor],
+	["l_player_2_up", whiteColor],
+	["l_player_3_up", whiteColor],
+	["l_player_4_up", whiteColor],
 ]
 
 # ---------------------------------------------------------------------------
@@ -91,11 +98,11 @@ var _latched_switches: Dictionary = {}
 # Quick-lookup for switch properties keyed by switch name
 var _switch_area_map: Dictionary = {}
 
-const POSITIONS_PATH    := "res://assets/lamp_positions.json"
+const POSITIONS_PATH := "res://assets/lamp_positions.json"
 const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
-const LAMP_RADIUS       := 10
+const LAMP_RADIUS := 10
 const LAMP_RADIUS_LARGE := 12
-const SWITCH_RADIUS     := 14
+const SWITCH_RADIUS := 14
 
 func _find_asset_path(candidates: Array) -> String:
 	for p in candidates:
@@ -244,7 +251,7 @@ func _make_segment_col(header: String, initial: String) -> Dictionary:
 	val.text = initial
 	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	val.add_theme_font_size_override("font_size", 38)
-	val.add_theme_color_override("font_color", Color(0.25, 0.18, 0.00))  # dim = inactive
+	val.add_theme_color_override("font_color", Color(0.25, 0.18, 0.00)) # dim = inactive
 	col.add_child(val)
 
 	return {"container": col, "value": val}
@@ -286,20 +293,20 @@ func _build_image_view(image_path: String, location: String) -> Control:
 			continue
 		var r: int = entry.get("radius", LAMP_RADIUS)
 		var hex: String = entry.get("color", "ffaa00")
-		var on_color  := Color(hex.substr(0,2).hex_to_int()/255.0,
-							   hex.substr(2,2).hex_to_int()/255.0,
-							   hex.substr(4,2).hex_to_int()/255.0)
+		var on_color := Color(hex.substr(0, 2).hex_to_int() / 255.0,
+							   hex.substr(2, 2).hex_to_int() / 255.0,
+							   hex.substr(4, 2).hex_to_int() / 255.0)
 		var off_color := on_color * 0.12
 
 		var style := StyleBoxFlat.new()
 		style.bg_color = off_color
-		style.corner_radius_top_left    = r
-		style.corner_radius_top_right   = r
+		style.corner_radius_top_left = r
+		style.corner_radius_top_right = r
 		style.corner_radius_bottom_left = r
 		style.corner_radius_bottom_right = r
-		style.border_width_left   = 1
-		style.border_width_right  = 1
-		style.border_width_top    = 1
+		style.border_width_left = 1
+		style.border_width_right = 1
+		style.border_width_top = 1
 		style.border_width_bottom = 1
 		style.border_color = on_color * 0.35
 
@@ -324,15 +331,15 @@ func _build_image_view(image_path: String, location: String) -> Control:
 				continue
 			var sr: int = se.get("radius", SWITCH_RADIUS)
 			var sw_style := StyleBoxFlat.new()
-			sw_style.bg_color            = Color(0, 0, 0, 0)
-			sw_style.border_color        = Color(0.2, 0.8, 1.0, 0.65)
-			sw_style.border_width_left   = 2
-			sw_style.border_width_right  = 2
-			sw_style.border_width_top    = 2
+			sw_style.bg_color = Color(0, 0, 0, 0)
+			sw_style.border_color = Color(0.2, 0.8, 1.0, 0.65)
+			sw_style.border_width_left = 2
+			sw_style.border_width_right = 2
+			sw_style.border_width_top = 2
 			sw_style.border_width_bottom = 2
-			sw_style.corner_radius_top_left     = sr
-			sw_style.corner_radius_top_right    = sr
-			sw_style.corner_radius_bottom_left  = sr
+			sw_style.corner_radius_top_left = sr
+			sw_style.corner_radius_top_right = sr
+			sw_style.corner_radius_bottom_left = sr
 			sw_style.corner_radius_bottom_right = sr
 			var sw_panel := Panel.new()
 			sw_panel.add_theme_stylebox_override("panel", sw_style)
@@ -366,12 +373,12 @@ func _build_backbox_displays(wrapper: Control) -> void:
 	#   is_score=true → stored in _score_labels[player_index]
 	#   is_score=false, key="credits" or "ball" → stored in _credits_label / _ball_label
 	var displays := [
-		["p1",      0.067, 0.142, "000000", true,  0],
-		["p2",      0.725, 0.142, "------", true,  1],
-		["p3",      0.067, 0.775, "------", true,  2],
-		["p4",      0.725, 0.775, "------", true,  3],
-		["credits",    0.104, 0.517, "-",      false, -1],
-		["ball", 0.192, 0.517, "0",      false, -1],
+		["p1", 0.067, 0.142, "000000", true, 0],
+		["p2", 0.725, 0.142, "------", true, 1],
+		["p3", 0.067, 0.775, "------", true, 2],
+		["p4", 0.725, 0.775, "------", true, 3],
+		["credits", 0.104, 0.517, "-", false, -1],
+		["ball", 0.192, 0.517, "0", false, -1],
 	]
 
 	_score_labels = []
@@ -410,8 +417,8 @@ func _reposition_lamps(wrapper: Control, img_size: Vector2) -> void:
 	var img_scale := minf(ww / iw, wh / ih)
 	var drawn_w := iw * img_scale
 	var drawn_h := ih * img_scale
-	var ox := (ww - drawn_w) * 0.5   # left offset of image inside wrapper
-	var oy := (wh - drawn_h) * 0.5   # top offset
+	var ox := (ww - drawn_w) * 0.5 # left offset of image inside wrapper
+	var oy := (wh - drawn_h) * 0.5 # top offset
 
 	for child in wrapper.get_children():
 		if not child.has_meta("nx"):
@@ -444,10 +451,10 @@ func _input(event: InputEvent) -> void:
 		for btn in _cabinet_buttons:
 			var panel: Panel = btn["panel"]
 			if panel.get_global_rect().has_point(mbe.global_position):
-				_held_switch    = btn["name"]
-				_held_style     = btn["style"]
+				_held_switch = btn["name"]
+				_held_style = btn["style"]
 				_held_off_color = btn["off_color"]
-				_held_label     = btn["label"]
+				_held_label = btn["label"]
 				btn["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
 				btn["label"].add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
 				MPF.server.send_switch(btn["name"], 1)
@@ -491,10 +498,10 @@ func _input(event: InputEvent) -> void:
 						_latched_switches[sw_name] = area["style"]
 					else:
 						area["style"].bg_color = Color(0.2, 0.8, 1.0, 0.5)
-						_held_switch    = sw_name
-						_held_style     = area["style"]
+						_held_switch = sw_name
+						_held_style = area["style"]
 						_held_off_color = Color(0, 0, 0, 0)
-						_held_label     = null
+						_held_label = null
 				break
 	else:
 		if _held_switch != "":
@@ -504,8 +511,8 @@ func _input(event: InputEvent) -> void:
 			if _held_label:
 				_held_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
 				_held_label = null
-			_held_switch    = ""
-			_held_style     = null
+			_held_switch = ""
+			_held_style = null
 			_held_off_color = Color(0, 0, 0, 0)
 
 
@@ -530,15 +537,15 @@ func _build_cabinet_strip() -> Control:
 		var label_text: String = sw_name.substr(2).replace("_", " ").to_upper()
 
 		var sw_style := StyleBoxFlat.new()
-		sw_style.bg_color            = Color(0.12, 0.12, 0.12)
-		sw_style.border_color        = Color(0.2, 0.8, 1.0, 0.65)
-		sw_style.border_width_left   = 2
-		sw_style.border_width_right  = 2
-		sw_style.border_width_top    = 2
+		sw_style.bg_color = Color(0.12, 0.12, 0.12)
+		sw_style.border_color = Color(0.2, 0.8, 1.0, 0.65)
+		sw_style.border_width_left = 2
+		sw_style.border_width_right = 2
+		sw_style.border_width_top = 2
 		sw_style.border_width_bottom = 2
-		sw_style.corner_radius_top_left     = 6
-		sw_style.corner_radius_top_right    = 6
-		sw_style.corner_radius_bottom_left  = 6
+		sw_style.corner_radius_top_left = 6
+		sw_style.corner_radius_top_right = 6
+		sw_style.corner_radius_bottom_left = 6
 		sw_style.corner_radius_bottom_right = 6
 
 		var btn := Panel.new()
@@ -548,7 +555,7 @@ func _build_cabinet_strip() -> Control:
 		var lbl := Label.new()
 		lbl.text = label_text
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		lbl.set_anchors_preset(PRESET_FULL_RECT)
 		lbl.add_theme_font_size_override("font_size", 11)
 		lbl.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
@@ -588,13 +595,13 @@ func _build_lamp_grid() -> Control:
 
 		var style := StyleBoxFlat.new()
 		style.bg_color = off_color
-		style.corner_radius_top_left    = 18
-		style.corner_radius_top_right   = 18
+		style.corner_radius_top_left = 18
+		style.corner_radius_top_right = 18
 		style.corner_radius_bottom_left = 18
 		style.corner_radius_bottom_right = 18
-		style.border_width_left   = 1
-		style.border_width_right  = 1
-		style.border_width_top    = 1
+		style.border_width_left = 1
+		style.border_width_right = 1
+		style.border_width_top = 1
 		style.border_width_bottom = 1
 		style.border_color = on_color * 0.25
 

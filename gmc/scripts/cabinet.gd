@@ -1,79 +1,5 @@
 extends Control
 
-const whiteColor: Color = Color(1.00, 1.00, 1.00)
-const amberColor: Color = Color(1.00, 0.67, 0.00)
-const yellowColor: Color = Color(1.00, 1.00, 0.00)
-const greenColor: Color = Color(0.00, 1.00, 0.20)
-const purpleColor: Color = Color(0.60, 0.00, 1.00)
-const redColor: Color = Color(1.00, 0.10, 0.10)
-
-# ---------------------------------------------------------------------------
-# Lamp definitions: [mpf_name, color_when_on]
-# Colors approximate the physical lamp colors on the Stern Trident.
-# ---------------------------------------------------------------------------
-const LAMPS: Array = [
-	["l_bonus_1", amberColor], # amber
-	["l_bonus_2", amberColor],
-	["l_bonus_3", amberColor],
-	["l_bonus_4", amberColor],
-	["l_bonus_5", amberColor],
-	["l_bonus_6", amberColor],
-	["l_bonus_7", amberColor],
-	["l_bonus_8", amberColor],
-	["l_bonus_9", amberColor],
-	["l_bonus_10", amberColor],
-	["l_drop_target_5", yellowColor], # orange
-	["l_standup_special", whiteColor], # white
-	["l_left_spinner_amber", amberColor],
-	["l_left_spinner_white", whiteColor],
-	["l_standup_amber", amberColor],
-	["l_standup_white", whiteColor],
-	["l_right_spinner_yellow", yellowColor], # yellow
-	["l_right_spinner_green", greenColor], # green
-	["l_standup_yellow", yellowColor],
-	["l_standup_green", greenColor],
-	["l_drop_target_4", yellowColor],
-	["l_drop_target_3", yellowColor],
-	["l_drop_target_2", yellowColor],
-	["l_drop_target_1", yellowColor],
-	["l_top_eject_30k", whiteColor],
-	["l_top_eject_20k", whiteColor],
-	["l_top_eject_10k", whiteColor],
-	["l_top_eject_5k", whiteColor],
-	["l_bonus_5x_feature", yellowColor],
-	["l_bonus_4x_feature", whiteColor],
-	["l_bonus_3x_feature", purpleColor],
-	["l_bonus_2x_feature", greenColor],
-	["l_bonus_5x", yellowColor],
-	["l_bonus_4x", whiteColor],
-	["l_bonus_3x", purpleColor],
-	["l_bonus_2x", greenColor],
-	["l_left_lane_8k", yellowColor],
-	["l_left_lane_6k", yellowColor],
-	["l_left_lane_4k", yellowColor],
-	["l_left_lane_2k", yellowColor],
-	["l_shoot_again", whiteColor],
-	["l_match", whiteColor],
-	["l_standup_purple", purpleColor], # purple
-	["l_drop_target_special", redColor],
-	["l_right_spinner_purple", purpleColor],
-	["l_right_outlane_special", redColor], # red
-	["l_left_spinner_purple", purpleColor],
-	["l_extra_ball", amberColor],
-	["l_ball_in_play", whiteColor],
-	["l_high_score_to_date", whiteColor],
-	["l_game_over", whiteColor],
-	["l_tilt", whiteColor],
-	["l_player_1", whiteColor],
-	["l_player_2", whiteColor],
-	["l_player_3", whiteColor],
-	["l_player_4", whiteColor],
-	["l_player_1_up", whiteColor],
-	["l_player_2_up", whiteColor],
-	["l_player_3_up", whiteColor],
-	["l_player_4_up", whiteColor],
-]
-
 # ---------------------------------------------------------------------------
 # Runtime state
 # ---------------------------------------------------------------------------
@@ -101,8 +27,11 @@ var _switch_area_map: Dictionary = {}
 const POSITIONS_PATH := "res://assets/lamp_positions.json"
 const SWITCH_POSITIONS_PATH := "res://assets/switch_positions.json"
 const LAMP_RADIUS := 10
-const LAMP_RADIUS_LARGE := 12
 const SWITCH_RADIUS := 14
+# Drop target switch areas: lit while the target is standing (clickable),
+# dim once it's been knocked down.
+const DROP_TARGET_LIT_COLOR := Color(1.0, 0.85, 0.15, 0.65)
+const DROP_TARGET_DOWN_COLOR := Color(0, 0, 0, 0)
 
 func _find_asset_path(candidates: Array) -> String:
 	for p in candidates:
@@ -132,6 +61,8 @@ func _ready() -> void:
 	if MPF.server.has_signal("hardware_light_changed"):
 		MPF.server.connect("hardware_light_changed", _on_light_changed)
 		MPF.server.connect("hardware_switch_changed", _on_switch_changed)
+	if MPF.server.has_signal("hardware_drop_target_changed"):
+		MPF.server.connect("hardware_drop_target_changed", _on_drop_target_changed)
 
 	MPF.server.add_event_handler("start_attract_mode", _on_attract_start)
 	MPF.server.add_event_handler("stop_attract_mode", _on_attract_stop)
@@ -184,7 +115,10 @@ func _build_ui() -> void:
 			root_vbox.add_child(_build_image_view(_playfield_path, "playfield"))
 	else:
 		root_vbox.add_child(_build_segment_row())
-		root_vbox.add_child(_build_lamp_grid())
+		var missing_label := Label.new()
+		missing_label.text = "Missing assets/lamp_positions.json or assets/playfield image"
+		missing_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		root_vbox.add_child(missing_label)
 
 	if FileAccess.file_exists(SWITCH_POSITIONS_PATH):
 		root_vbox.add_child(_build_cabinet_strip())
@@ -331,7 +265,9 @@ func _build_image_view(image_path: String, location: String) -> Control:
 				continue
 			var sr: int = se.get("radius", SWITCH_RADIUS)
 			var sw_style := StyleBoxFlat.new()
-			sw_style.bg_color = Color(0, 0, 0, 0)
+			# Drop targets default to "lit" (standing) until the real
+			# drop_target device state arrives; everything else starts neutral.
+			sw_style.bg_color = DROP_TARGET_LIT_COLOR if se.get("latching", false) else Color(0, 0, 0, 0)
 			sw_style.border_color = Color(0.2, 0.8, 1.0, 0.65)
 			sw_style.border_width_left = 2
 			sw_style.border_width_right = 2
@@ -493,7 +429,12 @@ func _input(event: InputEvent) -> void:
 					# Drop target while down: clicks are disabled
 				else:
 					MPF.server.send_switch(sw_name, 1)
-					if area.get("latching", false) or area.get("ball_trap", false):
+					if area.get("latching", false):
+						# Knock the target down; _on_drop_target_changed will
+						# confirm this once MPF processes the switch hit.
+						area["style"].bg_color = DROP_TARGET_DOWN_COLOR
+						_latched_switches[sw_name] = area["style"]
+					elif area.get("ball_trap", false):
 						area["style"].bg_color = Color(1.0, 0.15, 0.15, 0.7)
 						_latched_switches[sw_name] = area["style"]
 					else:
@@ -573,64 +514,15 @@ func _build_cabinet_strip() -> Control:
 	return outer
 
 
-func _build_lamp_grid() -> Control:
-	var wrapper = Control.new()
-	wrapper.size_flags_vertical = SIZE_EXPAND_FILL
-
-	var grid = GridContainer.new()
-	grid.columns = 10
-	grid.add_theme_constant_override("h_separation", 3)
-	grid.add_theme_constant_override("v_separation", 3)
-	grid.set_anchors_preset(PRESET_FULL_RECT)
-	wrapper.add_child(grid)
-
-	for lamp in LAMPS:
-		var lamp_name: String = lamp[0]
-		var on_color: Color = lamp[1]
-		var off_color: Color = on_color * 0.12
-
-		var cell = VBoxContainer.new()
-		cell.custom_minimum_size = Vector2(100, 52)
-		cell.alignment = BoxContainer.ALIGNMENT_CENTER
-
-		var style := StyleBoxFlat.new()
-		style.bg_color = off_color
-		style.corner_radius_top_left = 18
-		style.corner_radius_top_right = 18
-		style.corner_radius_bottom_left = 18
-		style.corner_radius_bottom_right = 18
-		style.border_width_left = 1
-		style.border_width_right = 1
-		style.border_width_top = 1
-		style.border_width_bottom = 1
-		style.border_color = on_color * 0.25
-
-		var bulb := Panel.new()
-		bulb.add_theme_stylebox_override("panel", style)
-		bulb.custom_minimum_size = Vector2(36, 36)
-		bulb.size_flags_horizontal = SIZE_SHRINK_CENTER
-		cell.add_child(bulb)
-
-		var lbl := Label.new()
-		lbl.text = lamp_name.substr(2)
-		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lbl.add_theme_font_size_override("font_size", 7)
-		lbl.add_theme_color_override("font_color", Color(0.38, 0.38, 0.38))
-		lbl.clip_text = true
-		lbl.custom_minimum_size = Vector2(100, 0)
-		cell.add_child(lbl)
-
-		grid.add_child(cell)
-		_lamp_cells[lamp_name] = {"style": style, "on_color": on_color, "off_color": off_color}
-
-	return wrapper
-
 # ---------------------------------------------------------------------------
 # Signal handlers
 # ---------------------------------------------------------------------------
 func _init_assumed_switch_states() -> void:
-	var assumed := ["s_drop_target_1", "s_drop_target_2", "s_drop_target_3",
-					"s_drop_target_4", "s_drop_target_5", "s_outhole"]
+	# Drop targets are NOT listed here: their up/down state comes from the
+	# real "drop_target" device dump MPF sends on connect (see
+	# _on_drop_target_changed), so guessing would just race the real value
+	# and could leave a target showing the wrong state if the guess differed.
+	var assumed := ["s_outhole"]
 	for sw_name in assumed:
 		if sw_name in _switch_area_map and sw_name not in _latched_switches:
 			var area = _switch_area_map[sw_name]
@@ -712,16 +604,37 @@ func _on_segment_display_update(payload = null) -> void:
 
 
 func _on_switch_changed(switch_name: String, state: bool) -> void:
-	if state:
-		if switch_name in _switch_area_map and switch_name not in _latched_switches:
-			var area = _switch_area_map[switch_name]
-			if area.get("latching", false) or area.get("ball_trap", false):
+	if switch_name not in _switch_area_map:
+		return
+	var area = _switch_area_map[switch_name]
+	if area.get("latching", false):
+		# Drop targets get their up/down state from the drop_target device
+		# channel (_on_drop_target_changed), which MPF replays in full on
+		# every connect. Raw switch echoes here would just race that.
+		return
+	if area.get("ball_trap", false):
+		if state:
+			if switch_name not in _latched_switches:
 				area["style"].bg_color = Color(1.0, 0.15, 0.15, 0.7)
 				_latched_switches[switch_name] = area["style"]
+		else:
+			if switch_name in _latched_switches:
+				_latched_switches[switch_name].bg_color = Color(0, 0, 0, 0)
+				_latched_switches.erase(switch_name)
+
+
+func _on_drop_target_changed(target_name: String, complete: bool) -> void:
+	var sw_name := "s_drop_target_" + target_name.trim_prefix("dt_")
+	print("[cabinet] DEBUG _on_drop_target_changed target_name=%s complete=%s sw_name=%s in_map=%s" % [target_name, complete, sw_name, sw_name in _switch_area_map])
+	if sw_name not in _switch_area_map:
+		return
+	var area = _switch_area_map[sw_name]
+	if complete:
+		area["style"].bg_color = DROP_TARGET_DOWN_COLOR
+		_latched_switches[sw_name] = area["style"]
 	else:
-		if switch_name in _latched_switches:
-			_latched_switches[switch_name].bg_color = Color(0, 0, 0, 0)
-			_latched_switches.erase(switch_name)
+		area["style"].bg_color = DROP_TARGET_LIT_COLOR
+		_latched_switches.erase(sw_name)
 
 func _on_attract_start(_payload = null) -> void:
 	_attract_label.text = "GAME OVER"

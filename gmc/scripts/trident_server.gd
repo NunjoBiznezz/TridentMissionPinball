@@ -2,6 +2,7 @@ extends GMCServer
 
 signal hardware_light_changed(light_name: String, color: Color)
 signal hardware_switch_changed(switch_name: String, state: bool)
+signal hardware_drop_target_changed(target_name: String, complete: bool)
 
 func on_connect() -> void:
 	# "devices" is the correct MPF category for light + all device state changes.
@@ -44,6 +45,14 @@ func on_message(message: Dictionary):
 							message.get("name", ""),
 							_rgb_to_color(raw)
 						)
+				"drop_target":
+					var dst = message.get("state", {})
+					var complete = bool(dst.get("complete", false)) if typeof(dst) == TYPE_DICTIONARY else false
+					print("[trident_server] DEBUG drop_target name=%s state=%s complete=%s" % [message.get("name", ""), str(dst), complete])
+					hardware_drop_target_changed.emit.call_deferred(
+						message.get("name", ""),
+						complete
+					)
 			return null
 		"switch":
 			var v = message.get("state", 0)

@@ -10,10 +10,8 @@ The bonus counter (`bonus_steps`, a player variable) tracks the earned
 bonus in 1,000-point steps. It starts at **1** (1,000 points) at ball
 start and caps at **19** (19,000 points).
 
-**Known manual discrepancy:** Different pages of the manual state the
-starting bonus as 1,000 (pp. 4, 5) and possibly 2,000 (p. 7 — the
-exact wording is ambiguous). The code starts at 1 step = 1,000 points.
-This has not been verified against real hardware.
+The starting value of 1 step = **1,000 points** is correct per the
+original rules.
 
 ## Advancement sources
 
@@ -27,23 +25,18 @@ Three switches advance the bonus counter:
 
 All sources are capped: no advance fires when `bonus_steps >= 19`.
 
-## Right return lane staircase
+## Right return lane
 
-The right return lane advances the bonus by up to 3 steps but
-implements a "staircase" cap at 10,000 to match the original lamp
-display (the 10K lamp sits above the 1–9K lamps and the display reuses
-them for 11K–19K):
+The right return lane adds 3 steps, capped at 19. Each step is applied
+individually at 150ms intervals (matching the end-of-ball countdown
+rate), so the counter advances 1+1+1 rather than jumping by 3 at once.
+Steps that would overshoot the cap fire the sound and score 1,000 but
+do not advance the counter past 19.
 
-| Current bonus_steps | Action                         | Result       |
-|---------------------|--------------------------------|--------------|
-| < 7                 | +3                             | Normal +3    |
-| 7, 8, or 9          | set to 10                      | Pauses at 10K|
-| 10–16               | +3                             | Normal +3    |
-| 17 or 18            | set to 19                      | Caps at 19K  |
-| 19                  | no advance (condition fails)   | Stays at 19K |
-
-The YAML conditions are evaluated top-down, ordered descending, so a
-single advance never cascades into a lower bracket.
+The lamp display correctly shows values above 10K by combining the 10K
+lamp with the 1–9K unit lamps (e.g. 11K = 10K lamp + 1K lamp). The
+bonus counter does not pause at 10K; it advances through it like any
+other value.
 
 ## Lamp display
 
@@ -53,15 +46,26 @@ only `l_bonus_10` is lit. When `bonus_steps == 13`, both `l_bonus_3`
 and `l_bonus_10` are lit (reading 10K + 3K = 13K). This is driven by
 `light_player` responding to `player_bonus_steps` changes.
 
-## Bonus advance sounds
+## Bonus advance sounds and scoring
 
-When `bonus_steps` increases during live play, the game plays
-`102_OneThousandPoint` once per 1,000-point step advanced, staggered
-150ms apart (matching the end-of-ball countdown tick rate). Implemented
-via MPF shows (`bonus_advance_1k/2k/3k.yaml`) that post `bonus_chime_1k`
-events to the sound player. The `in_bonus_countdown` player flag
-prevents spurious sounds during the end-of-ball countdown's internal
-restart step.
+Advancing the bonus counter scores 1,000 points per step in real time
+and plays `102_OneThousandPoint` once per step, staggered 150ms apart
+(matching the end-of-ball countdown tick rate).
+
+Implemented via MPF shows (`bonus_advance_1k/3k.yaml`) triggered
+directly by the switch events:
+- `s_right_return_lane_active` → 3-chime show
+- `s_left_return_lane_active` → 1-chime show
+- `upper_sling_hit` → 1-chime show
+
+Each show step posts `bonus_chime_1k`. A `variable_player` entry on
+`bonus_chime_1k` scores 1,000 (unconditionally) and advances
+`bonus_steps` by 1 (gated `bonus_steps < 19`). The `player_score`
+event chain drives the sound via the existing score-magnitude mapping.
+
+The upper sling's 1,000-point award is delivered entirely through the
+chime event (no separate direct-score entry). At max bonus (steps = 19)
+the counter doesn't advance but the chime still fires and scores 1,000.
 
 ## End-of-ball countdown
 

@@ -30,9 +30,9 @@ class TestBonusAdvancement(RulesetTestBase):
         self.assertPlayerVarEqual(1, 'bonus_steps')
 
         # ── Right inlane: +3 each time ───────────────────────────────
-        # 1 → 4 → 7 → 10
+        # 1 → 4 → 7 → 10  (3 chimes at 150ms intervals; need > 300ms to complete)
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(4, 'bonus_steps')
 
         # Lamp display: exactly one units lamp lit (4), 10K lamp off
@@ -42,11 +42,11 @@ class TestBonusAdvancement(RulesetTestBase):
         self.assertLightColor('l_bonus_10', 'off')
 
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(7, 'bonus_steps')
 
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(10, 'bonus_steps')
 
         # At exactly 10: only the 10K lamp is lit
@@ -78,11 +78,11 @@ class TestBonusAdvancement(RulesetTestBase):
         # ── Right inlane: +3 again ───────────────────────────────────
         # 13 → 16 → 19  (max)
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(16, 'bonus_steps')
 
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
         # ── Cap: no source should advance past 19 ────────────────────
@@ -91,7 +91,7 @@ class TestBonusAdvancement(RulesetTestBase):
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
         self.hit_and_release_switch('s_right_return_lane')
-        self.advance_time_and_run(0.1)
+        self.advance_time_and_run(0.5)
         self.assertPlayerVarEqual(19, 'bonus_steps')
 
         self.hit_and_release_switch('s_ul_sling')

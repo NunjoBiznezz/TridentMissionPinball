@@ -76,9 +76,6 @@ sound_player:
   player_score{change >= 1000 and change < 10000}: 102_OneThousandPoint
   player_score{change >= 10000}: 103_TenThousandPoint
 
-  # Bonus advance: one 1K chime per step, posted by show_player below.
-  bonus_chime_1k: 102_OneThousandPoint
-
   # Free Game special award: same chime as coin insertion (it's a credit award).
   special_award_free_game_credited: 013_AddCredit
 
@@ -366,10 +363,6 @@ variable_player:
   s_drop_target_5_active:
     score: 500
 
-  # Upper slingshots: 1,000 points
-  upper_sling_hit:
-    score: 1000
-
   # Lower slingshots: 10 points flat
   lower_sling_hit:
     score: 10
@@ -406,31 +399,12 @@ variable_player:
   s_left_return_lane_active:
     score: current_player.left_lane_value
 
-  # Right return lane: 3000 points + bonus advance (handled via event_player dispatch)
-  s_right_return_lane_active:
-    score: 3000
-
-  # Bonus counter advances, capped at 19 (19,000). Lamps are driven from
-  # the player_bonus_steps value change in light_player below.
-  # +1 sources: left return lane and upper slings.
-  s_left_return_lane_active{current_player.bonus_steps < 19}:
+  # Bonus advance: each chime event scores 1,000 and advances the counter.
+  # Shows (bonus_advance_1k/3k) post this event 1–3 times at 150ms intervals.
+  bonus_chime_1k:
+    score: 1000
+  bonus_chime_1k{current_player.bonus_steps < 19}:
     bonus_steps: {int: 1, action: add}
-  upper_sling_hit{current_player.bonus_steps < 19}:
-    bonus_steps: {int: 1, action: add}
-  # Right return lane: +3, but the counter pauses at the 10K boundary on
-  # the way up (7, 8 and 9 all land on exactly 10, as the original game
-  # does), then advances +3 again to a hard cap of 19.
-  # NOTE: entries run in order and re-evaluate their condition against the
-  # already-updated value, so these brackets are ordered DESCENDING — an
-  # increase can never fall into a later (lower) bracket and cascade.
-  s_right_return_lane_active{current_player.bonus_steps >= 17 and current_player.bonus_steps < 19}:
-    bonus_steps: {int: 19, action: set}
-  s_right_return_lane_active{current_player.bonus_steps >= 10 and current_player.bonus_steps < 17}:
-    bonus_steps: {int: 3, action: add}
-  s_right_return_lane_active{current_player.bonus_steps >= 7 and current_player.bonus_steps < 10}:
-    bonus_steps: {int: 10, action: set}
-  s_right_return_lane_active{current_player.bonus_steps < 7}:
-    bonus_steps: {int: 3, action: add}
 
   # Standup target completions
   standup_first_complete:
@@ -545,13 +519,6 @@ variable_player:
     bonus_repeats_left:
       int: current_player.bonus_multiplier
       action: set
-    in_bonus_countdown:
-      int: 1
-      action: set
-  bonus_countdown_complete:
-    in_bonus_countdown:
-      int: 0
-      action: set
   bonus_count_step:
     score: 1000
     bonus_steps:
@@ -618,17 +585,17 @@ variable_player:
       action: set
 
 show_player:
-  # Bonus advance: fire bonus_chime_1k once per 1000-point step added.
-  # Shows post the event at 150ms intervals matching the bonus countdown rate.
-  # in_bonus_countdown == 0 prevents false triggers from bonus_count_restart.
-  player_bonus_steps{change == 1 and current_player.in_bonus_countdown == 0}:
+  # Bonus advance: one chime per 1,000-point step, staggered 150ms apart.
+  # Each bonus_chime_1k event scores 1,000 and advances the counter by 1.
+  # Right inlane fires the 3-chime show; left inlane and upper slings fire the 1-chime show.
+  s_right_return_lane_active:
+    bonus_advance_3k:
+      loops: 0
+  s_left_return_lane_active:
     bonus_advance_1k:
       loops: 0
-  player_bonus_steps{change == 2 and current_player.in_bonus_countdown == 0}:
-    bonus_advance_2k:
-      loops: 0
-  player_bonus_steps{change >= 3 and current_player.in_bonus_countdown == 0}:
-    bonus_advance_3k:
+  upper_sling_hit:
+    bonus_advance_1k:
       loops: 0
 
 light_player:

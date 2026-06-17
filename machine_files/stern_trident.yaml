@@ -359,6 +359,7 @@ ball_devices:
     eject_coil: c_saucer
     eject_targets: playfield
     confirm_eject_type: switch
+    confirm_eject_switch: s_saucer
     eject_timeouts: 3s
     max_eject_attempts: 3
 

@@ -3,8 +3,7 @@
     "x": 0.47037,
     "y": 0.11927,
     "radius": 16,
-    "image": "playfield",
-    "ball_trap": true
+    "image": "playfield"
   },
   "s_10_pts": {
     "x": 0.64167,

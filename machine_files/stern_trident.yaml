@@ -354,6 +354,13 @@ ball_devices:
     eject_timeouts: 3s
     confirm_eject_type: target
     max_eject_attempts: 3
+  bd_saucer:
+    ball_switches: s_saucer
+    eject_coil: c_saucer
+    eject_targets: playfield
+    confirm_eject_type: switch
+    eject_timeouts: 3s
+    max_eject_attempts: 3
 
 playfields:
   playfield:
@@ -361,8 +368,8 @@ playfields:
     tags: default
 
 # Slings and bumpers go dead on tilt (the real tilt relay does this in
-# hardware). The saucer kicker stays enabled so a captive ball can still
-# be ejected and drain to end the tilted ball.
+# hardware). The saucer is now a ball_device with retry logic, not an
+# autofire, so it is intentionally absent from this list.
 autofire_coils:
   ac_ul_sling:
     coil: c_ul_sling
@@ -388,6 +395,3 @@ autofire_coils:
     coil: c_bottom_bumper
     switch: s_bottom_bumper
     disable_events: ball_will_end, tilt
-  ac_saucer:
-    coil: c_saucer
-    switch: s_saucer

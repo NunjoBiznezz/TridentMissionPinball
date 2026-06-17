@@ -76,6 +76,14 @@ sound_player:
   player_score{change >= 1000 and change < 10000}: 102_OneThousandPoint
   player_score{change >= 10000}: 103_TenThousandPoint
 
+  # Free Game special award: same chime as coin insertion (it's a credit award).
+  special_award_free_game_credited: 013_AddCredit
+
+coil_player:
+  # Free Game special award: knocker thunk, matching the classic replay award.
+  special_award_free_game_credited:
+    c_knocker: pulse
+
 event_player:
   # Bonus countdown ticks: count a step while any remain; at zero either
   # restart the count (multiplier repeats left) or finish.
@@ -136,7 +144,12 @@ event_player:
   dt_phase_e_complete{machine.special_award_setting == 1}: special_award_points
   dt_phase_e_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
   dt_phase_e_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
-  dt_phase_e_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
+  dt_phase_e_complete{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_free_game
+  dt_phase_e_complete{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_special_award_score
+
+  # Free Game special award: add a credit (capped, like coin insertion) and
+  # fire the knocker + credit chime together. Silent no-op if already maxed.
+  special_award_free_game{machine.credits < machine.max_credits}: special_award_free_game_credited
 
   # All 5 standup targets hit
   standup_all_hit{current_player.standup_completions == 0}: standup_first_complete
@@ -149,7 +162,8 @@ event_player:
   standup_second_complete{machine.special_award_setting == 1}: special_award_points
   standup_second_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
   standup_second_complete{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
-  standup_second_complete{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
+  standup_second_complete{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_free_game
+  standup_second_complete{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_special_award_score
 
   # Right inlane collects extra ball when lit (or scores points in tournament mode)
   s_right_return_lane_active{current_player.extra_ball_lit == 1 and machine.adj_tournament_scoring == 0}: collect_standup_extra_ball
@@ -162,7 +176,8 @@ event_player:
   right_special_awarded{machine.special_award_setting == 1}: special_award_points
   right_special_awarded{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_extra_ball
   right_special_awarded{(machine.special_award_setting == 2 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_extra_ball_score
-  right_special_awarded{machine.special_award_setting == 3 or machine.special_award_setting == 4}: special_award_free_game
+  right_special_awarded{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 0}: special_award_free_game
+  right_special_awarded{(machine.special_award_setting == 3 or machine.special_award_setting == 4) and machine.adj_tournament_scoring == 1}: tournament_special_award_score
 
   # Upper left rollover: advance left lane award (caps at 8,000)
   s_rollover_active{current_player.left_lane_value == 2000}: advance_lane_to_4k
@@ -303,6 +318,13 @@ variable_player:
   special_award_points:
     score: 100000
 
+  # Special award: Free Game option — add a credit (see coil_player/sound_player
+  # for the matching knocker thunk and credit chime).
+  special_award_free_game_credited:
+    credits:
+      int: 1
+      action: add_machine
+
   # Tournament mode: score points instead of awarding extra ball
   tournament_extra_ball_score:
     score: machine.adj_extra_ball_award
@@ -310,7 +332,10 @@ variable_player:
     score: machine.adj_extra_ball_award
     extra_ball_lit:
       int: 0
-      action: set
+
+  # Tournament mode: score points instead of awarding a free game credit
+  tournament_special_award_score:
+    score: machine.adj_special_award
 
   # Phase E saucer reset: return to Phase A, saucer resets to 5,000
   # Earned multiplier lamps and bonus_multiplier are preserved intentionally

@@ -1,0 +1,7 @@
+#show_version=6
+- duration: 0.15
+  events: bonus_chime_1k
+- duration: 0.15
+  events: bonus_chime_1k
+- duration: 1
+  events: bonus_chime_1k

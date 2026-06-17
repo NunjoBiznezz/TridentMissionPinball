@@ -76,6 +76,9 @@ sound_player:
   player_score{change >= 1000 and change < 10000}: 102_OneThousandPoint
   player_score{change >= 10000}: 103_TenThousandPoint
 
+  # Bonus advance: one 1K chime per step, posted by show_player below.
+  bonus_chime_1k: 102_OneThousandPoint
+
   # Free Game special award: same chime as coin insertion (it's a credit award).
   special_award_free_game_credited: 013_AddCredit
 
@@ -542,6 +545,13 @@ variable_player:
     bonus_repeats_left:
       int: current_player.bonus_multiplier
       action: set
+    in_bonus_countdown:
+      int: 1
+      action: set
+  bonus_countdown_complete:
+    in_bonus_countdown:
+      int: 0
+      action: set
   bonus_count_step:
     score: 1000
     bonus_steps:
@@ -606,6 +616,20 @@ variable_player:
     right_special_lit:
       int: 0
       action: set
+
+show_player:
+  # Bonus advance: fire bonus_chime_1k once per 1000-point step added.
+  # Shows post the event at 150ms intervals matching the bonus countdown rate.
+  # in_bonus_countdown == 0 prevents false triggers from bonus_count_restart.
+  player_bonus_steps{change == 1 and current_player.in_bonus_countdown == 0}:
+    bonus_advance_1k:
+      loops: 0
+  player_bonus_steps{change == 2 and current_player.in_bonus_countdown == 0}:
+    bonus_advance_2k:
+      loops: 0
+  player_bonus_steps{change >= 3 and current_player.in_bonus_countdown == 0}:
+    bonus_advance_3k:
+      loops: 0
 
 light_player:
   # Game start state
